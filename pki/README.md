@@ -74,7 +74,7 @@ At this moment, if you, still on the attacker's VM, add "127.0.0.1 fakenews.com"
 
 **Warning**: if you don't see the "Welcome to fakenews.com!" page, then your website setup is not successful, don't need to move forward.
 
-#### Victim Visiting https://www.cnn.com
+#### Victim Visiting CNN
 
 2.1. on the victim VM, we emulate the result of a DNS cache poisoning attack. So that www.cnn.com points to the attacker's VM. We achieve this by editing /etc/hosts so as to have the following entry:
 
@@ -116,7 +116,7 @@ SSLCertificateKeyFile /home/seed/cnn.key
 
 Note: once again the passphrase here is 1234.
 
-#### Victim Visiting https://www.cnn.com Again
+#### Victim Visiting CNN Again
 
 4. On the victim VM, repeat step 2.1. Now the attack should be successful: the victim who types https://www.cnn.com should be redirected to the attacker's fakenews.com. As can be seen in the picture below.
 
