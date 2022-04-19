@@ -1,9 +1,16 @@
 ## Man-in-the-middle attack against PKI
 
-Requirement: In this lab, you will first see how PKI defeats man-in-the-middle attack, but then if the CA is compromised - its private key is exposed, then attackers launching a man-in-the-middle attack can defeat PKI. The attacker's goal is, when the victim visits https://www.cnn.com, the victim will actually be taken to fakenews.com (not the REAL fakenews.com, but a website created by the attacker).
+### Requirements 
 
-Setup: Two VMs: victim VM and attacker VM.
-Assumptions: We assume there is a trusted CA called GoMommy. And GoMommy's private key and certificate are both listed on the course page (named ca.key, ca.crt). We also assume we have used this CA to certify a website called fakenews.com, the private key and certificate for this website is also listed on the course page (named fakenews.key and fakenews.pem)
+In this lab, you will first see how PKI defeats man-in-the-middle attack, but then if the CA is compromised - its private key is exposed, then attackers launching a man-in-the-middle attack can defeat PKI. The attacker's goal is, when the victim visits https://www.cnn.com, the victim will actually be taken to fakenews.com (not the REAL fakenews.com, but a website created by the attacker).
+
+### Setup
+
+Two VMs: victim VM and attacker VM.
+
+### Assumptions
+
+We assume there is a trusted CA called GoMommy. And GoMommy's private key and certificate are both listed on the course page (named ca.key, ca.crt). We also assume we have used this CA to certify a website called fakenews.com, the private key and certificate for this website is also listed on the course page (named fakenews.key and fakenews.pem)
 
 0. on both the victim VM and the attacker VM: Download GoMommy's certificate ca.crt (from here: http://cs.boisestate.edu/~jxiao/cs333/info/pki/ca.crt), and then load it into the firefox browser:
 
@@ -97,3 +104,4 @@ Note: once again the passphrase here is 1234.
 
 4. On the victim's VM, repeat step 2.1. Now the attack should be successful: the victim who types https://www.cnn.com should be redirected to the attacker's fakenews.com.
 
+![alt text](lab9-success.png "Lab 9 Success")
