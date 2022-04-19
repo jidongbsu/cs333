@@ -26,7 +26,7 @@ Note: select "Trust this CA to identify websites."
 
 Note 2: we import this because we assume GoMommy is a trusted CA, and for trusted CA, its certificate is supposed to be pre-loaded in the browser.
 
-#### Attacker Setting Up fakenews.com.
+#### Attacker Setting Up fakenews.com
 
 1.1. download fakenews.key and fakenews.pem into the home directory - i.e., /home/seed/ directory. (download fakenews.key from http://cs.boisestate.edu/~jxiao/cs333/info/pki/fakenews.key, and download fakenews.pem from http://cs.boisestate.edu/~jxiao/cs333/info/pki/fakenews.pem)
 
@@ -90,7 +90,7 @@ Note: the attack here will not be successful, and you, as the victim client, are
 
 ![alt text](lab9-insecure.png "Lab 9 Insecure")
 
-#### Attacker Stole the CA's Privacy Key.
+#### Attacker Stole the CA's Privacy Key
 
 3.1. on the attacker VM, now we assume the attacker has compromised the CA and stole the CA's (i.e., GoMommy) private key ca.key. With this key, we, as an attacker, can sign any certificates in the name of GoMommy. Assume we, as the attacker, have created a private key for www.cnn.com, and have signed a certificate for www.cnn.com. The private key (named cnn.key) and the certificate (named cnn.pem) are here: http://cs.boisestate.edu/~jxiao/cs333/info/pki/cnn.key and http://cs.boisestate.edu/~jxiao/cs333/info/pki/cnn.pem. The attacker downloads these two files to its home directory, i.e., /home/seed.
 
