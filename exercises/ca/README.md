@@ -78,7 +78,9 @@ An optional company name []:fakenews.com
 
 3. generate the certificate:
 
+```console
 # openssl ca -in fakenews.csr -out fakenews.crt -cert ca.crt -keyfile ca.key -config openssl.cnf
+```
 
 4. combine the key and the certificate into one pem file:
 
