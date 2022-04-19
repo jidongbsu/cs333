@@ -25,12 +25,14 @@ $ sudo mkdir /var/www/fakenews
 
 Step 1.1.1. we create the home page for fakenews.com. Inside /var/www/fakenews, we create a file called index.html, with the following content:
 
+```console
 $ sudo vi index.html
 <html>
 <body>
 	Welcome to fakenews.com! Every day we provide you with the latest and most authentic fake news!
 </body>
 </html>
+```
 
 Step 1.2: we then setup at virtual host so that we host fakenews.com via https. To achieve this, we add the following content at the end of this file: /etc/apache2/sites-available/000-default.conf.
 
@@ -46,10 +48,12 @@ SSLCertificateKeyFile /home/seed/fakenews.key
 
 Step 1.3: run the following commands to configure and enable SSL.
 
+```console
 $ sudo a2enmod ssl	// this command enables ssl, a2enmod means "apache2 enable module", the opposite is a2dismod, which means "apache2 disable module".
 $ sudo a2ensite default-ssl	// this command a2ensite enables an apache site, i.e., a virtual host, which is specified in the above 000-default.conf file. The opposite command is called a2dissite.
 $ sudo apachectl configtest	// this command apachectl checks apache configuration file for valid syntax.
 $ sudo service apache2 restart // this command actually starts the apache web server.
+```
 
 Note the passphrase here is 1234.
 
@@ -85,7 +89,9 @@ SSLCertificateKeyFile /home/seed/cnn.key
 
 Step 3.3. Run the following command to restart the apache web server:
 
+```console
 # sudo service apache2 restart
+```
 
 Note: once again the passphrase here is 1234.
 
