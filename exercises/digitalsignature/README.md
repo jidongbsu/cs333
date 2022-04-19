@@ -1,4 +1,4 @@
-## Generate a signature and verify the signature.
+## Generate and Verify a Digital Signature
 
 This is a follow-up exercise of the rsa exercise, i.e., we assume the private/public key pair has already been generated.
 
