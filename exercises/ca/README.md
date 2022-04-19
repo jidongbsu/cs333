@@ -2,7 +2,7 @@
 
 ### Setup
 
-The provided Linux VM
+The provided Linux VM.
 
 ### Preparation
 
@@ -34,7 +34,7 @@ You can create the above folders and files with the following commands:
 # cd ..
 ```
 
-### Sign the certificate:
+### Sign the Certificate.
 
 1. generate public/private key pair:
 
