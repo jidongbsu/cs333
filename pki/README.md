@@ -43,6 +43,7 @@ $ sudo vi index.html
 
 Step 1.2: we then setup at virtual host so that we host fakenews.com via https. To achieve this, we add the following content at the end of this file: /etc/apache2/sites-available/000-default.conf.
 
+```console
 <VirtualHost *:443>
 ServerName fakenews.com
 DocumentRoot /var/www/fakenews
@@ -52,6 +53,7 @@ SSLEngine On
 SSLCertificateFile /home/seed/fakenews.pem
 SSLCertificateKeyFile /home/seed/fakenews.key
 </VirtualHost>
+```
 
 Step 1.3: run the following commands to configure and enable SSL.
 
@@ -70,7 +72,9 @@ Warning: if you don't see the "Welcome to fakenews.com!" page, then your website
 
 2. on the victim VM, we emulate the result of a DNS cache poisoning attack. So that www.cnn.com points to the attacker's VM. We achieve this by editing /etc/hosts so as to have the following entry:
 
+```console
 ATTACKER_IP	www.cnn.com
+```
 
 Replace ATTACKER_IP with the attacker VM's IP address.
 
@@ -84,6 +88,7 @@ Step 3.1. on the attacker VM, now we assume the attacker has compromised the CA 
 
 Step 3.2. Now edit the file we mentioned in Step 1.2, but change the certificate and the key from fakenews to cnn. i.e.:
 
+```console
 <VirtualHost *:443>
 ServerName fakenews.com
 DocumentRoot /var/www/fakenews
@@ -93,6 +98,7 @@ SSLEngine On
 SSLCertificateFile /home/seed/cnn.pem
 SSLCertificateKeyFile /home/seed/cnn.key
 </VirtualHost>
+```
 
 Step 3.3. Run the following command to restart the apache web server:
 
@@ -102,6 +108,6 @@ Step 3.3. Run the following command to restart the apache web server:
 
 Note: once again the passphrase here is 1234.
 
-4. On the victim's VM, repeat step 2.1. Now the attack should be successful: the victim who types https://www.cnn.com should be redirected to the attacker's fakenews.com.
+4. On the victim's VM, repeat step 2.1. Now the attack should be successful: the victim who types https://www.cnn.com should be redirected to the attacker's fakenews.com. As can be seen in the picture below.
 
 ![alt text](lab9-success.png "Lab 9 Success")
