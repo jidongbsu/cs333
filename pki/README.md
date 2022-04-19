@@ -10,11 +10,13 @@ Two VMs: victim VM and attacker VM.
 
 ### Assumptions
 
-We assume there is a trusted CA called GoMommy. And GoMommy's private key and certificate are both listed on the course page (named ca.key, ca.crt). We also assume we have used this CA to certify a website called fakenews.com, the private key and certificate for this website is also listed on the course page (named fakenews.key and fakenews.pem)
+We assume there is a trusted CA called GoMommy. And GoMommy's private key and certificate are both listed on the course page (named ca.key and ca.crt). We also assume we have used this CA to certify a website called fakenews.com, the private key and certificate for this website is also listed on the course page (named fakenews.key and fakenews.pem)
 
 0. on both the victim VM and the attacker VM: Download GoMommy's certificate ca.crt (from here: http://cs.boisestate.edu/~jxiao/cs333/info/pki/ca.crt), and then load it into the firefox browser:
 
 Edit -> Preferences -> Privacy & Security -> Certificates -> View Certificates -> Import.
+
+![alt text](lab9-import.png "Lab 9 Import")
 
 (if you don't see Import, use the view->zoom out option of your browser)
 
