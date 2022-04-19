@@ -32,7 +32,9 @@ Note 2: we import this because we assume GoMommy is a trusted CA, and for truste
 
 1.2. setup a website called fakenews.com on the attacker's VM. first, we create a folder under /var/www, called *fakenews*.
 
+```console
 $ sudo mkdir /var/www/fakenews
+```
 
 1.3. we then create the home page for fakenews.com. Inside /var/www/fakenews, we create a file called index.html, with the following content:
 
