@@ -12,6 +12,8 @@ Two VMs: victim VM and attacker VM.
 
 We assume there is a trusted CA called GoMommy. And GoMommy's private key and certificate are both listed on the course page (named ca.key and ca.crt). We also assume we have used this CA to certify a website called fakenews.com, the private key and certificate for this website is also listed on the course page (named fakenews.key and fakenews.pem)
 
+### Steps
+
 0. on both the victim VM and the attacker VM: Download GoMommy's certificate ca.crt (from here: http://cs.boisestate.edu/~jxiao/cs333/info/pki/ca.crt), and then load it into the firefox browser:
 
 Edit -> Preferences -> Privacy & Security -> Certificates -> View Certificates -> Import.
@@ -24,7 +26,7 @@ Note: select "Trust this CA to identify websites."
 
 Note 2: we import this because we assume GoMommy is a trusted CA, and for trusted CA, its certificate is supposed to be pre-loaded in the browser.
 
-1: on the attacker VM, attacker setting up fakenews.com.
+1. on the attacker VM, attacker setting up fakenews.com.
 
 Step 1.0: on the attacker VM: download fakenews.key and fakenews.pem into the home directory - i.e., /home/seed/ directory. (download fakenews.key from http://cs.boisestate.edu/~jxiao/cs333/info/pki/fakenews.key, and download fakenews.pem from http://cs.boisestate.edu/~jxiao/cs333/info/pki/fakenews.pem)
 
@@ -82,7 +84,7 @@ Replace ATTACKER_IP with the attacker VM's IP address.
 
 Step 2.1. we now type https://www.cnn.com in the browser and see if the man-in-the-middle attack is successful - if so, we should be visiting the attacker's fakenews.com.
 
-Note: the attack here will not be successful, and you, as the victim client, are expected get a warning message saying "Your connection is not secure".
+Note: the attack here will not be successful, and you, as the victim client, are expected get a warning message saying "Your connection is not secure", as shown below:
 
 ![alt text](lab9-insecure.png "Lab 9 Insecure")
 
