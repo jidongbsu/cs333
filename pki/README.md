@@ -28,7 +28,7 @@ Note 2: we import this because we assume GoMommy is a trusted CA, and for truste
 
 Step 1.0: on the attacker VM: download fakenews.key and fakenews.pem into the home directory - i.e., /home/seed/ directory. (download fakenews.key from http://cs.boisestate.edu/~jxiao/cs333/info/pki/fakenews.key, and download fakenews.pem from http://cs.boisestate.edu/~jxiao/cs333/info/pki/fakenews.pem)
 
-Step 1.1: we setup a website called fakenews.com on the attacker's VM.
+Step 1.1: we setup a website called fakenews.com on the attacker's VM. first, we create a folder under /var/www, called *fakenews*.
 
 $ sudo mkdir /var/www/fakenews
 
@@ -83,6 +83,8 @@ Replace ATTACKER_IP with the attacker VM's IP address.
 Step 2.1. we now type https://www.cnn.com in the browser and see if the man-in-the-middle attack is successful - if so, we should be visiting the attacker's fakenews.com.
 
 Note: the attack here will not be successful, and you, as the victim client, are expected get a warning message saying "Your connection is not secure".
+
+![alt text](lab9-insecure.png "Lab 9 Insecure")
 
 3. attacker stole the CA's privacy key.
 
