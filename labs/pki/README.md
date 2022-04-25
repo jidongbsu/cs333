@@ -10,7 +10,7 @@ Two VMs: victim VM and attacker VM.
 
 ### Assumptions
 
-We assume there is a trusted CA called GoMommy. And GoMommy's private key and certificate are both created already (named ca.key and ca.crt). We also assume we have used this CA to certify a website called fakenews.com. The private key and certificate for this website is also listed on the course page (named fakenews.key and fakenews.pem).
+We assume there is a trusted CA called GoMommy. And GoMommy's private key and certificate are both created already (named ca.key and ca.crt). We also assume we have used this CA to certify a website called fakenews.com. The private key and certificate for this website are also created and provided (named fakenews.key and fakenews.pem).
 
 ### Steps
 
