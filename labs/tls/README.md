@@ -17,12 +17,27 @@ Only one VM is sufficient.
 2. go back to the main interface of wireshark, locate the FTP packet (packet 55) that actually transfers this key.zip (After step 1, you need to clear the filter at the top of wireshark, otherwise you won't see the FTP-DATA packet, which is packet 55), and then do the following:
 
 2.1. right click -> follow -> tcp stream
+
 2.2. show and save data as: raw
+
 2.3. save as: key.zip
 
-3. unzip key.zip
+![alt text](lab-tls-raw.png "Lab tls save as raw")
 
-it will generate a file called server_key.pem, in the directory of user/ftp/files/private/. This is a private key. We can use cat command to view the content of this file. For example,
+3. open a terminal and unzip key.zip.
+
+```console
+[04/24/22]seed@VM:~/tls$ ls
+forensics.pcapng  key.zip
+[04/24/22]seed@VM:~/tls$ unzip key.zip 
+Archive:  key.zip
+warning:  skipped "../" path component(s) in ../user/ftp/files/private/server_key.pem
+  inflating: user/ftp/files/private/server_key.pem  
+[04/24/22]seed@VM:~/tls$ ls
+forensics.pcapng  key.zip  user
+```
+
+The above unzip command will generate a file called server_key.pem, in the directory of user/ftp/files/private/. This is a private key. We can use cat command to view the content of this file. For example,
 
 ```console
 # cat server_key.pem 
@@ -46,7 +61,11 @@ vEJTGtlc2+b5ztlsYjzsPFaI49fw8QNawtZj1e3CRc7w
 4. now we load this private key into wireshark, so that wireshark can decrypt TLS packets. In wireshark, do the following:
 
 4.1. edit -> preferences -> protocols -> ssl or tls (depending on your version, you may have ssl, or tls, but not both).
+
+![alt text](lab-tls-load-key.png "Lab tls load key")
+
 4.2. rsa keys list -> edit
+
 4.3. add one entry with following information:
 
 IP Address: 104.155.183.43
