@@ -109,7 +109,7 @@ Password: (empty)<br/>
 
 The above output tells us ff d8 ff is at address byte 222. (Each line is 16 bytes. ff d8 ff starts at the 14th line, with an offset of 14. Therefore the address is 13*16+14=222)
 
-The following command allows us the cut the first 221 bytes from file flag.jpg, and generate a file flag2.jpg.
+The following command allows us the cut the first 221 bytes from file flag.jpg, and generate a file called flag2.jpg.
 
 ```console
 [04/24/22]seed@VM:~/tls$ dd if=flag.jpg of=flag2.jpg bs=1 skip=221
@@ -123,5 +123,5 @@ The following command allows us the cut the first 221 bytes from file flag.jpg, 
 
 ### References:
 
-tjctf-2018-writeups: https://github.com/zst123/tjctf-2018-writeups/tree/master/Solved/Ssleepy
+tjctf-2018-writeups: https://github.com/zst123/tjctf-2018-writeups/tree/master/Solved/Ssleepy<br/>
 Wireshark Decrypting SSL | "Ssleepy" TJCTF 2018: https://www.youtube.com/watch?v=WOb4UrwV72I
