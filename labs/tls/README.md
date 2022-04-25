@@ -16,13 +16,11 @@ Only one VM is sufficient.
 
 2. go back to the main interface of wireshark, locate the FTP packet (packet 55) that actually transfers this key.zip (After step 1, you need to clear the filter at the top of wireshark, otherwise you won't see the FTP-DATA packet, which is packet 55), and then do the following:
 
-2.1. right click -> follow -> tcp stream
+2.1. right click -> follow -> tcp stream<br/>
+2.2. show and save data as: raw<br/>
+2.3. save as: key.zip<br/>
 
-2.2. show and save data as: raw
-
-2.3. save as: key.zip
-
-![alt text](lab-tls-raw.png "Lab tls save as raw")
+![alt text](lab-tls-raw-ftp-stream.png "Lab tls save as raw ftp")
 
 3. open a terminal and unzip key.zip.
 
@@ -37,7 +35,7 @@ warning:  skipped "../" path component(s) in ../user/ftp/files/private/server_ke
 forensics.pcapng  key.zip  user
 ```
 
-The above unzip command will generate a file called server_key.pem, in the directory of user/ftp/files/private/. This is a private key. We can use cat command to view the content of this file. For example,
+The above unzip command will generate a file called server_key.pem, in the directory of user/ftp/files/private/. This is a private key. We can use cat command to view the content of this file. For example:
 
 ```console
 # cat server_key.pem 
@@ -60,7 +58,7 @@ vEJTGtlc2+b5ztlsYjzsPFaI49fw8QNawtZj1e3CRc7w
 
 4. now we load this private key into wireshark, so that wireshark can decrypt TLS packets. In wireshark, do the following:
 
-4.1. edit -> preferences -> protocols -> ssl or tls (depending on your version, you may have ssl, or tls, but not both).
+4.1. edit -> preferences -> protocols -> ssl.
 
 ![alt text](lab-tls-load-key.png "Lab tls load key")
 
@@ -68,17 +66,23 @@ vEJTGtlc2+b5ztlsYjzsPFaI49fw8QNawtZj1e3CRc7w
 
 4.3. add one entry with following information:
 
-IP Address: 104.155.183.43
-Port: 443
-Protocol: ftp
-Key File: server_key.pem (you need to either browse or manually type the full path of this key file.)
-Password: (empty)
+IP Address: 104.155.183.43<br/>
+Port: 443<br/>
+Protocol: ftp<br/>
+Key File: server_key.pem (you need to either browse or manually type the full path of this key file.)<br/>
+Password: (empty)<br/>
 
-5. now we can examine the TLS packets. Each "Client Hello" represents one TLS conversation. Locate one tls packet, and use "right click->follow->tls (or ssl) stream", we can see the 1st conversation downloads the file index.html - and this html file contains nothing but a jpg file called flag.jpg; and the 2nd conversation downloads the file flag.jpg. So this flag.jpg file could be something we are interested in. Therefore we locate any of the TLS packet in the 2nd conversation (i.e., a TLS packet that is after the 2nd "Client Hello"), do the following:
+4.4. close wireshark and open wireshark again, and then also open the capture file in wireshark.
 
-5.1. right click->follow->tls (or ssl) stream,
-5.2. show and save data as: raw
-5.3. save as: flag.jpg.
+5. now we can examine the TLS packets. Each "Client Hello" represents one TLS conversation. Locate one tls packet, and use "right click->follow->ssl stream", we can see the 1st conversation downloads the file index.html - and this html file contains nothing but a jpg file called flag.jpg; and the 2nd conversation downloads the file flag.jpg. So this flag.jpg file could be something we are interested in. Therefore we locate the first packet of the 2nd TLS conversation, and that is packet 85, which is the 2nd "Client Hello" in this capture. Then do the following:
+
+5.1. right click->follow->ssl stream,<br/>
+5.2. show and save data as: raw<br/>
+
+![alt text](lab-tls-raw-ssl-stream.png "Lab tls save as raw ssl")
+
+5.3. save as: flag.jpg.<br/>
+5.4. close wireshark, and we are done with wireshark.
 
 6. this flag.jpg right now contains HTTP header information as well as the jpg file, we need to remove the HTTP header information. Search "jpeg file signature" in google, it shows jpg file starts with signature bytes of ff d8 ff.
 
@@ -107,9 +111,15 @@ The above output tells us ff d8 ff is at address byte 222. (Each line is 16 byte
 
 The following command allows us the cut the first 221 bytes from file flag.jpg, and generate a file flag2.jpg.
 
-# dd if=flag.jpg of=flag2.jpg bs=1 skip=221
+```console
+[04/24/22]seed@VM:~/tls$ dd if=flag.jpg of=flag2.jpg bs=1 skip=221
+59670+0 records in
+59670+0 records out
+59670 bytes (60 kB, 58 KiB) copied, 0.110421 s, 540 kB/s
 
-8. we are done, flag2.jpg is the image file we are looking for. You can open this file and view its content.
+```
+
+8. we are done, flag2.jpg is the image file we are looking for. You can open this file and view its content - if you can't view its content, then your lab is not successful.
 
 ### References:
 
