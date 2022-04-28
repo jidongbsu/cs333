@@ -2,7 +2,7 @@
 
 ### Requirements 
 
-In this lab, we assume your employee Bob has secretly downloaded some files into your network, but fortunately your wireshark has captured the suspicious traffic for you to analyze. You can download the capture file named forensics.pcapng from here: http://cs.boisestate.edu/~jxiao/cs333/info/tls/forensics.pcapng. Your goal is to find out the files (and their contents) Bob has downloaded. (Note that 10.142.0.3 is the private ip address assigned to Bob in your network.)
+In this lab, the victim is openning two tabs in the browser, one is an online banking website, another is the attacker's website. The victim is signed into the online banking website. The attacker will perform a CSRF attack against the victim. If the attack is successful, when the victim refreshes the attacker's web page, the victim's money (in the bank account) will disappear.
 
 ### Setup
 
