@@ -53,11 +53,6 @@ Only one VM is sufficient.
 
 ![alt text](lab-csrf-attacker-site.png "Lab csrf attacker")
 
-
-```console
-[04/27/22]seed@VM:~$ node server4.js
-```
-
 7. refresh the attacker's page, and then refresh the banking page, if the attack is successful, jessica's account balance should have less money now.
 
 (if the firefox browser doesn't show the amount change, try a different browser installed in the provided VM).
