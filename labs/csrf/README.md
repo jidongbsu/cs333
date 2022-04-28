@@ -49,7 +49,7 @@ Only one VM is sufficient.
 
 5. access the website from the browser: open a new tab (make sure the banking site tab is still open), type localhost:8000, you should see this:
 
-![alt text](lab-csrf-cool-site.png "Lab csrf attacker")
+![alt text](lab-csrf-attacker-site.png "Lab csrf attacker")
 
 
 ```console
