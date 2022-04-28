@@ -20,7 +20,7 @@ Only one VM is sufficient.
 [04/27/22]seed@VM:~$ npm install body-parser
 ```
 
-2. set up the banking website and start the banking webserver:
+2. set up the banking directoy and start the banking webserver:
 
 ```console
 [04/27/22]seed@VM:~$ mkdir banking
