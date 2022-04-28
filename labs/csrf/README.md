@@ -35,7 +35,9 @@ Only one VM is sufficient.
 
 ![alt text](lab-csrf-banking-site.png "Lab csrf banking")
 
-4. set up the attacker directory and start the attacker web server:
+4. login as jessica, username: jessica, password: 50505. You should see that Jessica's account balance at this moment is $10,000.
+
+5. set up the attacker directory and start the attacker web server:
 
 ```console
 [04/27/22]seed@VM:~$ mkdir attacker
@@ -47,7 +49,7 @@ Only one VM is sufficient.
 [04/27/22]seed@VM:~/attacker$ python -m SimpleHTTPServer 8000
 ```
 
-5. access the website from the browser: open a new tab (make sure the banking site tab is still open), type localhost:8000, you should see this:
+6. access the website from the browser: open a new tab (make sure the banking site tab is still open), type localhost:8000, you should see this:
 
 ![alt text](lab-csrf-attacker-site.png "Lab csrf attacker")
 
@@ -55,6 +57,10 @@ Only one VM is sufficient.
 ```console
 [04/27/22]seed@VM:~$ node server4.js
 ```
+
+7. refresh the attacker's page, and then refresh the banking page, if the attack is successful, jessica's account balance should have less money now.
+
+(if the firefox browser doesn't show the amount change, try a different browser installed in the provided VM).
 
 ### References:
 
