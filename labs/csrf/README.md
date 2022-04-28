@@ -67,7 +67,8 @@ Only one VM is sufficient.
 
 7. refresh the attacker's page, and then refresh the banking page, if the attack is successful, jessica's account balance should have less money now.
 
-(if the firefox browser doesn't show the amount change, try a different browser installed in the provided VM).
+- if the firefox browser doesn't show the amount change, try a different browser installed in the provided VM.
+- you can also try to use your host machine's browser to access the above two websites, it should also work.
 
 ### References:
 
