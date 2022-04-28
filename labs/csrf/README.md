@@ -25,8 +25,8 @@ Only one VM is sufficient.
 ```console
 [04/27/22]seed@VM:~$ mkdir banking
 [04/27/22]seed@VM:~$ cd banking/
-[04/27/22]seed@VM:~/banking$ wget http://cs.boisestate.edu/~jxiao/cs333/info/banking/index.html.orig
-[04/27/22]seed@VM:~/banking$ wget http://cs.boisestate.edu/~jxiao/cs333/info/banking/server4.js
+[04/27/22]seed@VM:~/banking$ wget http://cs.boisestate.edu/~jxiao/cs333/info/csrf/banking/index.html.orig
+[04/27/22]seed@VM:~/banking$ wget http://cs.boisestate.edu/~jxiao/cs333/info/csrf/banking/server4.js
 ```
 
 - edit server4.js: find the word "localhost" and change "localhost" to your VM's IP address.
@@ -48,9 +48,9 @@ Only one VM is sufficient.
 ```console
 [04/27/22]seed@VM:~$ mkdir attacker
 [04/27/22]seed@VM:~$ cd attacker/
-[04/27/22]seed@VM:~/attacker$ wget http://cs.boisestate.edu/~jxiao/cs333/info/attacker/index.html.orig
-[04/27/22]seed@VM:~/attacker$ wget http://cs.boisestate.edu/~jxiao/cs333/info/attacker/cat.gif
-[04/27/22]seed@VM:~/attacker$ wget http://cs.boisestate.edu/~jxiao/cs333/info/attacker/attacker-frame.html
+[04/27/22]seed@VM:~/attacker$ wget http://cs.boisestate.edu/~jxiao/cs333/info/csrf/attacker/index.html.orig
+[04/27/22]seed@VM:~/attacker$ wget http://cs.boisestate.edu/~jxiao/cs333/info/csrf/attacker/cat.gif
+[04/27/22]seed@VM:~/attacker$ wget http://cs.boisestate.edu/~jxiao/cs333/info/csrf/attacker/attacker-frame.html
 ```
 
 - edit attacker-frame.html: find the word "localhost" and change "localhost" to your VM's IP address.
