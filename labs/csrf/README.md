@@ -20,36 +20,48 @@ Only one VM is sufficient.
 [04/27/22]seed@VM:~$ npm install body-parser
 ```
 
-2. set up the banking directoy and start the banking webserver:
+2. set up the banking directoy:
 
 ```console
 [04/27/22]seed@VM:~$ mkdir banking
 [04/27/22]seed@VM:~$ cd banking/
-[04/27/22]seed@VM:~/banking$ wget http://cs.boisestate.edu/~jxiao/gencyber2021/index.html.orig
-[04/27/22]seed@VM:~/banking$ wget http://cs.boisestate.edu/~jxiao/gencyber2021/server4.js
+[04/27/22]seed@VM:~/banking$ wget http://cs.boisestate.edu/~jxiao/cs333/info/banking/index.html.orig
+[04/27/22]seed@VM:~/banking$ wget http://cs.boisestate.edu/~jxiao/cs333/info/banking/server4.js
+```
+
+- edit server4.js: find the word "localhost" and change "localhost" to your VM's IP address.
+
+- start the banking webserver:
+```console
 [04/27/22]seed@VM:~/banking$ mv index.html.orig index.html
 [04/27/22]seed@VM:~/banking$ node server4.js
 ```
 
-3. access the website from the browser: type localhost:4000, you should see this:
+3. access the website from the browser: type localhost:4000 (replace localhost with your VM's IP address), you should see this:
 
 ![alt text](lab-csrf-banking-site.png "Lab csrf banking")
 
 4. login as jessica, username: jessica, password: 50505. You should see that Jessica's account balance at this moment is $10,000.
 
-5. set up the attacker directory and start the attacker web server:
+5. set up the attacker directory:
 
 ```console
 [04/27/22]seed@VM:~$ mkdir attacker
 [04/27/22]seed@VM:~$ cd attacker/
-[04/27/22]seed@VM:~/attacker$ wget http://cs.boisestate.edu/~jxiao/gencyber2021/attacker/index.html.orig
-[04/27/22]seed@VM:~/attacker$ wget http://cs.boisestate.edu/~jxiao/gencyber2021/attacker/cat.gif
-[04/27/22]seed@VM:~/attacker$ wget http://cs.boisestate.edu/~jxiao/gencyber2021/attacker/attacker-frame.html
+[04/27/22]seed@VM:~/attacker$ wget http://cs.boisestate.edu/~jxiao/cs333/info/attacker/index.html.orig
+[04/27/22]seed@VM:~/attacker$ wget http://cs.boisestate.edu/~jxiao/cs333/info/attacker/cat.gif
+[04/27/22]seed@VM:~/attacker$ wget http://cs.boisestate.edu/~jxiao/cs333/info/attacker/attacker-frame.html
+```
+
+- edit attacker-frame.html: find the word "localhost" and change "localhost" to your VM's IP address.
+
+- start the attacker web server:
+```console
 [04/27/22]seed@VM:~/attacker$ mv index.html.orig index.html
 [04/27/22]seed@VM:~/attacker$ python -m SimpleHTTPServer 8000
 ```
 
-6. access the website from the browser: open a new tab (make sure the banking site tab is still open), type localhost:8000, you should see this:
+6. access the website from the browser: open a new tab (make sure the banking site tab is still open), type localhost:8000 (replace localhost with your VM's IP address), you should see this:
 
 ![alt text](lab-csrf-attacker-site.png "Lab csrf attacker")
 
