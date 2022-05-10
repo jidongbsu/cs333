@@ -2,7 +2,7 @@
 
 ### Requirements 
 
-In this lab, we will break an ssh connection between the victim and the ssh server.
+In this lab, we will break an ssh connection between the victim client and the ssh server.
 
 ### Setup
 
@@ -26,16 +26,16 @@ In this lab, we will break an ssh connection between the victim and the ssh serv
 
 ![alt text](lab-tcp-reset-latest-tcp.png "Lab tcp reset latest tcp")
 
-5. the above packet provides the attacker needs to perform the tcp reset attack. now, the attacker, mimicking the server, only needs to send one RST packet to perform the attack. The requirement is, the attack needs to use "netwox 40" to perform this attack. The command should be in this format: # sudo netwox 40 --ip4-src source_ip --ip4-dst destination_ip --tcp-src source_port --tcp-dst destination_port --tcp-rst --tcp-seqnum sequence_number. Once this command is sent to the client, the ssh connection will be broken..
+5. the above packet provides the attacker needs to perform the tcp reset attack. now, the attacker, mimicking the server, only needs to send one RST packet to perform the attack. To send a TCP reset packet, the attack needs to use the *netwox 40* command. The command should be in this format: # sudo netwox 40 --ip4-src *source_ip* --ip4-dst *destination_ip* --tcp-src *source_port* --tcp-dst *destination_port* --tcp-rst --tcp-seqnum *sequence_number*. Remember to replace these italic texts with information captured in wireshark. To run the command, the attacker opens a terminal window, types the *netwox 40* command, and press enter.
 
-To achieve this goal, the attacker opens a terminal window and type the *netwox 40* command. You need to make sure the parameters to this command is correct.
-
-- before pressing enter
+- before pressing enter:
 ![alt text](lab-tcp-reset-attack-before-enter.png "Lab tcp reset attack before enter command")
 
-- after pressing enter
+**Note**: because the attacker is mimicking the server, thus the source ip address needs to be the server's IP address; and the sequence number needs to be the *next sequence number* as seen in wireshark: as we can see from wireshark, the *next sequence number* is *4250126814*.
+
+- after pressing enter:
 ![alt text](lab-tcp-reset-attack-after-enter.png "Lab tcp reset attack after enter command")
 
 6. once the attacker pressed enter to execute the above *netwox 40* command, if the attack is successful, the victim client's ssh connection will be disrupted, and the victim client is expected to see this on the terminal:
 
-![alt text](lab-tcp-reset-attack-broken-pipe.png "Lab tcp reset attack successful")
+![alt text](lab-tcp-reset-broken-pipe.png "Lab tcp reset attack successful")
