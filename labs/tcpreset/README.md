@@ -39,3 +39,5 @@ In this lab, we will break an ssh connection between the victim client and the s
 6. once the attacker pressed enter to execute the above *netwox 40* command, if the attack is successful, the victim client's ssh connection will be disrupted, and the victim client is expected to see this on the terminal:
 
 ![alt text](lab-tcp-reset-broken-pipe.png "Lab tcp reset attack successful")
+
+This indicates that the attack is successful and concludes the lab. The client is no longer connected to the ssh server.
