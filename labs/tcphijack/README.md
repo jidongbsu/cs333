@@ -45,10 +45,10 @@ Thus in this example, the netwox 40 command we are going to type is:
 
 7. before pressing enter, the attacker needs to open another terminal window so that the attacker can listen on a port - we will choose port 9090.
 
-![alt text](lab-tcp-hijack-attack-listening.png "Lab tcp hijacking attack listening on port 9090")
+![alt text](lab-tcp-hijack-listening.png "Lab tcp hijacking attack listening on port 9090")
 
 - after pressing enter:
-![alt text](lab-tcp-hijack-attack-after-enter.png "Lab tcp hijacking attack after enter command")
+![alt text](lab-tcp-hijack-after-enter.png "Lab tcp hijacking attack after enter command")
 
 7. once the attacker pressed enter to execute the above *netwox 40* command, if the attack is successful, the victim server's secret file will be displayed in the attacker's terminal window:
 
