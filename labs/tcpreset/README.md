@@ -26,7 +26,7 @@ In this lab, we will break an ssh connection between the victim client and the s
 
 ![alt text](lab-tcp-reset-latest-tcp.png "Lab tcp reset latest tcp")
 
-5. the above packet provides the attacker needs to perform the tcp reset attack. now, the attacker, mimicking the server, only needs to send one RST packet to perform the attack. To send a TCP reset packet, the attack needs to use the *netwox 40* command. The command should be in this format: # sudo netwox 40 --ip4-src *source_ip* --ip4-dst *destination_ip* --tcp-src *source_port* --tcp-dst *destination_port* --tcp-rst --tcp-seqnum *sequence_number*. Remember to replace these italic texts with information captured in wireshark. To run the command, the attacker opens a terminal window, types the *netwox 40* command, and press enter.
+5. the above packet provides the information which the attacker needs to know in order to perform the tcp reset attack. now, the attacker, mimicking the server, only needs to send one single RST packet to the client. To send a TCP reset packet, the attacker needs to use the *netwox 40* command. The command should be in this format: # sudo netwox 40 --ip4-src *source_ip* --ip4-dst *destination_ip* --tcp-src *source_port* --tcp-dst *destination_port* --tcp-rst --tcp-seqnum *sequence_number*. Remember to replace these italic texts with information captured in wireshark. To run the command, the attacker opens a terminal window, types the *netwox 40* command, and press enter.
 
 - before pressing enter:
 ![alt text](lab-tcp-reset-attack-before-enter.png "Lab tcp reset attack before enter command")
