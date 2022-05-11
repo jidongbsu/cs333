@@ -1,14 +1,16 @@
 ## The Kevin Mitnick Attack 
 
+**WARNING**: This is one of the most complicated labs, if you understand this lab and know what you are doing, you may be able to finish this lab in 20 minutes, if you don't really understand this lab and don't really know what you are doing, you may spend hours and still don't succeed. Be very very careful, make sure the command is correct, before you press enter to run the command, is the key to the success of this lab.
+
 ### Requirements
 
-In this lab, we will demonstrate the Kevin Mitnick attack - a special case of the TCP session hijack attack. Instead of hijacking an existing TCP connection between victims A and B, the Mitnick attack creates a TCP connection between A and B first on their behalf, and then naturally hijacks the connection. Specifically, Kevin Mitnick created and hijacked rsh connections. In this lab, the attacker's goal is to create a file /tmp/xyz on the victim server machine.
+In this lab, we will demonstrate the Kevin Mitnick attack - a special case of the TCP session hijack attack. Instead of hijacking an existing TCP connection between victims A and B, the Mitnick attack creates a TCP connection between A and B first on their behalf, and then naturally hijacks the connection. Specifically, Kevin Mitnick created and hijacked rsh connections. In this lab, the attacker's goal is to create a file **/tmp/xyz** on the victim server machine.
 
 ### Setup
 
-3 Linux VMs. VM1 as the victim client; VM2 as the victim server; VM3 as the attacker. The 3 VMs reside in the same network - in the original Kevin Mitnick attack, the attacker's machine was not in the same network. Back then TCP sequence numbers were easily predictable, today it is not. To simulate the attack and simplify our task, we assume we still know the sequence numbers - we will, in the lab, obtain the sequence numbers from wireshark. We will then use "netwox 40" to perform packet spoofing. In the following document, we assume the victim client's IP is 172.16.77.128, and the victim server's IP is 172.16.77.129.
+3 Linux VMs. VM1 as the victim client; VM2 as the victim server; VM3 as the attacker. The 3 VMs reside in the same network - in the original Kevin Mitnick attack, the attacker's machine was not in the same network. Back then TCP sequence numbers were easily predictable, today it is not. To simulate the attack and simplify our task, we assume we still know the sequence numbers - we will, in the lab, obtain the sequence numbers from wireshark. We will then use "netwox 40" to perform packet spoofing. In the remaining part of this README, we assume the victim client's IP address is 172.16.77.128, and the victim server's IP address is 172.16.77.129.
 
-Background knowledge: In rsh, two TCP connections are needed. One for normal communication, the other for sending error messages. In the first connection, client port must be 1023, server port must be 514. In the second connection, server port must be 1023, client port can be anything - in this lab, we will choose 9090.
+Background knowledge: In rsh, two TCP connections are needed. One for normal communication, the other for sending error messages. In the first connection, the client port must be 1023, and the server port must be 514. In the second connection, the server port must be 1023, but the client port can be anything - in this lab, we will choose 9090.
 
 ### Preparation steps: 
 
@@ -30,7 +32,7 @@ $ chmod 644 .rhosts
 These commands look like this:
 ![alt text](lab-mitnick-rsh-config.png "rsh works")
 
-If the above configuration is correct, you should be able to run the follow command on the victim client machine, and it will show you current date information.
+If the above configuration is correct, you should be able to run the follow command on the victim client machine, and it will show you the current date information.
 
 ```console
 # rsh [victim server’s IP] date
@@ -72,16 +74,16 @@ Alternatively, we can run these two commands on the server so that it does not R
 This screenshot shows these two commands:
 ![alt text](lab-mitnick-retries.png "changing retry limits")
 
-**Explanation**: these two commands are saying, do not reset the tcp connection, unless one party of the connection has tried syn more than 50 times; do not reset the tcp connection, unless one party of the connection has tried syn-ack more than 50 times.
+**Explanation**: these two commands are saying, do not reset the tcp connection, unless one party of the connection has tried *syn* more than 50 times; do not reset the tcp connection, unless one party of the connection has tried *syn-ack* more than 50 times.
 
-step 5. turn on wireshark on the attacker's VM and start capturing. also, sanity check - make sure there is no such a file called /tmp/xyz on the server machine - as our ultimate goal in this lab is to create such a file.
+step 5. turn on wireshark on the attacker's VM and start capturing. also, sanity check - make sure there is no such a file called **/tmp/xyz** on the server machine - as our ultimate goal in this lab is to create such a file.
 
-This screenshot shows, at this moment, there is no such a file called /tmp/xyz on the **server** machine.
+This screenshot shows, at this moment, there is no such a file called **/tmp/xyz** on the **server** machine.
 ![alt text](lab-mitnick-sanity-check.png "sanity check")
 
 ### Attacking steps:
 
-All the attacking steps are performed on the attacker's machine.
+All the attacking steps are performed on the attacker's machine. **WARNING**: any moment during the attacking steps, you notice a RESET packet in wireshark, you know you are on the wrong track, and you need to reboot the victim server VM and go back to step 3 - redo step 3, step 4, and then you can continue from step 6.
 
 step 6. create the first TCP connection. 
 
@@ -122,7 +124,7 @@ note: step 6.2 and step 6.3 are the same command, except that --tcp-data part.
 
 **Explanation**: why the tcp data is "393039300073656564007365656400746f756368202f746d702f78797a00"? Because in netwox 40, --tcp-data specifies the data you want to transfer, and in our case, we want to transfer an rsh command "touch /tmp/xyz". In rsh, its data's structure is:
 
-[port number]\x00[uid_client]\x00[uid_server]\x00[your command]\x00
+[port number]\x00[user_id_client]\x00[user_id_server]\x00[your command]\x00
 
 thus, in order to inject a command "touch /tmp/xyz", the data we should inject is "9090\x00seed\x00seed\x00touch /tmp/xyz\x00", and then we need to convert it into hex numbers:
 
@@ -132,7 +134,7 @@ $ python
 '393039300073656564007365656400746f756368202f746d702f78797a00'
 ```
 
-step 7. create the second TCP connection. After the above ACK packet, the server would automatically sends a SYN packet to the client so as to establish the 2nd TCP connection. We just need to respond a fake SYN-ACK packet. Let's say the sequence number of this SYN packet is z, then in our SYN-ACK packet, the ack num needs to be z+1, the sequence number can be anything.
+step 7. create the second TCP connection. After the above ACK packet, the server would automatically send a SYN packet to the client so as to establish the 2nd TCP connection. We just need to respond a fake SYN-ACK packet. Let's say the sequence number of this SYN packet is z, then in our SYN-ACK packet, the ack num needs to be z+1, the sequence number can be anything.
 
 step 7.1: 
 
@@ -148,8 +150,8 @@ This screenshot shows that z is 703071262, and thus z+1 is 703071263.
 
 ### Verification steps:
 
-step 8. on the victim's server machine, see if /tmp/xyz is created.
+step 8. on the victim's server machine, see if **/tmp/xyz** is created.
 
 ![alt text](lab-mitnick-success.png "lab success")
 
-The above screenshot shows the attack is successful, and this concludes the lab.
+The above screenshot shows the file **/tmp/xyz** is now existing - this indicates that the attack is successful, and this concludes the lab.
