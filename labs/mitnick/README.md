@@ -27,11 +27,22 @@ $ echo [victim client’s IP address] > .rhosts (replace "victim client's IP add
 $ chmod 644 .rhosts
 ```
 
+These commands look like this:
+![alt text](lab-mitnick-rsh-config.png "rsh works")
+
 If the above configuration is correct, you should be able to run the follow command on the victim client machine, and it will show you current date information.
 
 ```console
 # rsh [victim server’s IP] date
 ```
+
+Like this:
+
+![alt text](lab-mitnick-rsh-good.png "rsh works")
+
+As a comparison, if you run the same command from the attacker's machine, you will get an error like this:
+
+![alt text](lab-mitnick-rsh-bad.png "rsh doesn't work")
 
 step 3. simulating the syn flooding attack.
 
