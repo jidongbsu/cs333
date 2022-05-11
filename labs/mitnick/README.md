@@ -74,7 +74,10 @@ This screenshot shows these two commands:
 
 **Explanation**: these two commands are saying, do not reset the tcp connection, unless one party of the connection has tried syn more than 50 times; do not reset the tcp connection, unless one party of the connection has tried syn-ack more than 50 times.
 
-step 5. turn on wireshark on the attacker's VM and start capturing. also, sanity check - make sure there is no such a file called /tmp/xyz on the server side - as our ultimate goal in this lab is to create such a file.
+step 5. turn on wireshark on the attacker's VM and start capturing. also, sanity check - make sure there is no such a file called /tmp/xyz on the server machine - as our ultimate goal in this lab is to create such a file.
+
+This screenshot shows, at this moment, there is no such a file called /tmp/xyz on the **server** machine.
+![alt text](lab-mitnick-sanity-check.png "sanity check")
 
 ### Attacking steps:
 
