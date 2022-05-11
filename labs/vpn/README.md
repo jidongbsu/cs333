@@ -10,7 +10,9 @@ In this lab, you will bypass a firewall that has an egress filtering rule, which
 
 Step 1: setup the firewall on VM1 so that www.google.com is blocked.
 
+```console
 # sudo ufw deny out on enp0s3 to google_network // google has more than 1 IP address, therefore it makese more sense to block a network, rather than a single IP address. You can just ping www.google.com to find out google's IP address, if google's IP address is 172.217.5.196, then you can assume 172.217.0.0/16, or 172.217.5.0/24 is google's network - or the range of IP addresses owned by google.
+```
 
 Note 1: you can use this command to verify your setting is correct: # sudo ufw status verbose and # ping google_IP (enable your firewall first, if it's not even enabled: # sudo ufw enable)
 
@@ -39,7 +41,7 @@ Step 5: on VM2, open a new terminal and configure the tun interface; and then en
 # sudo sysctl net.ipv4.ip_forward=1
 ```
 
-Explanation: the first command sets up a tun0 interface, whose ip address is 192.168.53.1, whose subnet mask is 24, a.k.a., 255.255.255.0; the second command turns on ip forwarding.
+**Explanation**: the first command sets up a tun0 interface, whose ip address is 192.168.53.1, whose subnet mask is 24, a.k.a., 255.255.255.0; the second command turns on ip forwarding.
 
 Step 6: on VM1, open a new terminal and configure the tun interface.
 
@@ -47,7 +49,7 @@ Step 6: on VM1, open a new terminal and configure the tun interface.
 # sudo ifconfig tun0 192.168.53.5/24 up
 ```
 
-Explanation: this command sets up a tun0 interface, whose ip address is 192.168.53.5, whose subnet mask is 24, a.k.a., 255.255.255.0.
+**Explanation**: this command sets up a tun0 interface, whose ip address is 192.168.53.5, whose subnet mask is 24, a.k.a., 255.255.255.0.
 
 Step 7: on VM2, set up a routing rule for the 192.168.53.0/24 network.
 
@@ -55,7 +57,7 @@ Step 7: on VM2, set up a routing rule for the 192.168.53.0/24 network.
 # sudo route add -net 192.168.53.0/24 tun0
 ```
 
-Explanation: this command adds a routing rule to the system saying that any traffic goes to 192.168.53.0/24 should go through the network interface tun0; without this routing rule, such traffic will go through the default network interface card.
+**Explanation**: this command adds a routing rule to the system saying that any traffic goes to 192.168.53.0/24 should go through the network interface tun0; without this routing rule, such traffic will go through the default network interface card.
 
 Step 8: on VM1, set up a routing rule for the 192.168.53.0/24 network. Also add another routing rule for www.google.com packets to be sent through the tunnel.
 
@@ -64,7 +66,7 @@ Step 8: on VM1, set up a routing rule for the 192.168.53.0/24 network. Also add 
 # sudo route add -net google_network tun0
 ```
 
-Explanation: the first command is the same as the one you just typed in step 6. In step 6, you ran it on VM2, which is the VPN server; in step 7, you run it on VM1, which is the VPN client; the second command says, any traffic goes to the google network should go through the network interface tun0.
+**Explanation**: the first command is the same as the one you just typed in step 6. In step 6, you ran it on VM2, which is the VPN server; in step 7, you run it on VM1, which is the VPN client; the second command says, any traffic goes to the google network should go through the network interface tun0.
 
 Step 9. now, in order to see the echo replies, we need to setup NAT on the VPN server, i.e., VM2.
 
