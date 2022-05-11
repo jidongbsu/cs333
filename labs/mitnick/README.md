@@ -52,10 +52,13 @@ step 3. simulating the syn flooding attack.
 
 This step is needed so that the server remembers the MAC address of the client, which is needed for the server to send packets to the client.
 
-This screenshot shows how to find the victim client's MAC address:
+This screenshot shows the command and how to find the victim client's MAC address:
 ![alt text](lab-mitnick-arp.png "setting up arp cache")
 
 3.2: shutdown the victim client VM - we do so to simulate the situation when the client is under serious syn flooding attack and can't respond. **Explanation**: why do we want the server to remember the MAC address of the client? Because computers in the same network use MAC addresses, instead of IP addresses, to communicate. And once we shutdown the victim client, if the server doesn't know the victim client's MAC address, the server simply won't send any packet to the client; but our attack won't be successful if the server doesn't send any packet to the client.
+
+This screenshot shows the command to shutdown the victim client VM:
+![alt text](lab-mitnick-shutdown.png "shutting down victim client VM")
 
 step 4. in the attacking steps (next section), right after step 6.1, we need to run step 6.2 as soon as possible, otherwise the server will RESET the 1st TCP connection; similarly, right after step 6.3, we need to run step 7.1 as soon as possible, otherwise the server will RESET the 2nd TCP connection. Therefore, writing a sniffing-and-spoofing script would be the better way to perform this attack.
 
