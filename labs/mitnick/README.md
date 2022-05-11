@@ -107,7 +107,7 @@ This screenshot shows x is 2247827088, and thus x+1 is 2247827089.
 ![alt text](lab-mitnick-first-syn.png "first syn packet")
 
 This screenshot shows y is 734062308, and thus y+1 is 734062309.
-![alt text](lab-mitnick-first-syn-ack.png "first syn packet")
+![alt text](lab-mitnick-first-syn-ack.png "first syn ack packet")
 
 step 6.3: send one ACK packet to the server. This packet carries the command we want to run:
 
@@ -150,4 +150,6 @@ This screenshot shows that z is 703071262, and thus z+1 is 703071263.
 
 step 8. on the victim's server machine, see if /tmp/xyz is created.
 
-![alt text](lab-mitnick-retries.png "changing retry limits")
+![alt text](lab-mitnick-success.png "lab success")
+
+The above screenshot shows the attack is successful, and this concludes the lab.
