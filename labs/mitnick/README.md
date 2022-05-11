@@ -1,4 +1,4 @@
-The Kevin Mitnick Attack 
+## The Kevin Mitnick Attack 
 
 Requirement: In this lab, we will demonstrate the Kevin Mitnick attack - a special case of the TCP session hijack attack. Instead of hijacking an existing TCP connection between victims A and B, the Mitnick attack creates a TCP connection between A and B first on their behalf, and then naturally hijacks the connection. Specifically, Kevin Mitnick created and hijacked rsh connections. In this lab, the attacker's goal is to create a file /tmp/xyz on the victim server machine.
 
