@@ -54,7 +54,7 @@ step 3. simulating the syn flooding attack.
 
 This step is needed so that the server remembers the MAC address of the client, which is needed for the server to send packets to the client.
 
-3.2: shutdown the victim client VM - we do so to simulate the situation when the client is under serious syn flooding attack and can't respond.
+3.2: shutdown the victim client VM - we do so to simulate the situation when the client is under serious syn flooding attack and can't respond. **Explanation**: why do we want the server to remember the MAC address of the client? Because computers in the same network use MAC addresses, instead of IP addresses, to communicate. And once we shutdown the victim client, if the server doesn't know the victim client's MAC address, the server simply won't send any packet to the client; but our attack won't be successful if the server doesn't send any packet to the client.
 
 step 4. in the attacking steps (next section), right after step 6.1, we need to run step 6.2 as soon as possible, otherwise the server will RESET the 1st TCP connection; similarly, right after step 6.3, we need to run step 7.1 as soon as possible, otherwise the server will RESET the 2nd TCP connection. Therefore, writing a sniffing-and-spoofing script would be the better way to perform this attack.
 
@@ -64,6 +64,8 @@ Alternatively, we can run these two commands on the server so that it does not R
 # sudo sysctl -w net.ipv4.tcp_syn_retries=50
 # sudo sysctl -w net.ipv4.tcp_synack_retries=50
 ```
+
+**Explanation**: these two commands are saying, do not reset the tcp connection, unless one party of the connection has tried syn more than 50 times; do not reset the tcp connection, unless one party of the connection has tried syn-ack more than 50 times.
 
 step 5. turn on wireshark on the attacker's VM and start capturing. also, sanity check - make sure there is no such a file called /tmp/xyz on the server side - as our ultimate goal in this lab is to create such a file.
 
