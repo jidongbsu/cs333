@@ -96,7 +96,7 @@ step 6.1: On the attacker's VM, send a spoofed SYN packet to the victim server.
 This screenshot shows the command:
 ![alt text](lab-mitnick-packet1.png "first packet")
 
-step 6.2: right after the above command, netwox would show us the sequence number of this SYN packet, let's say it's x. Then in wireshark, identify the SYN-ACK packet coming from the victim server to the victim client and find out its sequence number, let's say it's y. Now we send the ACK packet to complete the TCP 3-way handshake.
+step 6.2: right after the above command, switch to wireshark, and we need to find the **sequence number** of this SYN packet (goes from the victim client to the victim server), let's say it's x. Then in wireshark, identify the SYN-ACK packet coming from the victim server to the victim client and find out its **sequence number**, let's say it's y. Now we send the ACK packet to complete the TCP 3-way handshake.
 
 ```console
 # sudo netwox 40 --tcp-ack --ip4-src 172.16.77.128 --ip4-dst 172.16.77.129 --tcp-src 1023 --tcp-dst 514 --tcp-acknum y+1 --tcp-seqnum x+1
@@ -111,18 +111,18 @@ This screenshot shows x is 2247827088, and thus x+1 is 2247827089.
 This screenshot shows y is 734062308, and thus y+1 is 734062309.
 ![alt text](lab-mitnick-first-syn-ack.png "first syn ack packet")
 
-step 6.3: send one ACK packet to the server. This packet carries the command we want to run:
+step 6.3: send one ACK packet to the server. This packet carries the rsh command we want to run:
 
 ```console
 # sudo netwox 40 --tcp-ack --ip4-src 172.16.77.128 --ip4-dst 172.16.77.129 --tcp-src 1023 --tcp-dst 514 --tcp-acknum y+1 --tcp-seqnum x+1 --tcp-data "393039300073656564007365656400746f756368202f746d702f78797a00" 
 ```
 
-This screenshot shows the command:
+This screenshot shows the command (which sends the packet):
 ![alt text](lab-mitnick-packet3.png "third packet")
 
 note: step 6.2 and step 6.3 are the same command, except that --tcp-data part.
 
-**Explanation**: why the tcp data is "393039300073656564007365656400746f756368202f746d702f78797a00"? Because in netwox 40, --tcp-data specifies the data you want to transfer, and in our case, we want to transfer an rsh command "touch /tmp/xyz". In rsh, its data's structure is:
+**Explanation**: why the tcp data is "393039300073656564007365656400746f756368202f746d702f78797a00"? Because in netwox 40, --tcp-data specifies the data you want to transfer, and in our case, we want to transfer an rsh command "touch /tmp/xyz", which creates the file **/tmp/xyz**. In rsh, its data's structure is:
 
 [port number]\x00[user_id_client]\x00[user_id_server]\x00[your command]\x00
 
