@@ -19,6 +19,7 @@ what this command does is: the attacker, mimicking the default gateway, sends an
 3. replace "attacker_ip_address" with your attacker's IP address.
 4. find "trusted_gateway_ip_address" with netstat -r command. Following is an example, run netstat -r on the victim VM.
 
+```console
 [02/14/22]seed@VM:~$ netstat -r
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
@@ -26,6 +27,7 @@ default         172.16.77.2     0.0.0.0         UG        0 0          0 ens33
 link-local      *               255.255.0.0     U         0 0          0 ens33
 172.16.77.0     *               255.255.255.0   U         0 0          0 ens33
 [02/14/22]seed@VM:~$ 
+```
 
 The above command says 172.16.77.2 is the default gateway, so that's the gateway the victim machine trusts. Therefore, let's assume the victim's ip address is 172.16.77.128, and the attacker's ip address is 172.16.77.129, then we should come up with this following command:
 
