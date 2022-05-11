@@ -6,9 +6,7 @@
 
 Background knowledge: In rsh, two TCP connections are needed. One for normal communication, the other for sending error messages. In the first connection, client port must be 1023, server port must be 514. In the second connection, server port must be 1023, client port can be anything - in this lab, we will choose 9090.
 
-### Steps:
-
-#### Preparation steps: 
+### Preparation steps: 
 
 step 1. installing rsh on client, server, and the attacker's machine. Run the following two commands on all 3 VMs:
 
@@ -37,7 +35,7 @@ This step is needed so that the server remembers the MAC address of the client, 
 
 step 4. turn on wireshark on the attacker's VM and start capturing. also, sanity check - make sure there is no such a file called /tmp/xyz on the server side - as our ultimate goal in this lab is to create such a file.
 
-#### Attacking steps:
+### Attacking steps:
 
 step 5. create the first TCP connection. 
 
