@@ -37,11 +37,9 @@ If the above configuration is correct, you should be able to run the follow comm
 ```
 
 Like this:
-
 ![alt text](lab-mitnick-rsh-good.png "rsh works")
 
 As a comparison, if you run the same command from the attacker's machine, you will get an error like this:
-
 ![alt text](lab-mitnick-rsh-bad.png "rsh doesn't work")
 
 step 3. simulating the syn flooding attack.
@@ -53,6 +51,9 @@ step 3. simulating the syn flooding attack.
 ```
 
 This step is needed so that the server remembers the MAC address of the client, which is needed for the server to send packets to the client.
+
+This screenshot shows how to find the victim client's MAC address:
+![alt text](lab-mitnick-arp.png "setting up arp cache")
 
 3.2: shutdown the victim client VM - we do so to simulate the situation when the client is under serious syn flooding attack and can't respond. **Explanation**: why do we want the server to remember the MAC address of the client? Because computers in the same network use MAC addresses, instead of IP addresses, to communicate. And once we shutdown the victim client, if the server doesn't know the victim client's MAC address, the server simply won't send any packet to the client; but our attack won't be successful if the server doesn't send any packet to the client.
 
