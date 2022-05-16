@@ -1,5 +1,5 @@
-#!/bin/bash_shellshock 􏰀
+#!/bin/bash_shellshock
 echo "Content-type: text/plain"
 echo
 echo
-echo "Hello World"
+echo "Hello Boise"
