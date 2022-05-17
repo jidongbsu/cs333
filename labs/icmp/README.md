@@ -58,6 +58,7 @@ $ ping www.google.com (this time it should still succeed)
 ```
 
 4: attacker, press ctrl-c to stop the attack command.
+
 5: victim, run: 
 
 ```console
@@ -79,6 +80,7 @@ $ sudo sysctl net.ipv4.ip_forward=0 (turning this off so our attack will succeed
 the next two steps attempt a new attack which disrupts the victim's video streaming service:
 
 8: victim, open firefox, watch some youtube video.
+
 9: attacker, run the exact same attack command as before: 
 
 ```console
