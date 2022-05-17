@@ -20,11 +20,11 @@ Note: You have to change the IP addresses and the MAC addresses in the above scr
 
 before change:
 
-![alt text](lab-arp-before-change.png "before change the 6 lines")
+![alt text](lab-arp-before-change.png "before changing the 6 lines")
 
 after change:
 
-![alt text](lab-arp-after-change.png "after change the 6 lines")
+![alt text](lab-arp-after-change.png "after changing the 6 lines")
 
 Explanation: what this script does is: sends out a spoofed arp message to the server, which tells the server, the client's ip address is mapped to the attacer's mac address; sends out another spoofed arp message to the client, which tells the client, the server's ip address is mapped to the attacker's mac address.
 
@@ -32,8 +32,20 @@ Explanation: what this script does is: sends out a spoofed arp message to the se
 
 ```console
 # arp
+```
+
+this screenshot shows that the poison is successful - from the server's perspective, the client's IP address (172.16.77.128) is mapped to the attacker's MAC address (00:0c:29:1d:8a:7b); from the client's perspective, the server's IP address (172.16.77.129) is also mapped to the attacker's MAC address (00:0c:29:1d:8a:7b).
+
+![alt text](lab-arp-poison-success.png "poison is successful")
+
+```console
 # ping client_ip (from the server) or ping server_ip (from the client) // ping command will fail here.
 ```
+
+the screenshot shows that:
+![alt text](lab-arp-ping-fails.png "ping fails")
+
+as can be seen from this screenshot, we get a 100% packet loss when running the ping command.
 
 3: The attacker, turns on ip forwarding:
 
@@ -69,6 +81,8 @@ Note: Once again, you need to change the IP addresses and the MAC addresses in t
 
 **Explanation**: what this script does is, sniffs the network, and captures every tcp packet exchanged between the client and the server: 1. for every packet goes from the client to the server, if its data contains letters, replaces each letter with a letter A; 2. for every packet goes from the server to the client, just forwards this packet to the client.
 
-8: Now type in any commands on the client's machine, from the telnet connection. See what will happen - if your attack is successful, any alphabet character typed in from the client side will be converted into a letter "A".
+8: Now type in any commands on the client's machine, from the telnet connection. See what will happen - if your attack is successful, any alphabet character typed in from the client side will be converted into a letter "A". As shown in this screenshot:
 
-Troubleshooting tip: If step 8 doesn't work, it's likely the poisoned cache entry has expired and you need to resend the poisoning packets.
+![alt text](lab-arp-final-success.png "lab is successful!")
+
+**Troubleshooting tip**: If step 8 doesn't work, it's likely the poisoned cache entry has expired and you need to resend the poisoning packets.
