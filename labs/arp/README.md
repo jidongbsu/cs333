@@ -53,11 +53,18 @@ as can be seen from this screenshot, we get a 100% packet loss when running the 
 # sudo sysctl net.ipv4.ip_forward=1
 ```
 
+or as shown in the screenshot:
+
+![alt text](lab-arp-ip-forwarding-on.png "turning ip forwarding on")
+
 4: After turning on ip forwarding, from the client machine and the server machine, ping again to confirm the forwarding is working.
 
 ```console
 # ping client_ip (from the server) or ping server_ip (from the client) // ping command will succeed here.
 ```
+
+the screenshot shows that:
+![alt text](lab-arp-ping-succeeds.png "ping succeeds")
 
 5: On the client machine, telnet to the server:
 
@@ -70,6 +77,10 @@ as can be seen from this screenshot, we get a 100% packet loss when running the 
 ```console
 # sudo sysctl net.ipv4.ip_forward=0
 ```
+
+or as shown in the screenshot:
+
+![alt text](lab-arp-ip-forwarding-off.png "turning ip forwarding off")
 
 7: On the attackers' machine, run the sniff-and-spoof script. You can get this program from here: http://cs.boisestate.edu/~jxiao/cs333/code/arp/sniffandspoof.py
 
