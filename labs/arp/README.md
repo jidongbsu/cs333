@@ -2,13 +2,13 @@
 
 ### Requirement
 
-in this lab, you will hijack a telnet session using the ARP cache poisoning attack.
+in this lab, you will hijack a telnet session using the ARP cache poisoning attack. At the end of this lab, if the attack is successful, any alphabet character typed in the client's telnet session will be replaced with a letter "A".
 
 ### Setup
 
 3 Linux VMs. VM1 as the victim (telnet client); VM2 as the telnet server; VM3 as the attacker. The 3 VMs reside in the same network. The following is the IP addresses and MAC addresses for the VMs used in this README.
 
-| VM  |  IP address   |    MAC Address    |
+| VM  |  IP Address   |    MAC Address    |
 |-----|---------------|-------------------|
 | VM1 | 172.16.77.128 | 00:0c:29:49:3b:46 |
 | VM2 | 172.16.77.129 | 00:0c:29:74:1a:93 |
