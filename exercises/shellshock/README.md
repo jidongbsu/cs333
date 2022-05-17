@@ -1,5 +1,9 @@
 ## Getting a Reverse Shell via Shellshock Attack
 
+### Background
+
+The shellshock vulnerability exists in some older version of bash - which is also installed on the provided VM. Such a vulnerability allows an attacker to inject arbitrary commands into a victim computer, which runs a CGI-based web server, or runs an OpenSSH server, or runs a DHCP client, or runs a Qmail server, all of them use bash in one way or another. In this exercise, we will demonstrate how an attacker can take advantage of this vulnerability to attack a CGI-based web server. At the end of this exercise, if the attack is successful, the attacker will obtain a reverse shell which allows the attacker to maintain a long term control of the victim server.
+
 ### Setup
 
 Two VMs: the victim, and the attacker.
@@ -52,6 +56,8 @@ This is a secret.
 
 as the screenshot shows:
 ![alt text](accessing-secret-via-cgi.png "access it via cgi")
+
+**Explanation**: the vulnerability exists in the bash's parser, which enables information passed as the parameter of the *-A* option to be executed.
 
 ### Get a Reverse Shell
 
