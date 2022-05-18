@@ -1,4 +1,8 @@
-## Getting a Reverse Shell via Shellshock Attack
+## Printer Hacking
+
+### Requirement
+
+In this exercise, we will change the display message on a printer. The only reason this attack works is because there is a lack of authentication in most printers.
 
 ### Background
 
