@@ -97,13 +97,13 @@ This command shows the first 6 bytes are actually the MAC address (08:00:27:73:3
 3. Before make any changes to *EEPROM*, we can use the following command to back up the *EEPROM* (in case the *EEPROM* will be damaged - although this is not necessarily important for a VM)
 
 ```console
-# sudo ethtool -e enp0s3 raw on > eeprom-backup.bin
+[05/18/22]seed@VM:~$ sudo ethtool -e enp0s3 raw on > eeprom-backup.bin
 ```
 
 4. A command like below allows us to change the *EEPROM*'s offset at \<OO> to value \<VV>.
 
 ```console
-# sudo ethtool -E enp03s magic <MM> offset <OO> value <VV>
+[05/18/22]seed@VM:~$ sudo ethtool -E enp03s magic <MM> offset <OO> value <VV>
 ```
 
 But we need the figure out the magic number, the magic number is the PCI vendor ID (lower 2 bytes) plus the PCI device ID (higher 2 bytes) of your NIC. i.e., magic number = (vendor_id | (device_id << 16)). Use the following command to find out it:
