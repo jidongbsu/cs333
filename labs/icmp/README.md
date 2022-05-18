@@ -6,7 +6,7 @@ In this lab, you will disrupt a victim machine's ICMP traffic using the ICMP red
 
 ### Setup
 
-2 Linux VMs. VM1 as the victim; VM2 as the attacker. The 2 VMs do not need to be in the same network - however, this lab has only been tested when the two VMs are in the same network.
+2 Linux VMs. VM1 as the victim; VM2 as the attacker. The 2 VMs do not need to be in the same network - however, this lab has only been tested when the two VMs are in the same network. The following is the IP addresses for the VMs used in this README.
 
 | VM  |  IP Address   |   Role   |
 |-----|---------------|----------|
@@ -42,6 +42,8 @@ question: can you find out what "--code 1" means?
 
 ### Attack steps:
 
+#### Part 1
+
 1. victim, run: 
 
 ```console
@@ -69,6 +71,8 @@ $ ping www.google.com (this time it should still succeed)
 ```console
 $ ping www.google.com (this time it should fail, thus it proves the attack is successful.)
 ```
+
+#### Part 2
 
 the next two steps attempt a new attack which disrupts the victim's video streaming service:
 
