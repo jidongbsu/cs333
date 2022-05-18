@@ -50,7 +50,13 @@ question: can you find out what "--code 1" means?
 $ ping www.google.com
 ```
 
-make sure your ping command works and you do get responses from google, otherwise this lab makes no sense. if ping works, press ctrl-c to stop the ping command and move on to step 2.
+make sure your ping command works and you do get responses from google, otherwise this lab makes no sense.
+
+this screenshot shows ping works:
+
+![alt text](lab-icmp-ping-works.png "ping works at first")
+
+if ping works, press ctrl-c to stop the ping command and move on to step 2.
 
 2. attacker, run that attack command: 
 
@@ -58,19 +64,29 @@ make sure your ping command works and you do get responses from google, otherwis
 $ sudo netwox 86 --device "ens33" --filter "src host 172.16.77.128" --gw "172.16.77.129" --src-ip "172.16.77.2" --code 1
 ```
 
+![alt text](lab-icmp-attack-command.png "launch the attack")
+
 3. victim, run: 
 
 ```console
-$ ping www.google.com (this time it should still succeed)
+$ ping www.google.com
 ```
+
+this time it may still succeed, or at least you will still get some responses like this:
+
+![alt text](lab-icmp-ping-partially-works.png "ping only gets some reponses")
 
 4: attacker, press ctrl-c to stop the attack command.
 
 5: victim, run: 
 
 ```console
-$ ping www.google.com (this time it should fail, thus it proves the attack is successful.)
+$ ping www.google.com
 ```
+
+this time it should fail, thus it proves the attack is successful:
+
+![alt text](lab-icmp-ping-fails.png "ping fails")
 
 #### Part 2
 
@@ -81,5 +97,17 @@ the next two steps attempt a new attack which disrupts the victim's video stream
 7: attacker, run the exact same attack command as before: 
 
 ```console
-$ sudo netwox 86 --device "ens33" --filter "src host 172.16.77.128" --gw "172.16.77.129" --src-ip "172.16.77.2" --code 1 (if successful, victim won't be able to watch the youtude video)
+$ sudo netwox 86 --device "ens33" --filter "src host 172.16.77.128" --gw "172.16.77.129" --src-ip "172.16.77.2" --code 1
 ```
+
+if successful, victim won't be able to watch the youtude video. The following two screenshots show before pressing enter and after pressing enter (to execute the attacking command):
+
+before pressing enter:
+
+![alt text](lab-icmp-before-enter.png "before pressing enter")
+
+after pressing enter - (**note: due to buffering effect, the video won't be stopped immediately, you can wait for a few second to maybe one minute):
+
+![alt text](lab-icmp-after-enter.png "after pressing enter")
+
+This second screenshot shows the attack is successful and this concludes this lab.
