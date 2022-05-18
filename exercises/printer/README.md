@@ -37,7 +37,7 @@ sudo pip install colorama pysnmp
 telnet printerIP 9100 (You will see "Connection refused" if not open)
 ```
 
-5. Now that you are in the PRET directory, run the script to establish a connection between you and the printer: ./pret.py printerIP pjl
+5. Now that you are in the PRET directory, run the script to establish a connection between you and the printer:
 
 ```console
 [05/18/22]seed@VM:~/PRET$ ./pret.py 10.29.2.31 pjl
@@ -60,6 +60,8 @@ Device:   HP LaserJet M606
 Welcome to the pret shell. Type help or ? to list commands.
 10.29.2.31:/> 
 ```
+
+Or the other printer:
 
 ```console
 [05/18/22]seed@VM:~/PRET$ ./pret.py 10.29.2.45 pjl
@@ -86,6 +88,11 @@ Welcome to the pret shell. Type help or ? to list commands.
 6. Change the display message: 
 
 ```console
+10.29.2.31:/> display Game Over
+Setting printer's display message to "Game Over"
+```
+
+```console
 10.29.2.45:/> display Game Over
 Setting printer's display message to "Game Over"
 ```
@@ -93,6 +100,12 @@ Setting printer's display message to "Game Over"
 This will change the printer display message to "Game Over...".
 
 7. You can then type quit to exit:
+
+```console
+10.29.2.31:/> quit
+```
+
+or
 
 ```console
 10.29.2.45:/> quit
