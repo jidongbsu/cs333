@@ -8,10 +8,10 @@ In this lab, you will disrupt a victim machine's ICMP traffic using the ICMP red
 
 2 Linux VMs. VM1 as the victim; VM2 as the attacker. The 2 VMs do not need to be in the same network - however, this lab has only been tested when the two VMs are in the same network.
 
-| VM  |  IP Address   |
-|-----|---------------|
-| VM1 | 172.16.77.128 |
-| VM2 | 172.16.77.129 |
+| VM  |  IP Address   |   Role   |
+|-----|---------------|----------|
+| VM1 | 172.16.77.128 |  victim  |
+| VM2 | 172.16.77.129 | attacker |
 
 ### Preparation steps:
 
