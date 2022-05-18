@@ -106,8 +106,10 @@ before pressing enter:
 
 ![alt text](lab-icmp-youtube-before-enter.png "before pressing enter")
 
-after pressing enter - (**note: due to buffering effect, the video won't be stopped immediately, you can wait for a few second to maybe one minute):
+after pressing enter: 
 
 ![alt text](lab-icmp-youtube-after-enter.png "after pressing enter")
 
 This second screenshot shows the attack is successful and this concludes this lab.
+
+**Note**: due to the buffering effect, the video won't be stopped immediately, you may need to wait for a few seconds or maybe one minute until the buffered content has been played.
