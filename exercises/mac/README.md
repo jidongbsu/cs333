@@ -100,7 +100,7 @@ This command shows the first 6 bytes are actually the MAC address (08:00:27:73:3
 # sudo ethtool -e enp0s3 raw on > eeprom-backup.bin
 ```
 
-4. A command like below allows us to change the EEPROM's offset at <OO> to value <VV>.
+4. A command like below allows us to change the EEPROM's offset at \<OO> to value \<VV>.
 
 ```console
 # sudo ethtool -E enp03s magic <MM> offset <OO> value <VV>
@@ -117,16 +117,19 @@ This command shows the the PCI vendor ID is 0x**8086**, the PCI device ID is 0x*
 
 5. With the magic number, now we can change our MAC address, which is at offset 0,1,2,3,4,5 of the EEPROM. Following commands change our MAC address to 66:66:66:66:66:66:
 
-# sudo ethtool -E enp0s3 magic 0x100e8086 offset 0x00 value 0x66
-# sudo ethtool -E enp0s3 magic 0x100e8086 offset 0x01 value 0x66
-# sudo ethtool -E enp0s3 magic 0x100e8086 offset 0x02 value 0x66
-# sudo ethtool -E enp0s3 magic 0x100e8086 offset 0x03 value 0x66
-# sudo ethtool -E enp0s3 magic 0x100e8086 offset 0x04 value 0x66
-# sudo ethtool -E enp0s3 magic 0x100e8086 offset 0x05 value 0x66
+```console
+[05/18/22]seed@VM:~$ sudo ethtool -E enp0s3 magic 0x100e8086 offset 0x00 value 0x66
+[05/18/22]seed@VM:~$ sudo ethtool -E enp0s3 magic 0x100e8086 offset 0x01 value 0x66
+[05/18/22]seed@VM:~$ sudo ethtool -E enp0s3 magic 0x100e8086 offset 0x02 value 0x66
+[05/18/22]seed@VM:~$ sudo ethtool -E enp0s3 magic 0x100e8086 offset 0x03 value 0x66
+[05/18/22]seed@VM:~$ sudo ethtool -E enp0s3 magic 0x100e8086 offset 0x04 value 0x66
+[05/18/22]seed@VM:~$ sudo ethtool -E enp0s3 magic 0x100e8086 offset 0x05 value 0x66
+```
 
 6. Read EEPROM again to verify the change is made correctly.
 
-[05/18/20]seed@VM:~$ sudo ethtool -e enp0s3
+```console
+[05/18/22]seed@VM:~$ sudo ethtool -e enp0s3
 Offset		Values
 ------		------
 0x0000:		66 66 66 66 66 66 00 00 ff ff 00 00 00 00 00 00 
@@ -137,6 +140,7 @@ Offset		Values
 0x0050:		00 00 00 00 00 00 00 00 00 00 00 00 00 00 02 06 
 0x0060:		00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
 0x0070:		00 00 00 00 00 00 00 00 00 00 00 00 00 00 0a 62 
+```
 
 As we can see the EEPROM is changed.
 
