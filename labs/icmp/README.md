@@ -104,10 +104,10 @@ if successful, victim won't be able to watch the youtude video. The following tw
 
 before pressing enter:
 
-![alt text](lab-icmp-before-enter.png "before pressing enter")
+![alt text](lab-icmp-youtube-before-enter.png "before pressing enter")
 
 after pressing enter - (**note: due to buffering effect, the video won't be stopped immediately, you can wait for a few second to maybe one minute):
 
-![alt text](lab-icmp-after-enter.png "after pressing enter")
+![alt text](lab-icmp-youtube-after-enter.png "after pressing enter")
 
 This second screenshot shows the attack is successful and this concludes this lab.
