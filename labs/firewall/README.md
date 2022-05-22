@@ -110,7 +110,9 @@ a web server is (by default) running on VM1 at port 80, yet incoming traffic to 
 
 once again, you can use this command to verify your setting is correct:
 
+```console
 # sudo ufw status verbose
+```
 
 as the screenshot shows, 2 new rules are added:
 
@@ -118,7 +120,9 @@ as the screenshot shows, 2 new rules are added:
 
 and then on VM2:
 
+```console
 # ssh VM1_IP
+```
 
 as can be seen from the screenshot, the blocking rule is added, and ssh thus fails. 
 
@@ -140,7 +144,7 @@ and because ssh from VM2 to VM1 is blocked, we can not establish a ssh tunnel li
 
 **Explanation**: this command will establish an ssh connection from VM1 to VM2, and it also tells ssh, any connection to remote port 9000 of VM2, will now be forwarded, by the ssh server running on VM2, to port 80 of VM1.
 
-Troubleshooting: Here if you can't ssh from VM1 to VM2, it's likely you didn't change /etc/default/ufw, refer to slides: DEFAULT_INPUT_POLICY needs to be changed from DROP to ACCEPT. After changing the file, you may need to reload ufw:
+**Troubleshooting**: Here if you can't ssh from VM1 to VM2, it's likely you didn't change /etc/default/ufw, refer to slides: DEFAULT_INPUT_POLICY needs to be changed from DROP to ACCEPT. After changing the file, you may need to reload ufw:
 
 ```console
 # sudo ufw reload
