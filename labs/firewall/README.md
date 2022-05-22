@@ -23,7 +23,7 @@ telnet from VM1 to VM3 is blocked, but we still want to do telnet from VM1 to VM
 1. enable firewall on VM1.
 
 ```console
-sudo ufw enable
+# sudo ufw enable
 ```
 
 ![alt text](lab-firewall-enable.png "enable firewall")
@@ -38,6 +38,7 @@ sudo ufw enable
 
 ```console
 # sudo ufw status verbose
+```
 
 3. on VM1, test if you can telnet to VM3, you should fail - because of the above firewall setting.
 
