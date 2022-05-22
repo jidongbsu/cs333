@@ -124,7 +124,7 @@ and then on VM2:
 # ssh VM1_IP
 ```
 
-as can be seen from the screenshot, the blocking rule is added, and ssh thus fails. 
+as can be seen from the screenshot, the blocking rule is added, and ssh thus fails:
 
 ![alt text](lab-firewall-ssh-fails.png "ssh fails")
 
@@ -141,6 +141,8 @@ and because ssh from VM2 to VM1 is blocked, we can not establish an ssh tunnel l
 # ssh -R 9000:VM1_IP:80 VM2_IP
 ```
 
+this screenshot shows the command:
+
 ![alt text](lab-firewall-reverse-tunnel.png "tasks 2 reverse ssh tunnel")
 
 **Explanation**: this command will establish an ssh connection from VM1 to VM2, and it also tells ssh, any connection to remote port 9000 of VM2, will now be forwarded, by the ssh server running on VM2, to port 80 of VM1.
@@ -151,11 +153,11 @@ and because ssh from VM2 to VM1 is blocked, we can not establish an ssh tunnel l
 # sudo ufw reload
 ```
 
-9. on VM2, now open firefox, and in the firefox address bar type: localhost:9000, see if you can access the web server running on VM1. Expected result: your access should be successful.
+9. on VM2, now open firefox, and in the firefox address bar type: localhost:9000, see if you can access the web server running on VM1. Expected result: your access should be successful, as can be seen from this screenshot:
 
 ![alt text](lab-firewall-web-success.png "tasks 2 web success")
 
-10. On VM1, exit the ssh tunnel, and go back to VM2's firefox window (but remember to clear cache first) and see if you still can access the web server running on VM1 - you should not be able to.
+10. On VM1, exit the ssh tunnel, and go back to VM2's firefox window (but remember to clear cache first) and see if you still can access the web server running on VM1 - you should not be able to:
 
 ![alt text](lab-firewall-web-fails-again.png "tasks 2 web fails again")
 
