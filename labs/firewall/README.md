@@ -83,7 +83,7 @@ this screenshot shows the command:
 
 ![alt text](lab-firewall-telnet-localhost.png "telnet localhost")
 
-6. After the above command, login and then run ifconfig to verify you are indeed connected to VM3.
+6. After the above command, login and then run *ifconfig* to verify you are indeed connected to VM3.
 
 ```console
 # ifconfig
@@ -147,11 +147,25 @@ this screenshot shows the command:
 
 **Explanation**: this command will establish an ssh connection from VM1 to VM2, and it also tells ssh, any connection to remote port 9000 of VM2, will now be forwarded, by the ssh server running on VM2, to port 80 of VM1.
 
-**Troubleshooting**: Here if you can't ssh from VM1 to VM2, it's likely you didn't change /etc/default/ufw, refer to slides: DEFAULT_INPUT_POLICY needs to be changed from DROP to ACCEPT. After changing the file, you may need to reload ufw:
+**Troubleshooting**: Here if, and only if, you can't ssh from VM1 to VM2, then open /etc/default/ufw on VM1, change the line DEFAULT_INPUT_POLICY from DROP to ACCEPT. After changing the file, you may need to reload *ufw*:
 
 ```console
 # sudo ufw reload
 ```
+
+command to edit the file:
+
+![alt text](lab-firewall-edit-default-policy.png "tasks 2 edit default policy")
+
+before change:
+
+![alt text](lab-firewall-default-drop-to-accept.png "tasks 2 change incoming default to accept: before change")
+
+after change:
+
+![alt text](lab-firewall-default-policy-after-change.png "tasks 2 change incoming default to accept: after change")
+
+but if your ssh just works fine, then you don't really to change /etc/default/ufw, and you don't need to run this *reload* command.
 
 9. on VM2, now open firefox, and in the firefox address bar type: localhost:9000, see if you can access the web server running on VM1. Expected result: your access should be successful, as can be seen from this screenshot:
 
@@ -161,7 +175,7 @@ this screenshot shows the command:
 
 ![alt text](lab-firewall-web-fails-again.png "tasks 2 web fails again")
 
-Note 3: you are recommended to remove all the firewall rules at the end of this lab, so that the firewall doesn't affect your future experiments in this class. To remove all rules:
+**Final Note**: you are recommended to remove all the firewall rules at the end of this lab, so that the firewall doesn't affect your future experiments in this class. To remove all rules:
 
 ```console
 # sudo ufw reset
