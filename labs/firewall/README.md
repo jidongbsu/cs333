@@ -61,7 +61,7 @@ as can be seen from the screenshot, the blocking rule is added, and telnet thus 
 ![alt text](lab-firewall-telnet-trying.png "telnet trying")
 ![alt text](lab-firewall-telnet-fails.png "telnet fails")
 
-4. setup a ssh tunnel to evade the firewall. On VM1, run:
+4. setup an ssh tunnel to evade the firewall. On VM1, run:
 
 ```console
 # ssh -L 8000:VM3_IP:23 VM2_IP
@@ -99,7 +99,7 @@ a web server is (by default) running on VM1 at port 80, yet incoming traffic to 
 
 ### Steps for Task 2
 
-6: setup the firewall on VM1 so that any incoming requests to port 80 and port 22 on VM1 is blocked.
+6: setup the firewall on VM1 so that any incoming requests to port 80 and port 22 on VM1 are blocked.
 
 ```console
 # sudo ufw deny in from any to VM1_IP port 80
@@ -128,11 +128,12 @@ as can be seen from the screenshot, the blocking rule is added, and ssh thus fai
 
 ![alt text](lab-firewall-ssh-fails.png "ssh fails")
 
-and because ssh from VM2 to VM1 is blocked, we can not establish a ssh tunnel like we did in task 1. Therefore *ssh -L* does not work in this scenario, which is why now we resort to another approach, which is to establish a reverse ssh tunnel.
+and because ssh from VM2 to VM1 is blocked, we can not establish an ssh tunnel like we did in task 1. Therefore *ssh -L* does not work in this scenario, which is why now we resort to another approach, which is to establish a reverse ssh tunnel.
 
-7. on VM2, open firefox, and in the firefox address bar type: VM1_IP, see if you can access the web server running on VM1 - due to the above firewall setting, you should not be able to.
+7. on VM2, open firefox, and in the firefox address bar type: VM1_IP, see if you can access the web server running on VM1 - due to the above firewall setting, you should not be able to:
 
 ![alt text](lab-firewall-web-fails.png "tasks 2 web fails")
+![alt text](lab-firewall-web-timeout.png "tasks 2 web time out")
 
 8. on VM1, setup a reverse ssh tunnel to evade the firewall:
 
