@@ -144,7 +144,7 @@ after setting up nat:
 
 ![alt text](lab-vpn-icmp-after-nat.png "ping www.google.com after setting up nat")
 
-as you can see, after setting up nat, when forwarding ICMP packets to Google, VM2 changes 192.168.53.5 to 172.16.77.129 when sending out ICMP packets.
+as you can see, after setting up nat, when forwarding ICMP packets to Google, VM2 changes 192.168.53.5 to 172.16.77.129 when sending out ICMP packets - this makes sense, because when using VPNs, the remote server should see the VPN server's IP addresses (i.e., 172.16.77.129), and they should never see the VPN client's IP address (neither 192.168.53.5 nor 172.16.77.128).
 
 12. On VM1, use the firefox browser to access www.google.com - this time you should succeed, as shown in the screenshot:
 
