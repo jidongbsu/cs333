@@ -40,6 +40,20 @@ sudo netwox 86 --device "ens33" --filter "src host 172.16.77.128" --gw "172.16.7
 
 question: can you find out what "--code 1" means?
 
+**troubleshooting**: if the netstat -r does not show the ip address of your gateway, you can use this other command:
+
+```console
+[05/23/22]seed@VM:~$ ip route show
+default via 172.16.77.2 dev ens33 onlink 
+142.250.0.0/16 dev tun0  scope link 
+169.254.0.0/16 dev ens33  scope link  metric 1000 
+172.16.77.0/24 dev ens33  proto kernel  scope link  src 172.16.77.128 
+192.168.53.0/24 dev tun0  scope link 
+192.168.53.0/24 dev tun0  proto kernel  scope link  src 192.168.53.5 
+```
+
+this command also shows, 172.16.77.2 is VM1's default gateway.
+
 ### Attack steps:
 
 #### Part 1
