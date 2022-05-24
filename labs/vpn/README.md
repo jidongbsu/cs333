@@ -43,7 +43,7 @@ and thus the command I used to block Google's network, was:
 
 ```console
 # sudo ufw status verbose
-# ping google_IP
+# ping www.google.com
 ```
 
 ping should fail here because of the above firewall setting:
@@ -65,6 +65,10 @@ ping should fail here because of the above firewall setting:
 # gcc vpnclient.c -o vpnclient
 # sudo ./vpnclient server_ip // remember to replace server_ip with your VPN server's IP.
 ```
+
+this screenshot shows when the client and server are connected, a hello message is printed on the server side.
+
+![alt text](lab-vpn-start-vpn.png "vpn client and vpn server establish a connection successfully")
 
 7. on VM2, open a new terminal and configure the tun interface; and then enable ip forwarding.
 
@@ -123,6 +127,7 @@ Overall, this command says, when forwarding packets, replace the sender's addres
 on VM1:
 ```console
 # sudo ufw reset
+# sudo ufw disable
 # sudo ufw status verbose
 ```
 
