@@ -8,10 +8,10 @@ In this lab, you will bypass a firewall that has an egress filtering rule, which
 
 2 Linux VMs: VM1, VM2. Firewall runs on VM1. VM1 serves as VPN client, VM2 serves as VPN server.
 
-| VM  |  IP Address   |                Role               |
-|-----|---------------|-----------------------------------|
-| VM1 | 172.16.77.128 |  VPN client, also runs firewall   |
-| VM2 | 172.16.77.129 |  VPN server                       |
+| VM  |  IP Address   |                Role               | Default Network Interface Card |
+|-----|---------------|-----------------------------------|--------------------------------|
+| VM1 | 172.16.77.128 |  VPN client, also runs firewall   |            ens33               |
+| VM2 | 172.16.77.129 |  VPN server                       |            ens33               |
 
 ### Steps
 
@@ -27,32 +27,46 @@ In this lab, you will bypass a firewall that has an egress filtering rule, which
 # sudo ufw deny out on ens33 to google_network
 ```
 
-**Note**: google has more than 1 IP address, therefore it makes more sense to block a network, rather than a single IP address. You can just ping www.google.com to find out google's IP address, if google's IP address is 172.217.5.196, then you can assume 172.217.0.0/16, or 172.217.5.0/24 is google's network - or the range of IP addresses owned by google.
+**Note**: if your VM's NIC is not ens33, change ens33 here to your NIC's name. You need to do so for all remaining steps - replace ens33 with your NIC's name whenever you see ens33 in this lab.
 
-**Note 2**: if your VM's NIC is not ens33, change ens33 here to your NIC's name. You need to do so for all remaining steps - replace ens33 with your NIC's name whenever you see ens33 in this lab.
+**Note 2**: google has more than 1 IP address, therefore it makes more sense to block a network, rather than a single IP address. You can just ping www.google.com to find out google's IP address, if google's IP address is 172.217.5.196, then you can assume 172.217.0.0/16, or 172.217.5.0/24 is google's network - or the range of IP addresses owned by google.
 
-2. you can use this command to verify your setting is correct:
+this screenshot shows, on this specific day, when I was pinging Google from my VM, I get 142.250.217.100 - once again, you need to use ping to find out what IP address Google is using - your answer could be very different from mine:
 
+![alt text](lab-vpn-google-ip.png "ping www.google.com")
+
+and thus the command I used to block Google's network, was:
+
+![alt text](lab-vpn-block-google.png "adding a rule to block google")
+
+3. you can use this command to verify your setting is correct:
+
+```console
 # sudo ufw status verbose
-# ping google_IP (enable your firewall first, if it's not even enabled: # sudo ufw enable)
+# ping google_IP
+```
 
-2. open the firefox browser on VM1 and try to access www.google.com - you should fail - because of the above firewall setting.
+ping should fail here because of the above firewall setting:
 
-3. On VM2, download the vpnserver program (http://cs.boisestate.edu/~jxiao/cs333/code/vpn/vpnserver.c), compile the vpnserver program and run it.
+![alt text](lab-vpn-ping-fails.png "ping www.google.com fails")
+
+4. open the firefox browser on VM1 and try to access www.google.com - you should fail - because of the above firewall setting.
+
+5. On VM2, download the vpnserver program (http://cs.boisestate.edu/~jxiao/cs333/code/vpn/vpnserver.c), compile the vpnserver program and run it.
 
 ```console
 # gcc vpnserver.c -o vpnserver
 # sudo ./vpnserver
 ```
 
-4. on VM1: download the vpnclient program (http://cs.boisestate.edu/~jxiao/cs333/code/vpn/vpnclient.c), compile the vpnclient program and run it.
+6. on VM1: download the vpnclient program (http://cs.boisestate.edu/~jxiao/cs333/code/vpn/vpnclient.c), compile the vpnclient program and run it.
 
 ```console
 # gcc vpnclient.c -o vpnclient
 # sudo ./vpnclient server_ip // remember to replace server_ip with your VPN server's IP.
 ```
 
-5. on VM2, open a new terminal and configure the tun interface; and then enable ip forwarding.
+7. on VM2, open a new terminal and configure the tun interface; and then enable ip forwarding.
 
 ```console
 # sudo ifconfig tun0 192.168.53.1/24 up
@@ -61,7 +75,7 @@ In this lab, you will bypass a firewall that has an egress filtering rule, which
 
 **Explanation**: the first command sets up a tun0 interface, whose ip address is 192.168.53.1, whose subnet mask is 24, a.k.a., 255.255.255.0; the second command turns on ip forwarding.
 
-6. on VM1, open a new terminal and configure the tun interface.
+8. on VM1, open a new terminal and configure the tun interface.
 
 ```console
 # sudo ifconfig tun0 192.168.53.5/24 up
@@ -69,7 +83,7 @@ In this lab, you will bypass a firewall that has an egress filtering rule, which
 
 **Explanation**: this command sets up a tun0 interface, whose ip address is 192.168.53.5, whose subnet mask is 24, a.k.a., 255.255.255.0.
 
-7. on VM2, set up a routing rule for the 192.168.53.0/24 network.
+9. on VM2, set up a routing rule for the 192.168.53.0/24 network.
 
 ```console
 # sudo route add -net 192.168.53.0/24 tun0
@@ -77,7 +91,7 @@ In this lab, you will bypass a firewall that has an egress filtering rule, which
 
 **Explanation**: this command adds a routing rule to the system saying that any traffic goes to 192.168.53.0/24 should go through the network interface tun0; without this routing rule, such traffic will go through the default network interface card.
 
-8. on VM1, set up a routing rule for the 192.168.53.0/24 network. Also add another routing rule for www.google.com packets to be sent through the tunnel.
+10. on VM1, set up a routing rule for the 192.168.53.0/24 network. Also add another routing rule for www.google.com packets to be sent through the tunnel.
 
 ```console
 # sudo route add -net 192.168.53.0/24 tun0
@@ -86,7 +100,7 @@ In this lab, you will bypass a firewall that has an egress filtering rule, which
 
 **Explanation**: the first command is the same as the one you just typed in step 6. In step 6, you ran it on VM2, which is the VPN server; in step 7, you run it on VM1, which is the VPN client; the second command says, any traffic goes to the google network should go through the network interface tun0.
 
-9. now, in order to see the echo replies, we need to setup NAT on the VPN server, i.e., VM2.
+11. now, in order to see the echo replies, we need to setup NAT on the VPN server, i.e., VM2.
 
 ```console
 # sudo iptables -F		// Flush existing iptables rules.
@@ -102,9 +116,9 @@ Explanation of the above iptables command:
 
 Overall, this command says, when forwarding packets, replace the sender's address with this current VM's ip address (the address that is associated with ens33).
 
-10. On VM1, use the firefox browser to access www.google.com - this time you should succeed.
+12. On VM1, use the firefox browser to access www.google.com - this time you should succeed.
 
-11. once again, you're recommended to reset your firewall on VM1 and NAT on VM2, so they don't affect your future experiments:
+13. once again, you're recommended to reset your firewall on VM1 and NAT on VM2, so they don't affect your future experiments:
 
 on VM1:
 ```console
