@@ -150,6 +150,8 @@ as you can see, after setting up nat, when forwarding ICMP packets to Google, VM
 
 ![alt text](lab-vpn-web-success.png "access www.google.com success")
 
+thus the lab is successful.
+
 13. once again, you're recommended to reset your firewall on VM1 and NAT on VM2, so they don't affect your future experiments:
 
 on VM1:
