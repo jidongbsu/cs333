@@ -79,8 +79,8 @@ Question: does the ttl here have the same meaning as the ttl in IP headers?
 ```
 
 these two screenshots show the attack is successful: www.cnn.com is mapped to 188.126.71.216, which is the IP address of fakenews.com.
-![alt text](lab-arp-attack-success-p1.png "attack success")
-![alt text](lab-arp-attack-success-p2.png "attack success")
+![alt text](lab-dns-attack-success-p1.png "attack success")
+![alt text](lab-dns-attack-success-p2.png "attack success")
 
 6. Stop the attack - press control-c on the Attacker VM's terminal. On Victim Client, open wireshark and repeat step 5 (i.e. run the dig command again), from the packets captured in wireshark, confirm the attack is still successful, and the forged response is indeed from the Victim DNS server.
 
