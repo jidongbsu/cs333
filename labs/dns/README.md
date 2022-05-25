@@ -6,7 +6,7 @@ In this lab, you will poison the cache of a local DNS server, and thus affect cl
 
 ### Setup
 
-3 Linux VMs: Victim (DNS) Client, Victim (DNS) Server, Attacker.
+3 Linux VMs: Victim (DNS) Client, Victim (DNS) Server, Attacker. All 3 VMs are located in the same network.
 
 The following is the IP addresses and MAC addresses for the VMs used in this README.
 
