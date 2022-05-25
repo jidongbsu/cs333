@@ -84,8 +84,10 @@ these two screenshots show the attack is successful: www.cnn.com is mapped to 18
 ![alt text](lab-dns-attack-success-p1.png "attack success")
 ![alt text](lab-dns-attack-success-p2.png "attack success")
 
-6. stop the attack - press control-c on the attacker VM's terminal. On victim client, run the dig command again and confirm that, even after the attack, www.cnn.com is still mapped to the IP address of fakenews.com, which proves that the cache is indeed poisoned, and thus the attack has a long last effect.
+6. stop the attack - press control-c on the attacker VM's terminal. On victim client, run the dig command again and confirm that, even after the attack, www.cnn.com is still mapped to the IP address of fakenews.com, which proves that the cache is indeed poisoned, and thus the attack has a long-lasting effect:
 
-![alt text](lab-dns-attack-success-after-ctrl-c.png "attack still success")
+![alt text](lab-dns-attack-success-after-ctrl-c-p1.png "attack still success")
+![alt text](lab-dns-attack-success-after-ctrl-c-p2.png "attack still success")
+
 
 7. you are recommended to remove the line you added in step 3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
