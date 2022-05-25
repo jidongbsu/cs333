@@ -10,11 +10,11 @@ In this lab, you will poison the cache of a local DNS server, and thus affect cl
 
 The following is the IP addresses and MAC addresses for the VMs used in this README.
 
-| VM  |  IP Address   |    Role       |
-|-----|---------------|---------------|
-| VM1 | 172.16.77.128 | victim client |
-| VM2 | 172.16.77.129 | victim server |
-| VM3 | 172.16.77.130 |   attacker    |
+| VM  |  IP Address   |        Role         |
+|-----|---------------|---------------------|
+| VM1 | 172.16.77.128 | victim (dns) client |
+| VM2 | 172.16.77.129 | victim (dns) server |
+| VM3 | 172.16.77.130 |   attacker          |
 
 ### Steps
 
