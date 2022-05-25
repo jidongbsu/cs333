@@ -64,7 +64,7 @@ this screenshot shows the file is now edited:
 
 FAKENEWS.com IP address (as of today, 05/24/2022): 188.126.71.216 (you can use ping command to confirm it)
 
-**Explanation**: '--spoofip raw' means to spoof at IP4/IP6 level, as opposed to spoof at the data link layer. In other words, spoof IP addresses, instead of spoof MAC addresses.
+**Explanation**: '--spoofip raw' means to spoof at IPv4/IPv6 level, as opposed to spoof at the data link layer. In other words, spoof IP addresses, instead of spoof MAC addresses.
 
 this screenshot shows the actual command:
 
@@ -84,7 +84,7 @@ these two screenshots show the attack is successful: www.cnn.com is mapped to 18
 ![alt text](lab-dns-attack-success-p1.png "attack success")
 ![alt text](lab-dns-attack-success-p2.png "attack success")
 
-6. stop the attack - press control-c on the attacker VM's terminal. On victim client, run the dig command again and confirm that, even after the attack, www.cnn.com is still mapped to the IP address of fakenews.com, which proves that the cache is indeed poisoned, and thus the attack has a long-lasting effect:
+6. stop the attack - press control-c on the attacker VM's terminal. On victim client, run the dig command again and confirm that, even after the attack, www.cnn.com is still mapped to the IP address of fakenews.com, which proves that the DNS server's cache is indeed poisoned, and thus the attack has a long-lasting effect:
 
 ![alt text](lab-dns-attack-success-after-ctrl-c-p1.png "attack still success")
 ![alt text](lab-dns-attack-success-after-ctrl-c-p2.png "attack still success")
