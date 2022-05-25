@@ -30,6 +30,10 @@ The following is the IP addresses and MAC addresses for the VMs used in this REA
 # sudo rndc flush
 ```
 
+this screenshot shows the commands to start the server and flush the cache.
+
+![alt text](lab-dns-start-server.png "start server and flush cache")
+
 3. On Victim Client, configure DNS server information, i.e., let the client know the IP address of the DNS server.
 
 3.1. add this line to the end of file /etc/resolvconf/resolv.conf.d/head (remember to replace DNS_SERVER_IP with your Victim DNS server's IP address, plus, you need "sudo" if you edit the file using vi/vim.)
@@ -38,11 +42,17 @@ The following is the IP addresses and MAC addresses for the VMs used in this REA
 nameserver DNS_SERVER_IP
 ```
 
+![alt text](lab-dns-edit-file.png "edit the file")
+
+![alt text](lab-dns-configure-dns.png "configure dns")
+
 3.2. run the following command so the above change will take effect:
 
 ```console
 # sudo resolvconf -u
 ```
+
+![alt text](lab-dns-resolvconf.png "resolvconf command")
 
 4. On Attacker VM, run
 
@@ -50,9 +60,13 @@ nameserver DNS_SERVER_IP
 # sudo netwox 105 --hostname "www.cnn.com" --hostnameip FAKENEWS.com_IP --authns "ns1.fastly.net" --authnsip ATTACKER_IP --filter "src host DNS_SERVER_IP" --ttl 19000 --spoofip raw
 ```
 
-FAKENEWS.com IP address (as of today, 03/17/2022): 188.126.71.216 (you can use ping command to confirm it)
+FAKENEWS.com IP address (as of today, 05/24/2022): 188.126.71.216 (you can use ping command to confirm it)
 
 Explanation: '--spoofip raw' means to spoof at IP4/IP6 level, as opposed to spoof at the data link layer. In other words, spoof IP addresses, instead of spoof MAC addresses.
+
+this screenshot shows the actual command:
+
+![alt text](lab-dns-attack-command.png "attack command")
 
 Question: why it's "src host DNS_SERVER_IP", instead of "src host DNS_CLIENT_IP"?
 
@@ -64,8 +78,12 @@ Question: does the ttl here have the same meaning as the ttl in IP headers?
 # dig www.cnn.com 
 ```
 
+![alt text](lab-arp-attack-success.png "attack success")
+
 Note: if your dig command shows www.cnn.com is mapped to 188.126.71.216, then it means the attack is successful; if it's not mapped to this IP address, it means you're not on the right track.
 
 6. Stop the attack - press control-c on the Attacker VM's terminal. On Victim Client, open wireshark and repeat step 5 (i.e. run the dig command again), from the packets captured in wireshark, confirm the attack is still successful, and the forged response is indeed from the Victim DNS server.
+
+![alt text](lab-arp-attack-success-after-ctrl-c.png "attack still success")
 
 7. You are recommended to remove the line you added in step 3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
