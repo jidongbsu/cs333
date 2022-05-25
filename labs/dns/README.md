@@ -78,12 +78,12 @@ Question: does the ttl here have the same meaning as the ttl in IP headers?
 # dig www.cnn.com 
 ```
 
-![alt text](lab-arp-attack-success.png "attack success")
-
-Note: if your dig command shows www.cnn.com is mapped to 188.126.71.216, then it means the attack is successful; if it's not mapped to this IP address, it means you're not on the right track.
+these two screenshots show the attack is successful: www.cnn.com is mapped to 188.126.71.216, which is the IP address of fakenews.com.
+![alt text](lab-arp-attack-success-p1.png "attack success")
+![alt text](lab-arp-attack-success-p2.png "attack success")
 
 6. Stop the attack - press control-c on the Attacker VM's terminal. On Victim Client, open wireshark and repeat step 5 (i.e. run the dig command again), from the packets captured in wireshark, confirm the attack is still successful, and the forged response is indeed from the Victim DNS server.
 
-![alt text](lab-arp-attack-success-after-ctrl-c.png "attack still success")
+![alt text](lab-dns-attack-success-after-ctrl-c.png "attack still success")
 
 7. You are recommended to remove the line you added in step 3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
