@@ -36,14 +36,16 @@ this screenshot shows the commands to start the server and flush the cache.
 
 3. on victim client, configure DNS server information, i.e., let the client know the IP address of the DNS server.
 
-3.1. add this line to the end of file /etc/resolvconf/resolv.conf.d/head (remember to replace DNS_SERVER_IP with your Victim DNS server's IP address, plus, you need "sudo" if you edit the file using vi/vim.)
+3.1. add this line to the end of file /etc/resolvconf/resolv.conf.d/head (remember to replace DNS_SERVER_IP with your victim DNS server's IP address, plus, you need "sudo" if you edit the file using vi/vim.)
 
 ```console
 nameserver DNS_SERVER_IP
 ```
 
+this screenshot shows editing the file in *vi*:
 ![alt text](lab-dns-edit-file.png "edit the file")
 
+this screenshot shows the file is now edited:
 ![alt text](lab-dns-configure-dns.png "configure dns")
 
 3.2. run the following command so the above change will take effect:
@@ -82,7 +84,7 @@ these two screenshots show the attack is successful: www.cnn.com is mapped to 18
 ![alt text](lab-dns-attack-success-p1.png "attack success")
 ![alt text](lab-dns-attack-success-p2.png "attack success")
 
-6. stop the attack - press control-c on the Attacker VM's terminal. On Victim Client, run the dig command again and see cnn is still mapped to the IP address of fakenews.com, which proves that the cache is indeed poisoned.
+6. stop the attack - press control-c on the attacker VM's terminal. On victim client, run the dig command again and confirm that, even after the attack, www.cnn.com is still mapped to the IP address of fakenews.com, which proves that the cache is indeed poisoned, and thus the attack has a long last effect.
 
 ![alt text](lab-dns-attack-success-after-ctrl-c.png "attack still success")
 
