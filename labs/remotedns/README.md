@@ -16,6 +16,12 @@ The following is the IP addresses for the VMs used in this README.
 | VM2 | 172.16.77.129 |   victim DNS server                   |
 | VM3 | 172.16.77.130 |   attacker, attacker's DNS server     |
 
+### Special Notes
+
+1. in this lab, you need to copy several files from this github repository into either your victim DNS server VM, or into your attacker VM, thus it is more convenient if you just clone this repository on your victim DNS server VM, and also clone this same repository on your attacker VM.
+
+2. many of the commands in this lab require *sudo*.
+
 ### Steps
 
 1. on victim DNS client, configure DNS server information, i.e., let the client know the IP address of the victim DNS server.
@@ -40,7 +46,7 @@ this screenshot shows the file is now edited:
 
 ![alt text](lab-remote-dns-resolvconf.png "resolvconf command")
 
-2. setting up the local DNS server
+2. setting up the local DNS server.
 
 2.1. add the following into /etc/bind/named.conf (so that it forwards all requests for the attacker32.com domain to the malicious DNS server).
 
