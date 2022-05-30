@@ -76,9 +76,16 @@ zone "attacker32.com" {
 $ sudo service bind9 restart
 ```
 
+**Warning**: in your report, don't claim that the attack presented in this lab is not realistic because we need to make these changes on the victim DNS server. The lab is designed in such a way, just to save you - the student, some money - so you don't need to purchase a domain, and to save you - the student, some time, we hardcoded 1.2.3.4 in the configuration file of the victim DNS server and also in the attacking program, otherwise you will need to manually to find out the IP address of authoritative name server for cnn.com.
+
 3. setting up the attacker DNS server.
 
 3.1. copy attacker32.com.zone and cnn.com.zone into /etc/bind/ directory.
+
+```console
+[05/29/22]seed@VM:~/.../remotedns$ sudo cp attacker32.com.zone /etc/bind/
+[05/29/22]seed@VM:~/.../remotedns$ sudo cp cnn.com.zone /etc/bind/
+```
 
 3.2. add the following into /etc/bind/named.conf (so that the above two configuration files will be used):
 
