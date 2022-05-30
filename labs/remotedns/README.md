@@ -118,10 +118,6 @@ $ sudo service bind9 restart
 the first *dig* command should show you the correct mapping: 
 
 whereas the second *dig* command should show you that www.cnn.com is mapped to 188.126.71.216, which as of 05/29/2022, is the IP address of fakenews.com.
-![alt text](lab-remote-dns-dig-default-p1.png "dig cnn")
-![alt text](lab-remote-dns-dig-default-p2.png "dig cnn")
-![alt text](lab-remote-dns-dig-attacker-p1.png "dig cnn from attacker")
-![alt text](lab-remote-dns-dig-attacker-p2.png "dig cnn from attacker")
 
 the goal of this attack is, when the victim DNS client runs either of the above two commands, the victim DNS client will get the same result, i.e., www.cnn.com is mapped to the IP address of fakenews.com.
 
@@ -163,9 +159,15 @@ as long as we see this NS record which associates cnn.com. to ns.attacker32.com.
 # dig @ns.attacker32.com www.cnn.com
 ```
 
-these two commands should now show the same result, which is www.cnn.com is mapped to 188.126.71.216, which as of 05/29/2022, is the IP address of fakenews.com.
+if the attack is successful, then these two commands should now show the same result, which is www.cnn.com is mapped to 188.126.71.216, which as of 05/29/2022, is the IP address of fakenews.com.
 
-9. you are recommended to remove the line you added on the victim DNS client VM in step 3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
+the following screenshots show that the attack is successful:
+![alt text](lab-remote-dns-dig-default-p1.png "dig cnn")
+![alt text](lab-remote-dns-dig-default-p2.png "dig cnn")
+![alt text](lab-remote-dns-dig-attacker-p1.png "dig cnn from attacker")
+![alt text](lab-remote-dns-dig-attacker-p2.png "dig cnn from attacker")
+
+9. you are recommended to remove the line you added on the victim DNS client VM in step 1, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
 
 10. you are also recommended to restore the two files on the victim DNS server VM:
 
