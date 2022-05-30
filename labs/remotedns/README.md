@@ -27,10 +27,10 @@ nameserver DNS_SERVER_IP
 ```
 
 this screenshot shows editing the file in *vi*:
-![alt text](lab-dns-edit-file.png "edit the file")
+![alt text](lab-remote-dns-edit-file.png "edit the file")
 
 this screenshot shows the file is now edited:
-![alt text](lab-dns-configure-dns.png "configure dns")
+![alt text](lab-remote-dns-configure-dns.png "configure dns")
 
 1.2. run the following command so the above change will take effect:
 
@@ -38,7 +38,7 @@ this screenshot shows the file is now edited:
 # sudo resolvconf -u
 ```
 
-![alt text](lab-dns-resolvconf.png "resolvconf command")
+![alt text](lab-remote-dns-resolvconf.png "resolvconf command")
 
 2. setting up the local DNS server
 
