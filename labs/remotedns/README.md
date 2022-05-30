@@ -118,8 +118,10 @@ $ sudo service bind9 restart
 the first *dig* command should show you the correct mapping: 
 
 whereas the second *dig* command should show you that www.cnn.com is mapped to 188.126.71.216, which as of 05/29/2022, is the IP address of fakenews.com.
-![alt text](lab-dns-attack-success-p1.png "attack success")
-![alt text](lab-dns-attack-success-p2.png "attack success")
+![alt text](lab-remote-dns-dig-default-p1.png "dig cnn")
+![alt text](lab-remote-dns-dig-default-p2.png "dig cnn")
+![alt text](lab-remote-dns-dig-attacker-p1.png "dig cnn from attacker")
+![alt text](lab-remote-dns-dig-attacker-p2.png "dig cnn from attacker")
 
 the goal of this attack is, when the victim DNS client runs either of the above two commands, the victim DNS client will get the same result, i.e., www.cnn.com is mapped to the IP address of fakenews.com.
 
