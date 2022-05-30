@@ -41,7 +41,7 @@ this screenshot shows the file is now edited:
 1.2. run the following command so the above change will take effect:
 
 ```console
-# sudo resolvconf -u
+[05/29/22]seed@VM:~$ sudo resolvconf -u
 ```
 
 ![alt text](lab-remote-dns-resolvconf.png "resolvconf command")
@@ -73,7 +73,7 @@ zone "attacker32.com" {
 2.3. restart DNS server so the above changes will take effect:
 
 ```console
-$ sudo service bind9 restart
+[05/29/22]seed@VM:~/.../remotedns$ sudo service bind9 restart
 ```
 
 **Warning**: in your report, don't claim that the attack presented in this lab is not realistic because we need to make these changes on the victim DNS server. Such changes are unnecessary in a real life attacking scenario. The lab is designed in such a way, just to save you - the student, some money - so you don't need to purchase a domain, and to save you - the student, some time, we hardcoded 1.2.3.4 in the configuration file of the victim DNS server and also in the attacking program, otherwise you will need to manually to find out the IP address of authoritative name server for cnn.com.
@@ -103,16 +103,18 @@ zone "cnn.com" {
 
 3.3. restart attacker's DNS server so the above changes will take effect:
 
-$ sudo service bind9 restart
+```console
+[05/29/22]seed@VM:~/.../remotedns$ sudo service bind9 restart
+```
 
 4. on victim DNS client, send a query.
 
 ```console
-# dig www.cnn.com 
+[05/29/22]seed@VM:~$ dig www.cnn.com 
 ```
 
 ```console
-# dig @ns.attacker32.com www.cnn.com
+[05/29/22]seed@VM:~$ dig @ns.attacker32.com www.cnn.com
 ```
 
 the first *dig* command should show you the correct mapping: 
@@ -152,11 +154,11 @@ as long as we see this NS record which associates cnn.com. to ns.attacker32.com.
 8. we can then verify the result from the victim DNS client. on the victim DNS client VM, we just need to send a query.
 
 ```console
-# dig www.cnn.com 
+[05/29/22]seed@VM:~$ dig www.cnn.com 
 ```
 
 ```console
-# dig @ns.attacker32.com www.cnn.com
+[05/29/22]seed@VM:~$ dig @ns.attacker32.com www.cnn.com
 ```
 
 if the attack is successful, then these two commands should now show the same result, which is www.cnn.com is mapped to 188.126.71.216, which as of 05/29/2022, is the IP address of fakenews.com.
