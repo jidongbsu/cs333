@@ -91,10 +91,12 @@ Step 4.1. the above attacker_vm folder contains a DNS configuration file called 
 
 Step 4.2. add the following into /etc/bind/named.conf (so that the above configuration file will be used):
 
+```console
 zone "attacker32.com" {
 	type master;
 	file "/etc/bind/attacker32.com.zone";
 };
+```
 
 Step 4.3. restart DNS server so the above changes will take effect:
 
@@ -106,10 +108,12 @@ Step 5. setting up the local DNS server (so that we don't need to actually purch
 
 Step 5.1. add the following into /etc/bind/named.conf (so that it forwards all requests for the attacker32.com domain to the malicious DNS server).
 
+```console
 zone "attacker32.com" {
 	type forward;
 	forwarders { 10.0.2.8; }; (replace 10.0.2.8 with your attacker VM's IP address, do not remove the ";".)
 };
+```
 
 Step 5.2. restart DNS server so the above changes will take effect:
 
@@ -120,7 +124,9 @@ $ sudo service bind9 restart
 Step 6: at this point, from the client browser, you should be able to access these 3 URLs (open 3 tabs to access these 3 URLs, and leave these tabs open):
 
 URL 1: http://www.seediot32.com:8080
+
 URL 2: http://www.seediot32.com:8080/change
+
 URL 3: http://www.attacker32.com:8080/change
 
 However, you can change the temperature from URL 2, but not URL 3, even though they run the exact same code. (Reason? SOP)
