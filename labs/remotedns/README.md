@@ -59,7 +59,7 @@ zone "attacker32.com" {
 };
 ```
 
-**Explanation**: the added lines are saying, for DNS inquiries regarding this attacker32.com domain, please forward the inquiries to 172.16.77.130. we do this so that we don't need to actually purchase the domain attacker32.com.
+**Explanation**: the added lines are saying, for DNS queries regarding this attacker32.com domain, please forward the queries to 172.16.77.130. we do this so that we don't need to actually purchase the domain attacker32.com.
 
 2.2. copy named.conf.options into the /etc/bind/ directory, and also copy named.conf.default-zones into the /etc/bind/ directory.
 
@@ -107,7 +107,7 @@ zone "cnn.com" {
 [05/29/22]seed@VM:~/.../remotedns$ sudo service bind9 restart
 ```
 
-4. on victim DNS client, send a query.
+4. on victim DNS client, send two queries.
 
 ```console
 [05/29/22]seed@VM:~$ dig www.cnn.com 
@@ -155,7 +155,7 @@ cnn.com.		65529	NS	ns.attacker32.com.
 
 as long as we see this NS record which associates cnn.com. to ns.attacker32.com., then we know the cache is now poisoned.
 
-8. we can then verify the result from the victim DNS client. on the victim DNS client VM, we just need to send a query.
+8. we can then verify the result from the victim DNS client. on the victim DNS client VM, we just need to send two queries.
 
 ```console
 [05/29/22]seed@VM:~$ dig www.cnn.com 
