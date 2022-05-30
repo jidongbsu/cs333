@@ -119,7 +119,7 @@ zone "cnn.com" {
 
 the first *dig* command should show you the legitimate mapping: 
 
-![alt text](lab-remote-dns-dig-before-attack.png "dig cnn, before attack")
+![alt text](lab-remote-dns-before-attack.png "dig cnn, before attack")
 
 whereas the second *dig* command should show you that www.cnn.com is mapped to 188.126.71.216, which as of 05/29/2022, is the IP address of fakenews.com:
 
