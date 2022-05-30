@@ -133,7 +133,7 @@ the goal of this attack is, when the victim DNS client runs either of the above 
 [05/29/22]seed@VM:~/.../remotedns$ sudo rndc flush
 ```
 
-6. launch the attack: on the attacker's VM,
+6. launch the attack: on the attacker's VM, run the attacking program, which is developed based on the famous Dan Kaminsky attack.
 
 ```console
 [05/29/22]seed@VM:~/.../remotedns$ gcc -o attack attack.c
@@ -153,7 +153,7 @@ cnn.com.		65529	NS	ns.attacker32.com.
 ; ns.attacker32.com [v4 TTL 1792] [v6 TTL 9992] [v4 success] [v6 nxrrset]
 ```
 
-as long as we see this NS record which associates cnn.com. to ns.attacker32.com., then we know the cache is now poisoned.
+as long as we see this *NS* record which associates cnn.com. to ns.attacker32.com., then we know the cache is now poisoned.
 
 8. we can then verify the result from the victim DNS client. on the victim DNS client VM, we just need to send two queries.
 
