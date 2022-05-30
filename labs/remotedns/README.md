@@ -61,7 +61,7 @@ zone "attacker32.com" {
 
 **Explanation**: the added lines are saying, for DNS inquiries regarding this attacker32.com domain, please forward the inquiries to 172.16.77.130. we do this so that we don't need to actually purchase the domain attacker32.com.
 
-2.2. copy named.conf.options into /etc/bind/ directory, and also copy named.conf.default-zones into /etc/bind/ directory.
+2.2. copy named.conf.options into the /etc/bind/ directory, and also copy named.conf.default-zones into the /etc/bind/ directory.
 
 ```console
 [05/29/22]seed@VM:~/.../remotedns$ sudo cp named.conf.options /etc/bind/
@@ -76,11 +76,11 @@ zone "attacker32.com" {
 $ sudo service bind9 restart
 ```
 
-**Warning**: in your report, don't claim that the attack presented in this lab is not realistic because we need to make these changes on the victim DNS server. The lab is designed in such a way, just to save you - the student, some money - so you don't need to purchase a domain, and to save you - the student, some time, we hardcoded 1.2.3.4 in the configuration file of the victim DNS server and also in the attacking program, otherwise you will need to manually to find out the IP address of authoritative name server for cnn.com.
+**Warning**: in your report, don't claim that the attack presented in this lab is not realistic because we need to make these changes on the victim DNS server. Such changes are unnecessary in a real life attacking scenario. The lab is designed in such a way, just to save you - the student, some money - so you don't need to purchase a domain, and to save you - the student, some time, we hardcoded 1.2.3.4 in the configuration file of the victim DNS server and also in the attacking program, otherwise you will need to manually to find out the IP address of authoritative name server for cnn.com.
 
 3. setting up the attacker DNS server.
 
-3.1. copy attacker32.com.zone and cnn.com.zone into /etc/bind/ directory.
+3.1. copy attacker32.com.zone and cnn.com.zone into the /etc/bind/ directory.
 
 ```console
 [05/29/22]seed@VM:~/.../remotedns$ sudo cp attacker32.com.zone /etc/bind/
@@ -123,7 +123,13 @@ whereas the second *dig* command should show you that www.cnn.com is mapped to 1
 
 the goal of this attack is, when the victim DNS client runs either of the above two commands, the victim DNS client will get the same result, i.e., www.cnn.com is mapped to the IP address of fakenews.com.
 
-5. launch the attack: on the attacker's VM,
+5. right before we start the attack, let's clear the victim DNS server's cache. on the victim DNS server, run:
+
+```console
+[05/29/22]seed@VM:~/.../remotedns$ sudo rndc flush
+```
+
+6. launch the attack: on the attacker's VM,
 
 ```console
 [05/29/22]seed@VM:~/.../remotedns$ gcc -o attack attack.c
@@ -132,7 +138,7 @@ the goal of this attack is, when the victim DNS client runs either of the above 
 
 **Note**: replace 172.16.77.130 with your attacker VM's IP address, replace 172.16.77.129 with your victim DNS server VM's IP address.
 
-6. the attack may take a couple of minutes. on victim DNS server VM, we can check the cache to verify if the cache is poisoned or not.
+7. the attack may take a couple of minutes. on victim DNS server VM, we can check the cache to verify if the cache is poisoned or not.
 
 ```console
 [05/29/22]seed@VM:~$ sudo rndc dumpdb -cache
@@ -145,7 +151,7 @@ cnn.com.		65529	NS	ns.attacker32.com.
 
 as long as we see this NS record which associates cnn.com. to ns.attacker32.com., then we know the cache is now poisoned.
 
-7. we can then verify the result from the victim DNS client. on the victim DNS client VM, we just need to send a query.
+8. we can then verify the result from the victim DNS client. on the victim DNS client VM, we just need to send a query.
 
 ```console
 # dig www.cnn.com 
@@ -157,9 +163,9 @@ as long as we see this NS record which associates cnn.com. to ns.attacker32.com.
 
 these two commands should now show the same result, which is www.cnn.com is mapped to 188.126.71.216, which as of 05/29/2022, is the IP address of fakenews.com.
 
-7. you are recommended to remove the line you added on the victim DNS client VM in step 3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
+9. you are recommended to remove the line you added on the victim DNS client VM in step 3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
 
-8. you are also recommended to restore the two files on the victim DNS server VM:
+10. you are also recommended to restore the two files on the victim DNS server VM:
 
 ```console
 [05/29/22]seed@VM:~/.../remotedns$ sudo cp named.conf.options.orig /etc/bind/
