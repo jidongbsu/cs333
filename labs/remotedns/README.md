@@ -117,9 +117,13 @@ zone "cnn.com" {
 [05/29/22]seed@VM:~$ dig @ns.attacker32.com www.cnn.com
 ```
 
-the first *dig* command should show you the correct mapping: 
+the first *dig* command should show you the legitimate mapping: 
 
-whereas the second *dig* command should show you that www.cnn.com is mapped to 188.126.71.216, which as of 05/29/2022, is the IP address of fakenews.com.
+![alt text](lab-remote-dns-dig-before-attack.png "dig cnn, before attack")
+
+whereas the second *dig* command should show you that www.cnn.com is mapped to 188.126.71.216, which as of 05/29/2022, is the IP address of fakenews.com:
+
+![alt text](lab-remote-dns-dig-attacker-p1.png "dig cnn from attacker, before attack")
 
 the goal of this attack is, when the victim DNS client runs either of the above two commands, the victim DNS client will get the same result, i.e., www.cnn.com is mapped to the IP address of fakenews.com.
 
