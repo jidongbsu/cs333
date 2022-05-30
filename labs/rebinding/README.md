@@ -163,4 +163,4 @@ $ sudo rndc reload attacker32.com
 
 Step 7.6. go back to the victim client browser and see if the temperature is changed (check the URL1 page). If so, then the attack is successful.
 
-Step 8. You are recommended to remove the line you added in step 1.3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments (in particular, lab 9) won't be affected.
+Step 8. You are recommended to remove the line you added in step 1.3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
