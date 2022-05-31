@@ -68,8 +68,8 @@ $ sudo resolvconf -u
 $ sudo pip3 install Flask==1.1.1
 ```
 
-![alt text](lab-rebinding-victim-webserver.png "command to install Flask")
-![alt text](lab-rebinding-victim-webserver-installing.png "command to install Flask")
+![alt text](lab-rebinding-victim-web-server.png "command to install Flask")
+![alt text](lab-rebinding-victim-web-server-installing.png "command to install Flask")
 
 2.2. download the IoT server code: http://cs.boisestate.edu/~jxiao/cs333/code/rebinding/user_vm.zip
 
