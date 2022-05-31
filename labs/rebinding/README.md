@@ -23,19 +23,39 @@ The following is the IP addresses for the VMs used in this README.
 1. setting up the client.
 
 1.1. reduce Firefox’s DNS caching time: Type about:config in the URL field, and then change network.dnsCacheExpiration from 60 to 10.
+ 
+![alt text](lab-rebinding-firefox-setting-p1.png "change cache expiration time")
+![alt text](lab-rebinding-firefox-setting-p2.png "change cache expiration time")
+![alt text](lab-rebinding-firefox-setting-p3.png "change cache expiration time")
+![alt text](lab-rebinding-firefox-setting-p4.png "change cache expiration time")
+![alt text](lab-rebinding-firefox-setting-p5.png "change cache expiration time")
+![alt text](lab-rebinding-firefox-setting-p6.png "change cache expiration time")
 
 1.2. change /etc/hosts: add the following entry in the file:
 
 CLIENT_VM_IP	www.seediot32.com (note: change CLIENT_VM_IP to the Client VM's IP address)
 
+![alt text](lab-rebinding-change-hosts.png "change /etc/hosts")
+![alt text](lab-rebinding-change-hosts-done.png "change /etc/hosts")
+
 1.3. configure DNS server information, i.e., let the client know the IP address of the DNS server.
+
 1.3.1. add this line to the end of file /etc/resolvconf/resolv.conf.d/head
 nameserver DNS_SERVER_IP (change DNS_SERVER_IP to the local DNS server's IP address)
+
+this screenshot shows editing the file in *vi*:
+![alt text](lab-rebinding-edit-file.png "edit the file")
+
+this screenshot shows the file is now edited:
+![alt text](lab-rebinding-configure-dns.png "configure dns")
+
 1.3.2. run the following command so the above change will take effect:
 
 ```console
 $ sudo resolvconf -u
 ```
+
+![alt text](lab-rebinding-resolvconf.png "resolvconf command")
 
 2. still setting up the client, but this time setting up the IoT server role.
 
