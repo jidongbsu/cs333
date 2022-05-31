@@ -135,6 +135,8 @@ http://localhost:8080 (access this from the firefox browser)
 
 4.1. the above attacker_vm folder contains a DNS configuration file called attacker32.com.zone, copy this file into /etc/bind. In this file, change 10.0.2.8 to the attacker VM's IP address, and change the TTL (which is the first entry in this file) from 10000 to 10, i.e., records in the cache expire in 10 seconds.
 
+![alt text](lab-rebinding-attacker-adding-zone.png "change zone file")
+
 4.2. add the following into /etc/bind/named.conf (so that the above configuration file will be used):
 
 ```console
@@ -144,7 +146,6 @@ zone "attacker32.com" {
 };
 ```
 
-![alt text](lab-rebinding-attacker-DNS-server-adding-zone.png "adding zone in /etc/bind/named.conf")
 ![alt text](lab-rebinding-attacker-DNS-server-before-change.png "test attacker DNS server")
 ![alt text](lab-rebinding-attacker-DNS-server-after-change.png "attacker DNS server done")
 
