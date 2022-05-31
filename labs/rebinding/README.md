@@ -131,7 +131,7 @@ http://localhost:8080 (access this from the firefox browser)
 ![alt text](lab-rebinding-test-attacker-web-p1.png "test attacker web server")
 ![alt text](lab-rebinding-test-attacker-web-p2.png "test attacker web server success")
 
-4. setting up the attacker DNS server.
+4. open a new terminal window on the attacker VM, and sett up the attacker DNS server:
 
 4.1. the above attacker_vm folder contains a DNS configuration file called attacker32.com.zone, copy this file into /etc/bind. In this file, change 10.0.2.8 to the attacker VM's IP address, and change the TTL (which is the first entry in this file) from 10000 to 10, i.e., records in the cache expire in 10 seconds.
 
@@ -144,11 +144,17 @@ zone "attacker32.com" {
 };
 ```
 
+![alt text](lab-rebinding-attacker-DNS-server-adding-zone.png "adding zone in /etc/bind/named.conf")
+![alt text](lab-rebinding-attacker-DNS-server-before-change.png "test attacker DNS server")
+![alt text](lab-rebinding-attacker-DNS-server-after-change.png "attacker DNS server done")
+
 4.3. restart DNS server so the above changes will take effect:
 
 ```console
 $ sudo service bind9 restart
 ```
+
+
 
 5. setting up the local DNS server (so that we don't need to actually purchase the domain attacker32.com).
 
@@ -157,9 +163,13 @@ $ sudo service bind9 restart
 ```console
 zone "attacker32.com" {
 	type forward;
-	forwarders { 172.16.77.130; }; // replace 172.16.77.130 with your attacker VM's IP address, do not remove the ";"
+	forwarders {
+	    172.16.77.130; // replace 172.16.77.130 with your attacker VM's IP address, do not remove the ";"
+	};
 };
 ```
+
+![alt text](lab-rebinding-setting-local-dns-server.png "setting local DNS server")
 
 5.2. restart DNS server so the above changes will take effect:
 
