@@ -60,13 +60,16 @@ $ sudo resolvconf -u
 
 ![alt text](lab-rebinding-resolvconf.png "resolvconf command")
 
-2. still setting up the client, but this time setting up the IoT server role.
+2. still setting up the victim client, but this time setting up the IoT server role.
 
 2.1. install a web framework called Flask.
 
 ```console
 $ sudo pip3 install Flask==1.1.1
 ```
+
+![alt text](lab-rebinding-victim-webserver.png "command to install Flask")
+![alt text](lab-rebinding-victim-webserver-installing.png "command to install Flask")
 
 2.2. download the IoT server code: http://cs.boisestate.edu/~jxiao/cs333/code/rebinding/user_vm.zip
 
@@ -84,9 +87,15 @@ $ sudo ./start_iot.sh
 
 The above script will start a web server and listen on port 8080.
 
+![alt text](lab-rebinding-start-iot.png "command to start iot web server")
+![alt text](lab-rebinding-iot-started.png "iot server is started")
+
 2.4. test the IoT server:
 
 http://www.seediot32.com:8080 (access this from the firefox browser)
+
+![alt text](lab-rebinding-test-iot-p1.png "test iot server")
+![alt text](lab-rebinding-test-iot-p2.png "test iot server success")
 
 3. setting up the attacker web server.
 
@@ -142,7 +151,7 @@ $ sudo service bind9 restart
 ```console
 zone "attacker32.com" {
 	type forward;
-	forwarders { 10.0.2.8; }; // replace 10.0.2.8 with your attacker VM's IP address, do not remove the ";"
+	forwarders { 172.16.77.130; }; // replace 172.16.77.130 with your attacker VM's IP address, do not remove the ";"
 };
 ```
 
