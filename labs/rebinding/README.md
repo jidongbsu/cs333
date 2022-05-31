@@ -213,6 +213,12 @@ after change:
 
 7.2. restart the malicious web server: press ctrl-c to stop the script start_webserver.sh (see Step 3.3), and then re-run the script.
 
+ctrl-c to stop the attacker web server:
+![alt text](lab-rebinding-stop-attacker-web-server.png "ctrl-c to stop attacker web server")
+
+run the script to re-start the attacker web server:
+![alt text](lab-rebinding-restart-attacker-web-server.png "run script to re-start attacker web server")
+
 7.3. let the victim client access web page: http://www.attacker32.com:8080/. You should be able to see a page with a timer, which goes down from 10 to 0. Once it reaches 0, the JavaScript code on this page will send the set-temperature request to http://www.attacker32.com:8080, and then reset the timer value to 10. 
 
 7.4. on the attacker VM, open this file: /etc/bind/attacker32.com.zone, when the count down timer is counting from 10 to 0, change the A record for www.attacker32.com, so that it points to the IoT server's IP address.
@@ -235,10 +241,10 @@ $ sudo rndc reload attacker32.com
 
 7.6. go back to the victim client browser and see if the temperature, within 10 seconds, is changed (check the URL1 page). If so, then the attack is successful.
 
-the screenshots here show the attack is successful, note that there are two tabs. tab 2 (which is the tab to access www.attacker32.com):
+the screenshots here show the attack is successful. the tab which shows access to www.attacker32.com:
 ![alt text](lab-rebinding-attack-success-p1.png "attack success: tab 2")
 
-tab 1 (which is the tab to access the thermometer:
+the tab which shows access to the thermometer:
 ![alt text](lab-rebinding-attack-success-p2.png "attack success: tab 1")
 
 8. You are recommended to remove the line you added in step 1.3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
