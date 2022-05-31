@@ -142,7 +142,7 @@ $ sudo service bind9 restart
 ```console
 zone "attacker32.com" {
 	type forward;
-	forwarders { 10.0.2.8; }; (replace 10.0.2.8 with your attacker VM's IP address, do not remove the ";".)
+	forwarders { 10.0.2.8; }; // replace 10.0.2.8 with your attacker VM's IP address, do not remove the ";"
 };
 ```
 
@@ -192,6 +192,6 @@ www IN A IoT_VM_IP (remember IoT VM is also the victim client VM)
 $ sudo rndc reload attacker32.com
 ```
 
-7.6. go back to the victim client browser and see if the temperature is changed (check the URL1 page). If so, then the attack is successful.
+7.6. go back to the victim client browser and see if the temperature, within 10 seconds, is changed (check the URL1 page). If so, then the attack is successful.
 
 8. You are recommended to remove the line you added in step 1.3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
