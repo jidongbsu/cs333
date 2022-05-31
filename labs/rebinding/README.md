@@ -135,7 +135,10 @@ http://localhost:8080 (access this from the firefox browser)
 
 4.1. the above attacker_vm folder contains a DNS configuration file called attacker32.com.zone, copy this file into /etc/bind. In this file, change 10.0.2.8 to the attacker VM's IP address, and change the TTL (which is the first entry in this file) from 10000 to 10, i.e., records in the cache expire in 10 seconds.
 
+before change:
 ![alt text](lab-rebinding-attacker-DNS-server-before-change.png "test attacker DNS server")
+
+after change:
 ![alt text](lab-rebinding-attacker-DNS-server-after-change.png "attacker DNS server done")
 
 4.2. add the following into /etc/bind/named.conf (so that the above configuration file will be used):
@@ -154,8 +157,6 @@ zone "attacker32.com" {
 ```console
 $ sudo service bind9 restart
 ```
-
-
 
 5. setting up the local DNS server (so that we don't need to actually purchase the domain attacker32.com).
 
@@ -178,13 +179,17 @@ zone "attacker32.com" {
 $ sudo service bind9 restart
 ```
 
-6: at this point, from the client browser, you should be able to access these 3 URLs (open 3 tabs to access these 3 URLs, and leave these tabs open):
+6: at this point, from the victim client's browser, you should be able to access these 3 URLs (open 3 tabs to access these 3 URLs, and leave these tabs open):
 
 URL 1: http://www.seediot32.com:8080
 
 URL 2: http://www.seediot32.com:8080/change
 
+![alt text](lab-rebinding-victim-iot-change.png "test iot server")
+
 URL 3: http://www.attacker32.com:8080/change
+
+![alt text](lab-rebinding-attacker-change.png "test attacker server")
 
 However, you can change the temperature from URL 2, but not URL 3, even though they run the exact same code. (Reason? SOP)
 
@@ -200,6 +205,12 @@ to this line:
 
 let url_prefix = ’http://www.attacker32.com:8080’
 
+the screenshots show the change. before change:
+![alt text](lab-rebinding-js-before-change.png "before changing the javascript")
+
+after change:
+![alt text](lab-rebinding-js-after-change.png "after changing the javascript")
+
 7.2. restart the malicious web server: press ctrl-c to stop the script start_webserver.sh (see Step 3.3), and then re-run the script.
 
 7.3. let the victim client access web page: http://www.attacker32.com:8080/. You should be able to see a page with a timer, which goes down from 10 to 0. Once it reaches 0, the JavaScript code on this page will send the set-temperature request to http://www.attacker32.com:8080, and then reset the timer value to 10. 
@@ -209,8 +220,12 @@ let url_prefix = ’http://www.attacker32.com:8080’
 Before change:
 www IN A Attacker_VM_IP
 
+![alt text](lab-rebinding-before-rebinding.png "launch attack: before rebinding")
+
 After change:
 www IN A IoT_VM_IP (remember IoT VM is also the victim client VM)
+
+![alt text](lab-rebinding-after-rebinding.png "launch attack: after rebinding")
 
 7.5. reload the configuration file so the change will take effect.
 
@@ -219,5 +234,11 @@ $ sudo rndc reload attacker32.com
 ```
 
 7.6. go back to the victim client browser and see if the temperature, within 10 seconds, is changed (check the URL1 page). If so, then the attack is successful.
+
+the screenshots here show the attack is successful, note that there are two tabs. tab 2 (which is the tab to access www.attacker32.com):
+![alt text](lab-rebinding-attack-success-p1.png "attack success: tab 2")
+
+tab 1 (which is the tab to access the thermometer:
+![alt text](lab-rebinding-attack-success-p2.png "attack success: tab 1")
 
 8. You are recommended to remove the line you added in step 1.3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
