@@ -121,9 +121,15 @@ $ sudo ./start_webserver.sh
 
 The above script will start a web server and listen on port 8080.
 
+![alt text](lab-rebinding-start-attacker-web-server.png "command to start attacker web server")
+![alt text](lab-rebinding-attacker-web-server-started.png "attacker web server is started")
+
 3.4. test the attacker web server:
 
 http://localhost:8080 (access this from the firefox browser)
+
+![alt text](lab-rebinding-test-attacker-web-p1.png "test attacker web server")
+![alt text](lab-rebinding-test-attacker-web-p2.png "test attacker web server success")
 
 4. setting up the attacker DNS server.
 
