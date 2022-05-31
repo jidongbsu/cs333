@@ -35,7 +35,10 @@ The following is the IP addresses for the VMs used in this README.
 
 CLIENT_VM_IP	www.seediot32.com (note: change CLIENT_VM_IP to the Client VM's IP address)
 
+this screenshot shows editing the file in *vi*:
 ![alt text](lab-rebinding-change-hosts.png "change /etc/hosts")
+
+this screenshot shows the file is now edited:
 ![alt text](lab-rebinding-change-hosts-done.png "change /etc/hosts")
 
 1.3. configure DNS server information, i.e., let the client know the IP address of the DNS server.
