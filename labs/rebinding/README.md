@@ -24,22 +24,22 @@ The following is the IP addresses for the VMs used in this README.
 
 1.1. reduce Firefox’s DNS caching time: Type about:config in the URL field, and then change network.dnsCacheExpiration from 60 to 10.
  
-![alt text](lab-rebinding-firefox-setting-p1.png "change cache expiration time")
-![alt text](lab-rebinding-firefox-setting-p2.png "change cache expiration time")
-![alt text](lab-rebinding-firefox-setting-p3.png "change cache expiration time")
-![alt text](lab-rebinding-firefox-setting-p4.png "change cache expiration time")
-![alt text](lab-rebinding-firefox-setting-p5.png "change cache expiration time")
-![alt text](lab-rebinding-firefox-setting-p6.png "change cache expiration time")
+![alt text](images/lab-rebinding-firefox-setting-p1.png "change cache expiration time")
+![alt text](images/lab-rebinding-firefox-setting-p2.png "change cache expiration time")
+![alt text](images/lab-rebinding-firefox-setting-p3.png "change cache expiration time")
+![alt text](images/lab-rebinding-firefox-setting-p4.png "change cache expiration time")
+![alt text](images/lab-rebinding-firefox-setting-p5.png "change cache expiration time")
+![alt text](images/lab-rebinding-firefox-setting-p6.png "change cache expiration time")
 
 1.2. change /etc/hosts: add the following entry in the file:
 
 CLIENT_VM_IP	www.seediot32.com (note: change CLIENT_VM_IP to the Client VM's IP address)
 
 this screenshot shows editing the file in *vi*:
-![alt text](lab-rebinding-change-hosts.png "change /etc/hosts")
+![alt text](images/lab-rebinding-change-hosts.png "change /etc/hosts")
 
 this screenshot shows the file is now edited:
-![alt text](lab-rebinding-change-hosts-done.png "change /etc/hosts")
+![alt text](images/lab-rebinding-change-hosts-done.png "change /etc/hosts")
 
 1.3. configure DNS server information, i.e., let the client know the IP address of the DNS server.
 
@@ -47,10 +47,10 @@ this screenshot shows the file is now edited:
 nameserver DNS_SERVER_IP (change DNS_SERVER_IP to the local DNS server's IP address)
 
 this screenshot shows editing the file in *vi*:
-![alt text](lab-rebinding-edit-file.png "edit the file")
+![alt text](images/lab-rebinding-edit-file.png "edit the file")
 
 this screenshot shows the file is now edited:
-![alt text](lab-rebinding-configure-dns.png "configure dns")
+![alt text](images/lab-rebinding-configure-dns.png "configure dns")
 
 1.3.2. run the following command so the above change will take effect:
 
@@ -58,7 +58,7 @@ this screenshot shows the file is now edited:
 $ sudo resolvconf -u
 ```
 
-![alt text](lab-rebinding-resolvconf.png "resolvconf command")
+![alt text](images/lab-rebinding-resolvconf.png "resolvconf command")
 
 2. still setting up the victim client, but this time setting up the IoT server role.
 
@@ -68,8 +68,8 @@ $ sudo resolvconf -u
 $ sudo pip3 install Flask==1.1.1
 ```
 
-![alt text](lab-rebinding-victim-web-server.png "command to install Flask")
-![alt text](lab-rebinding-victim-web-server-installing.png "command to install Flask")
+![alt text](images/lab-rebinding-victim-web-server.png "command to install Flask")
+![alt text](images/lab-rebinding-victim-web-server-installing.png "command to install Flask")
 
 2.2. download the IoT server code: http://cs.boisestate.edu/~jxiao/cs333/code/rebinding/user_vm.zip
 
@@ -87,15 +87,15 @@ $ sudo ./start_iot.sh
 
 The above script will start a web server and listen on port 8080.
 
-![alt text](lab-rebinding-start-iot.png "command to start iot web server")
-![alt text](lab-rebinding-iot-started.png "iot server is started")
+![alt text](images/lab-rebinding-start-iot.png "command to start iot web server")
+![alt text](images/lab-rebinding-iot-started.png "iot server is started")
 
 2.4. test the IoT server:
 
 http://www.seediot32.com:8080 (access this from the firefox browser)
 
-![alt text](lab-rebinding-test-iot-p1.png "test iot server")
-![alt text](lab-rebinding-test-iot-p2.png "test iot server success")
+![alt text](images/lab-rebinding-test-iot-p1.png "test iot server")
+![alt text](images/lab-rebinding-test-iot-p2.png "test iot server success")
 
 3. setting up the attacker web server.
 
@@ -121,25 +121,25 @@ $ sudo ./start_webserver.sh
 
 The above script will start a web server and listen on port 8080.
 
-![alt text](lab-rebinding-start-attacker-web-server.png "command to start attacker web server")
-![alt text](lab-rebinding-attacker-web-server-started.png "attacker web server is started")
+![alt text](images/lab-rebinding-start-attacker-web-server.png "command to start attacker web server")
+![alt text](images/lab-rebinding-attacker-web-server-started.png "attacker web server is started")
 
 3.4. test the attacker web server:
 
 http://localhost:8080 (access this from the firefox browser)
 
-![alt text](lab-rebinding-test-attacker-web-p1.png "test attacker web server")
-![alt text](lab-rebinding-test-attacker-web-p2.png "test attacker web server success")
+![alt text](images/lab-rebinding-test-attacker-web-p1.png "test attacker web server")
+![alt text](images/lab-rebinding-test-attacker-web-p2.png "test attacker web server success")
 
 4. open a new terminal window on the attacker VM, and set up the attacker DNS server:
 
 4.1. the above attacker_vm folder contains a DNS configuration file called attacker32.com.zone, copy this file into /etc/bind. In this file, change 10.0.2.8 to the attacker VM's IP address, and change the TTL (which is the first entry in this file) from 10000 to 10, i.e., records in the cache expire in 10 seconds.
 
 before change:
-![alt text](lab-rebinding-attacker-DNS-server-before-change.png "test attacker DNS server")
+![alt text](images/lab-rebinding-attacker-DNS-server-before-change.png "test attacker DNS server")
 
 after change:
-![alt text](lab-rebinding-attacker-DNS-server-after-change.png "attacker DNS server done")
+![alt text](images/lab-rebinding-attacker-DNS-server-after-change.png "attacker DNS server done")
 
 4.2. add the following into /etc/bind/named.conf (so that the above configuration file will be used):
 
@@ -150,7 +150,7 @@ zone "attacker32.com" {
 };
 ```
 
-![alt text](lab-rebinding-attacker-adding-zone.png "change zone file")
+![alt text](images/lab-rebinding-attacker-adding-zone.png "change zone file")
 
 4.3. restart DNS server so the above changes will take effect:
 
@@ -171,7 +171,7 @@ zone "attacker32.com" {
 };
 ```
 
-![alt text](lab-rebinding-setting-local-DNS-server.png "setting local DNS server")
+![alt text](images/lab-rebinding-setting-local-DNS-server.png "setting local DNS server")
 
 5.2. restart DNS server so the above changes will take effect:
 
@@ -189,7 +189,7 @@ URL 2: http://www.seediot32.com:8080/change
 
 URL 3: http://www.attacker32.com:8080/change
 
-![alt text](lab-rebinding-attacker-change.png "test attacker server")
+![alt text](images/lab-rebinding-attacker-change.png "test attacker server")
 
 However, you can change the temperature from URL 2, but not URL 3, even though they run the exact same code. (Reason? SOP)
 
@@ -206,18 +206,18 @@ to this line:
 let url_prefix = ’http://www.attacker32.com:8080’
 
 the screenshots show the change. before change:
-![alt text](lab-rebinding-js-before-change.png "before changing the javascript")
+![alt text](images/lab-rebinding-js-before-change.png "before changing the javascript")
 
 after change:
-![alt text](lab-rebinding-js-after-change.png "after changing the javascript")
+![alt text](images/lab-rebinding-js-after-change.png "after changing the javascript")
 
 7.2. restart the malicious web server: press ctrl-c to stop the script start_webserver.sh (see Step 3.3), and then re-run the script.
 
 ctrl-c to stop the attacker web server:
-![alt text](lab-rebinding-stop-attacker-web-server.png "ctrl-c to stop attacker web server")
+![alt text](images/lab-rebinding-stop-attacker-web-server.png "ctrl-c to stop attacker web server")
 
 run the script to re-start the attacker web server:
-![alt text](lab-rebinding-restart-attacker-web-server.png "run script to re-start attacker web server")
+![alt text](images/lab-rebinding-restart-attacker-web-server.png "run script to re-start attacker web server")
 
 7.3. let the victim client access web page: http://www.attacker32.com:8080/. You should be able to see a page with a timer, which goes down from 10 to 0. Once it reaches 0, the JavaScript code on this page will send the set-temperature request to http://www.attacker32.com:8080, and then reset the timer value to 10. 
 
@@ -226,12 +226,12 @@ run the script to re-start the attacker web server:
 Before change:
 www IN A Attacker_VM_IP
 
-![alt text](lab-rebinding-before-rebinding.png "launch attack: before rebinding")
+![alt text](images/lab-rebinding-before-rebinding.png "launch attack: before rebinding")
 
 After change:
 www IN A IoT_VM_IP (remember IoT VM is also the victim client VM)
 
-![alt text](lab-rebinding-after-rebinding.png "launch attack: after rebinding")
+![alt text](images/lab-rebinding-after-rebinding.png "launch attack: after rebinding")
 
 7.5. reload the configuration file so the change will take effect.
 
@@ -242,9 +242,9 @@ $ sudo rndc reload attacker32.com
 7.6. go back to the victim client browser and see if the temperature, within 10 seconds, is changed (check the URL1 page). If so, then the attack is successful.
 
 the screenshots here show the attack is successful. the tab which shows access to www.attacker32.com:
-![alt text](lab-rebinding-attack-success-p1.png "attack success: tab 2")
+![alt text](images/lab-rebinding-attack-success-p1.png "attack success: tab 2")
 
 the tab which shows access to the thermometer:
-![alt text](lab-rebinding-attack-success-p2.png "attack success: tab 1")
+![alt text](images/lab-rebinding-attack-success-p2.png "attack success: tab 1")
 
 8. You are recommended to remove the line you added in step 1.3, in this file: /etc/resolvconf/resolv.conf.d/head, so that your future experiments won't be affected.
