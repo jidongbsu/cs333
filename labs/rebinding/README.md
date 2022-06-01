@@ -197,7 +197,7 @@ However, you can change the temperature from URL 2, but not URL 3, even though t
 
 7.1. on the attacker VM, change the javascript code on the attacker VM. It is still in the attacker_vm folder, and it's this file: attacker_vm/rebind_malware/templates/js/change.js.
 
-Change this line:
+change this line:
 
 let url_prefix = ’http://www.seediot32.com:8080’
 
@@ -216,7 +216,7 @@ after change:
 this screenshot shows we press ctrl-c to stop the attacker web server:
 ![alt text](images/lab-rebinding-stop-attacker-web-server.png "ctrl-c to stop attacker web server")
 
-this screenshot shows we then run the script to re-start the attacker web server:
+this screenshot shows we then run the same script again to re-start the attacker web server:
 ![alt text](images/lab-rebinding-restart-attacker-web-server.png "run script to re-start attacker web server")
 
 7.3. on the victim client VM, let the victim client access web page: http://www.attacker32.com:8080/. You should be able to see a page with a timer, which goes down from 10 to 0. Once it reaches 0, the JavaScript code on this page will send the set-temperature request to http://www.attacker32.com:8080, and then reset the timer value to 10. 
