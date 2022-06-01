@@ -97,7 +97,7 @@ http://www.seediot32.com:8080 (access this from the firefox browser)
 ![alt text](images/lab-rebinding-test-iot-p1.png "test iot server")
 ![alt text](images/lab-rebinding-test-iot-p2.png "test iot server success")
 
-3. setting up the attacker web server.
+3. on the attacker VM, set up the attacker web server:
 
 3.1. install a web framework called Flask.
 
@@ -185,7 +185,7 @@ URL 1: http://www.seediot32.com:8080
 
 URL 2: http://www.seediot32.com:8080/change
 
-![alt text](lab-rebinding-victim-iot-change.png "test iot server")
+![alt text](images/lab-rebinding-victim-iot-change.png "test iot server")
 
 URL 3: http://www.attacker32.com:8080/change
 
