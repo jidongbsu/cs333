@@ -1,4 +1,4 @@
-## Remote DNS Cache Poisoning Attack
+## Remote DNS Cache Poisoning Attack (aka, the Dan Kaminsky Attack)
 
 ### Requirement
 
