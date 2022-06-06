@@ -87,6 +87,8 @@ zone "attacker32.com" {
 [05/29/22]seed@VM:~/.../remotedns$ sudo cp cnn.com.zone /etc/bind/
 ```
 
+Remember to replace 172.16.77.130 in attacker32.com.zone with your attacker VM's IP address.
+
 3.2. add the following into /etc/bind/named.conf (so that the above two configuration files will be used):
 
 ```console
