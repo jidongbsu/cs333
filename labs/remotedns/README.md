@@ -2,7 +2,7 @@
 
 ### Requirement
 
-In this lab, you will poison the cache of a local DNS server, and thus affect clients who rely on this DNS server. More specifically, we want clients who access www.cnn.com go to fakenews.com.
+In this lab, you will poison the cache of a remote DNS server, and thus affect clients who rely on this DNS server. More specifically, we want clients who access www.cnn.com go to fakenews.com.
 
 ### Reference
 
