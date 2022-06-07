@@ -4,6 +4,12 @@
 
 In this lab, you will poison the cache of a local DNS server, and thus affect clients who rely on this DNS server. More specifically, we want clients who access www.cnn.com go to fakenews.com.
 
+### Reference
+
+You are recommended to watch this video first so as to understand how this attack works.
+
+[The Kaminsky Vulnerability: DNS Under Attack](https://www.youtube.com/watch?v=qftKfFVHVuY)
+
 ### Setup
 
 3 Linux VMs: victim (DNS) client, victim (DNS) server, attacker. All 3 VMs are located in the same network - however, we are not allowed to exploit this fact for the attacks, in other words, the attacker in this lab is not allowed to use wireshark to sniff any packets, or use the *netwox* command to inject forged DNS responses. After all, this lab is trying to demonstrate how attackers from a remote network can still perform DNS cache poisoning.
