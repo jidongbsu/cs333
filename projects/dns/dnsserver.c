@@ -375,6 +375,7 @@ void encode_header(struct Message *msg, uint8_t **buffer)
 /* this is what we have right now: www.cnn.com, but the client is expected to get: 3www3cnn3com0, thus we need to convert it to: www.cnn.com. */
 void encode_domain_name(uint8_t **buffer, const char *domain)
 {
+/* Your code goes here */
 }
 
 /* fill in buffer based on the information in rr; return 0 upon failure, 1 upon success */
