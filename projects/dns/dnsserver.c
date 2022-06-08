@@ -229,29 +229,7 @@ void put32bits(uint8_t **buffer, uint32_t value)
 /* this is what we receive from the client: 3www3cnn3com0, which is in *buf, and we want to convert it to: www.cnn.com. */
 char *decode_domain_name(const uint8_t **buf, int len)
 {
-	char domain[256];
-	int i=0;
-//printf("buf is %s\n",*buf);
-	for (i=1; i < MIN(256, len); i++) {
-		uint8_t c = (*buf)[i];
-//printf("c is %c, len is %d\n",c,len);
-		/* the original domain name always contains a 0 at the very end... */
-		if (c == 0) {
-			domain[i - 1] = 0;
-			*buf += i + 1;
-			/* we call strdup() to duplicate a string. */
-//printf("domain is %s\n",domain);
-			return strdup(domain);
-		/* letter A's corresponding ascii code is 65. any*/
-		} else if (c <= 64) {
-			domain[i - 1] = '.';
-//printf("ever here?\n");
-		} else {
-			domain[i - 1] = c;
-		}
-	}
-
-	return NULL;
+/* Your code goes here */
 }
 
 void decode_header(struct Message *msg, const uint8_t **buffer)
@@ -397,35 +375,6 @@ void encode_header(struct Message *msg, uint8_t **buffer)
 /* this is what we have right now: www.cnn.com, but the client is expected to get: 3www3cnn3com0, thus we need to convert it to: www.cnn.com. */
 void encode_domain_name(uint8_t **buffer, const char *domain)
 {
-	uint8_t *buf = *buffer;
-	const char *beg = domain;
-	const char *pos;
-	int len = 0;
-	int i = 0;
-
-	/* we call strchr() to locate character in string. */
-	while ((pos = strchr(beg, '.'))) {
-		len = pos - beg;
-		/* first we store the length... */
-		buf[i] = len;
-		i += 1;
-		/* then we store whatever in between two dots... */
-		memcpy(buf+i, beg, len);
-		i += len;
-		beg = pos + 1;
-	}
-
-	/* copy the remaining: whatever after the last '.', i.e., the top level domain, "edu" or "com". */
-	len = strlen(domain) - (beg - domain);
-	/* still, we store the lenght first. */
-	buf[i] = len;
-	i += 1;
-	memcpy(buf + i, beg, len);
-	i += len;
-	/* we store a zero at the very end. */
-	buf[i] = 0;
-	i += 1;
-	*buffer += i;
 }
 
 /* fill in buffer based on the information in rr; return 0 upon failure, 1 upon success */
