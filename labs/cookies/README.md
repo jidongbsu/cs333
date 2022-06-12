@@ -87,6 +87,6 @@ this shows that the attack is successful: alice doesn't know bob's password, but
 
 The lesson we learn from this lab is when designing cookies, we should avoid using the username as a cookie, or at least, it should not be stored in a plaintext format; as cookies can be changed from the client side, and the client could be a malicious actor.
 
-### References:
+### References
 
 CS253 Web Security – course created and taught by Feross Aboukhadijeh at Stanford University.
