@@ -6,7 +6,7 @@ In this lab, we will learn, when cookies are not designed/implemented properly, 
 
 ### Setup
 
-Only one VM is sufficient. We will run a web server in this VM. The web server runs an online banking website, the online banking website has two users, alice, and bob. The following is their username and password.
+Only one VM is sufficient. We will run a web server in this VM. The web server runs an online banking website, the online banking website has two users: alice and bob. The following is their username and password.
 
 |  Username |  Password  | Balance | Role     |
 |-----------|------------|---------|----------|
@@ -17,7 +17,7 @@ Only one VM is sufficient. We will run a web server in this VM. The web server r
 
 #### Preparation Steps
 
-1. install node:
+1. install *node*:
 
 ```console
 [04/27/22]seed@VM:~$ sudo apt install nodejs-legacy
