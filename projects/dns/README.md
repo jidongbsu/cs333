@@ -14,8 +14,8 @@ The starter code implements a simple DNS server, but two functions are missing:
 You are required to implement the following functions:
 
 ```c
-char *decode_domain_name(const uint8_t **buf, int len);
-void encode_domain_name(uint8_t **buffer, const char *domain);
+char *decode_domain_name(int len);
+void encode_domain_name(const char *domain);
 ```
 
 when dig www.cnn.com, the dig command will send you a domain in such a format: 3www3cnn3com0, here, the first '3' means there are 3 characters in 'www', the second '3' means there are 3 characters in 'cnn', the third '3' means there are 3 characters in 'com', the '0' means this is the end of the domain.
@@ -26,7 +26,7 @@ After your implemention, the DNS server should translate www.cnn.com to the ip a
 
 ## Testing 
 
-After running make on the server side, you can run this to start the DNS server:
+To test the program, we need to have two VMs, one serves as the client, and one serves as the server. After running make on the server side, you can run this to start the DNS server:
 
 ```console
 [06/08/22]seed@VM:~/dns-server$ ./dnsserver -p 9090
@@ -65,7 +65,7 @@ Due: 23:59pm, June 20th, 2022. Late submission will not be accepted/graded. Plea
 
 1. your implementation of the two functions.
 2. your testing results: just paste screenshots, similar to what you provide in the lab reports.
-3. one or two paragraph(s) of reflection describing what you learned or what problems you experience and/or how you solve the problem(s).
+3. one or two paragraph(s) of reflection describing what you learned or what problems you experienced and/or how you solved the problem(s).
 
 
 ## Grading Rubric
