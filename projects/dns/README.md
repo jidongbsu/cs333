@@ -71,5 +71,5 @@ Due: 23:59pm, June 20th, 2022. Late submission will not be accepted/graded. Plea
 ## Grading Rubric
 Grade: /15
 
-You get the above testing result (showed by your screenshot) when running the above dig command: 12pts.
+You get the above testing result (showed by your screenshot) when running the above dig command: 12pts.  
 Reflection: 3pts
