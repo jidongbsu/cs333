@@ -10,8 +10,8 @@ Only one VM is sufficient. We will run a web server in this VM. The web server r
 
 |  Username |  Password  | Balance | Role     |
 |-----------|------------|---------|----------|
-|  alice    |  password  | 500     | attacker |
-|  bob      |  50505     | 100     | victim   |
+|  alice    |  password  | $500    | attacker |
+|  bob      |  50505     | $100    | victim   |
 
 ### Steps
 
