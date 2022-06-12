@@ -42,14 +42,14 @@ npm WARN seed No license field.
 ```console
 [04/27/22]seed@VM:~$ mkdir web 
 [04/27/22]seed@VM:~$ cd web/
-[04/27/22]seed@VM:~/banking$ wget http://cs.boisestate.edu/~jxiao/cs333/info/cookies/index.html.orig
-[04/27/22]seed@VM:~/banking$ wget http://cs.boisestate.edu/~jxiao/cs333/info/cookies/server.js
+[04/27/22]seed@VM:~/web$ wget http://cs.boisestate.edu/~jxiao/cs333/info/cookies/index.html.orig
+[04/27/22]seed@VM:~/web$ wget http://cs.boisestate.edu/~jxiao/cs333/info/cookies/server.js
 ```
 
 3. start the web server:
 ```console
-[04/27/22]seed@VM:~/banking$ mv index.html.orig index.html
-[04/27/22]seed@VM:~/banking$ node server.js
+[04/27/22]seed@VM:~/web$ mv index.html.orig index.html
+[04/27/22]seed@VM:~/web$ node server.js
 ```
 
 4. access the website from the browser: type localhost:4000 (replace localhost with your VM's IP address), you should see this:
