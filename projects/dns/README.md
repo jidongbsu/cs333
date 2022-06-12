@@ -24,6 +24,21 @@ when receive the DNS query, the server first calls decode_domain_name() which tr
 
 After your implemention, the DNS server should translate www.cnn.com to the ip address of fakenews.com, which, as of today (06/08/2022), is 188.126.71.216.
 
+**Note**: you are recommended to read the starter code, although it is not necessary for this project, it helps you understand how a DNS server works.
+
+## Global Variable
+
+The starter code defines the following global variables.
+
+```c
+uint8_t buffer[BUF_SIZE];
+char *buf_p=(char *)buffer;
+```
+
+When dig www.cnn.com, the dig command will sent to the DNS server a DNS query message, this entire DNS query message will be stored in *buffer*[]. This message contains the domain name in this format *3www3cnn3com0*, this entire message's length will be passed as the argument to the function *decode_domain_name*(). When the server starts, *buf_p* points to be beginning of *buffer*[]. But when *decode_domain_name*() is called, *buf_p* points to the beginning of the string "3www3cnn3com0", which is the address of number '3'; when *decode_domain_name*() returns, you must set *buf_p* to the address right after the number '0'. For example, if the DNS query message contains "3www3cnn3com0abcdefg", then when *decode_domain_name*() returns, *buf_p* should be pointing to the letter 'a'.
+
+Before responding to the DNS client, the DNS server will call *encode_domain_name*(), whose argument *domain* stores the string "www.cnn.com", and *encode_domain_name*() will convert it to "3www3cnn3com0". The moment when *encode_domain_name*() is called, *buf_p* is pointing to an address where you should store the converted domain, i.e., "3www3cnn3com0"; when *encode_domain_name() returns, you must set *buf_p* to the address right after the trailing '0'. For example, if the DNS response message contains "3www3cnn3com0abcdefg", then when this function returns, buf_p must point to 'a'.
+
 ## Testing 
 
 To test the program, we need to have two VMs, one serves as the client, and one serves as the server. After running make on the server side, you can run this to start the DNS server:
