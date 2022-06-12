@@ -5,13 +5,16 @@
 #include <netdb.h>
 #include <ifaddrs.h>
 #include <string.h>
-#include <malloc.h>
 #include <errno.h>
-#include <string.h>
 #include <stdint.h>
 
 #define BUF_SIZE 1500
-#define MIN(x, y) ((x) <= (y) ? (x) : (y))
+
+/* buffer for input/output binary packet */
+uint8_t buffer[BUF_SIZE];
+
+/* we use this pointer to traverse buffer. */
+char *buf_p=(char *)buffer;
 
 /*
 * This software is licensed under the CC0.
@@ -21,7 +24,11 @@
 * the server.
 *
 * To test start the program and issue a DNS request:
-*  dig @127.0.0.1 -p 9090 www.cnn.com
+* on the server side, run:
+* # ./dnsserver -p 9090
+* 
+* and then on the client side, run:
+* # dig @dns_server_ip -p 9090 www.cnn.com
 */
 
 /* Response Type */
@@ -33,36 +40,6 @@ enum {
   NotImplemented_ResponseType = 4,
   Refused_ResponseType = 5
 };
-
-/* Operation Code */
-enum {
-  QUERY_OperationCode = 0, /* standard query */
-  IQUERY_OperationCode = 1, /* inverse query */
-  STATUS_OperationCode = 2, /* server status request */
-  NOTIFY_OperationCode = 4, /* request zone transfer */
-  UPDATE_OperationCode = 5 /* change resource records */
-};
-
-/* Response Code */
-enum {
-  NoError_ResponseCode = 0,
-  FormatError_ResponseCode = 1,
-  ServerFailure_ResponseCode = 2,
-  NameError_ResponseCode = 3
-};
-
-/* Query Type */
-enum {
-  IXFR_QueryType = 251,
-  AXFR_QueryType = 252,
-  MAILB_QueryType = 253,
-  MAILA_QueryType = 254,
-  STAR_QueryType = 255
-};
-
-/*
-* Types.
-*/
 
 /* Question Section */
 struct Question {
@@ -150,7 +127,7 @@ void print_resource_record(struct ResourceRecord *rr)
 		if(rr->type==1) {
 			printf("Address Resource Record { address ");
 
-        		for (i = 0; i < 4; ++i)
+        		for (i = 0; i < 4; i++)
           			printf("%s%u", (i ? "." : ""), rd->a_record.addr[i]);
         		printf(" }");
 		}else{
@@ -190,35 +167,28 @@ void print_message(struct Message *msg)
 * Basic memory operations.
 */
 
-size_t get16bits(const uint8_t **buffer)
+size_t get16bits(void)
 {
 	uint16_t value;
-
-	memcpy(&value, *buffer, 2);
-	/* increment the pointer by 2 bytes. */
-	*buffer += 2;
-
+	memcpy(&value, buf_p, 2);
 	return ntohs(value);
 }
 
-void put8bits(uint8_t **buffer, uint8_t value)
+void put8bits(uint8_t value)
 {
-  memcpy(*buffer, &value, 1);
-  *buffer += 1;
+  memcpy(buf_p, &value, 1);
 }
 
-void put16bits(uint8_t **buffer, uint16_t value)
+void put16bits(uint16_t value)
 {
   value = htons(value);
-  memcpy(*buffer, &value, 2);
-  *buffer += 2;
+  memcpy(buf_p, &value, 2);
 }
 
-void put32bits(uint8_t **buffer, uint32_t value)
+void put32bits(uint32_t value)
 {
   value = htonl(value);
-  memcpy(*buffer, &value, 4);
-  *buffer += 4;
+  memcpy(buf_p, &value, 4);
 }
 
 
@@ -226,18 +196,38 @@ void put32bits(uint8_t **buffer, uint32_t value)
 * Deconding/Encoding functions.
 */
 
-/* this is what we receive from the client: 3www3cnn3com0, which is in *buf, and we want to convert it to: www.cnn.com. */
-char *decode_domain_name(const uint8_t **buf, int len)
+/* the parameter len indicates the length of the whole buffer
+ * which stores the DNS query message the client sends to us.
+ * Inside this message, the domain name is stored in this format: 3www3cnn3com0, 
+ * which is stored at address pointed to by this pointer: char *buf_p, 
+ * and we want to convert it to: www.cnn.com
+ * the moment this function is called, you can assume buf_p is pointing to
+ * the very beginning of this domain name, which is '3'.
+ * if successful, this function returns a buffer which stores "www.cnn.com",
+ * you must allocate memory for this buffer, and you can assume the caller
+ * will release the memory.
+ * if somehow not successful, return NULL.
+ * note: when this function returns, the pointer buf_p must point to the address right after the trailing '0'.
+ * for example, if the message contains "3www3cnn3com0abcdefg", 
+ * then when this function returns, buf_p must point to 'a'.
+ */
+char *decode_domain_name(int len)
 {
-/* Your code goes here */
+	/* add your code here */
 }
 
-void decode_header(struct Message *msg, const uint8_t **buffer)
+/* information is in buffer, we want to store it in msg. */
+void decode_header(struct Message *msg)
 {
-	msg->id = get16bits(buffer);
+	msg->id = get16bits();
+	/* take 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
 
 	/* the next field is for flags. */
-	uint16_t flags = get16bits(buffer);
+	uint16_t flags = get16bits();
+	/* take 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
+
 	/* bit 15 is QR, query/response flag. when 0, message is a query. when 1, message is response. */
 	msg->qr = flags >> 15;
 	/* bit 14:11 is opcode, operation code. tells receiving machine the intent of the message. 
@@ -265,21 +255,31 @@ void decode_header(struct Message *msg, const uint8_t **buffer)
 	 * 0xF is 0000 0000 0000 1111, which allows us to get bit 3:0. */
 	msg->rcode = (flags & 0xF) >> 0;
 
-	msg->qdCount = get16bits(buffer);
-	msg->anCount = get16bits(buffer);
+	msg->qdCount = get16bits();
+	/* take 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
+
+	msg->anCount = get16bits();
+	/* take 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
 
 	/* we don't really care about nsCount and arCount,
 	 * they should always be 0 in our case,
 	 * but here we call get16bits() just to move the pointer... */
-	msg->nsCount = get16bits(buffer);
-	msg->arCount = get16bits(buffer);
+	msg->nsCount = get16bits();
+	/* take 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
+
+	msg->arCount = get16bits();
+	/* take 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
 	/* FIXME: not sure why, but without this line, arCount seems to be 1... */
 	msg->arCount = 0;
 }
 
-int decode_msg(struct Message *msg, const uint8_t *buffer, int size)
+int decode_msg(struct Message *msg, int size)
 {
-	decode_header(msg, &buffer);
+	decode_header(msg);
 
 	// parse the question
 	uint32_t qcount = msg->qdCount;
@@ -288,14 +288,26 @@ int decode_msg(struct Message *msg, const uint8_t *buffer, int size)
 		printf("we only support one single question!\n");
 		return -1;
 	}
+	if(size>=256){
+		printf("we only support messages who size is smaller than 256 bytes");
+		return -1;
+	}
 //printf("buffer is %s\n",buffer);
 	struct Question *q = malloc(sizeof(struct Question));
-	q->qName = decode_domain_name(&buffer, size);
-	q->qType = get16bits(&buffer);
-	q->qClass = get16bits(&buffer);
+	q->qName = decode_domain_name(size);
+	/* we expect type to be 1, which means A record */
+	q->qType = get16bits();
+	/* take 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
+	/* we expect class to be 1, which means Internet  */
+	q->qClass = get16bits();
+	/* take 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
 	if (q->qName == NULL) {
 		printf("Failed to decode domain name!\n");
 		return -1;
+	}else{
+		printf("qname is %s\n", q->qName);
 	}
 
 	msg->question = q;
@@ -356,42 +368,88 @@ void resolve_query(struct Message *msg)
 	}
 }
 
-void encode_header(struct Message *msg, uint8_t **buffer)
+/* information is in msg, and we want to store it in buffer. */
+void encode_header(struct Message *msg)
 {
-	put16bits(buffer, msg->id);
 	int flags = 0;
+
+	/* transaction id */
+	put16bits(msg->id);
+	/* write 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
+
 	/* we need to set to 1 so as to indicate that it is a response. */
 	flags |= (1 << 15) & 0x8000;
 	flags |= (msg->rcode << 0) & 0x000F; // bit 3:0.
 	/* TODO: insert the rest of the flags */
-	put16bits(buffer, flags);
+	put16bits(flags);
+	/* write 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
 
-	put16bits(buffer, msg->qdCount);
-	put16bits(buffer, msg->anCount);
-	put16bits(buffer, msg->nsCount);
-	put16bits(buffer, msg->arCount);
+	put16bits(msg->qdCount);
+	/* write 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
+
+	//put16bits(0);
+	put16bits(msg->anCount);
+	/* write 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
+
+	put16bits(msg->nsCount);
+	/* write 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
+
+	put16bits(msg->arCount);
+	/* write 2 bytes, move pointer bytes forward */
+	buf_p=buf_p+2;
 }
 
-/* this is what we have right now: www.cnn.com, but the client is expected to get: 3www3cnn3com0, thus we need to convert it to: www.cnn.com. */
-void encode_domain_name(uint8_t **buffer, const char *domain)
+/* this is what we have right now: www.cnn.com, but the client is expected to get: 3www3cnn3com0, 
+ * thus we need to convert it to: 3www3cnn3com0.
+ * the domain name is currently stored at the address pointed to by domain, 
+ * and we want to store it in buffer, which contains a DNS response message we want to send to the client.
+ * when this function is called, char *buf_p, which is a global pointer,
+ * is pointing to an address where you should store the converted domain, i.e., 3www3cnn3com0
+ * note: when this function returns, the pointer buf_p must point to the address right after the trailing '0'.
+ * for example, if the message contains "3www3cnn3com0abcdefg", 
+ * then when this function returns, buf_p must point to 'a'.
+ */
+void encode_domain_name(const char *domain)
 {
-/* Your code goes here */
+	/* add your code here */
 }
 
 /* fill in buffer based on the information in rr; return 0 upon failure, 1 upon success */
-int encode_resource_records(struct ResourceRecord *rr, uint8_t **buffer)
+int encode_resource_records(struct ResourceRecord *rr)
 {
 	int i;
 	if(rr) {
 		// answer question by attaching resource sections.
-		encode_domain_name(buffer, rr->name);
-		put16bits(buffer, rr->type);
-		put16bits(buffer, rr->class);
-		put32bits(buffer, rr->ttl);
-		put16bits(buffer, rr->rd_length);
+		encode_domain_name(rr->name);
+
+		put16bits(rr->type);
+		/* write 2 bytes, move pointer 2 bytes forward */
+		buf_p=buf_p+2;
+
+		put16bits(rr->class);
+		/* write 2 bytes, move pointer 2 bytes forward */
+		buf_p=buf_p+2;
+
+		/* ttl is 4 bytes */
+		put32bits(rr->ttl);
+		/* write 4 bytes, move pointer 4 bytes forward */
+		buf_p=buf_p+4;
+
+		put16bits(rr->rd_length);
+		/* write 2 bytes, move pointer 2 bytes forward */
+		buf_p=buf_p+2;
+
 		if(rr->type==1) {
-        		for (i = 0; i < 4; ++i)
-          			put8bits(buffer, rr->rd_data.a_record.addr[i]);
+        		for (i = 0; i < 4; i++){
+          			put8bits(rr->rd_data.a_record.addr[i]);
+				/* write 1 byte, move pointer 1 byte forward */
+				buf_p=buf_p+1;
+			}
 		}else{
 			fprintf(stderr, "Unknown type %u. => Ignore resource record.\n", rr->type);
       			return 1;
@@ -401,26 +459,33 @@ int encode_resource_records(struct ResourceRecord *rr, uint8_t **buffer)
 	return 0;
 }
 
-/* @return 0 upon failure, 1 upon success */
-int encode_msg(struct Message *msg, uint8_t **buffer)
+/* @return 0 upon failure, 1 upon success.
+ * information is in msg, and we want to store it into buffer.
+ */
+int encode_msg(struct Message *msg)
 {
-  struct Question *q;
-  int rc;
+	struct Question *q;
+	int rc;
 
-  encode_header(msg, buffer);
+	encode_header(msg);
 
-  q = msg->question;
-  if(q!=NULL) {
-    encode_domain_name(buffer, q->qName);
-    put16bits(buffer, q->qType);
-    put16bits(buffer, q->qClass);
+	/* construct the question section. */
+	q = msg->question;
+	if(q!=NULL) {
+		encode_domain_name(q->qName);
+		put16bits(q->qType);
+		/* write 2 bytes, move pointer bytes forward */
+		buf_p=buf_p+2;
+		put16bits(q->qClass);
+		/* write 2 bytes, move pointer bytes forward */
+		buf_p=buf_p+2;
+	}
 
-  }
+	/* construct the answer section. */
+	rc = 0;
+	rc |= encode_resource_records(msg->answer);
 
-  rc = 0;
-  rc |= encode_resource_records(msg->answer, buffer);
-
-  return rc;
+	return rc;
 }
 
 void free_resource_records(struct ResourceRecord *rr)
@@ -441,8 +506,6 @@ void free_question(struct Question *qq)
 
 int main(int argc, char *argv[])
 {
-	// buffer for input/output binary packet
-	uint8_t buffer[BUF_SIZE];
 	struct sockaddr_in client_addr;
 	socklen_t addr_len = sizeof(struct sockaddr_in);
 	struct sockaddr_in addr;
@@ -486,7 +549,7 @@ int main(int argc, char *argv[])
 
 //printf("at first, buffer is %s,nbytes is %d\n",buffer,nbytes);
 		/* this function decode buffer and then fill in msg accordingly... */
-		if (decode_msg(&msg, buffer, nbytes) != 0) {
+		if (decode_msg(&msg, nbytes) != 0) {
 			continue;
 		}
 
@@ -499,16 +562,17 @@ int main(int argc, char *argv[])
 		/* print response, now msg contains both the query and the answer... */
 		print_message(&msg);
 
-		uint8_t *p = buffer;
+		/* let buf_p still point to the beginning of the buffer */
+		buf_p = (char *)buffer;
 		/* parse msg and fill in buffer accordingly... */
-		if (encode_msg(&msg, &p) != 0) {
+		if (encode_msg(&msg) != 0) {
 			continue;
 		}
 
 		/* we call sendto() function to send a message on a socket,
 		 * and we send out whatever content is in the buffer.
 		 * we expect buffer contains a DNS response. */
-		int buflen = p - buffer;
+		int buflen = buf_p - (char *)buffer;
 		sendto(sock, buffer, buflen, 0, (struct sockaddr*) &client_addr, addr_len);
 	}
 }
