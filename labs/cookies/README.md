@@ -6,14 +6,12 @@ In this lab, we will learn, when cookies are not designed/implemented properly, 
 
 ### Setup
 
-Only one VM is sufficient.
+Only one VM is sufficient. We will run a web server in this VM. The web server runs an online banking website, the online banking website has two users, alice, and bob. The following is their username and password.
 
-We will run a web server in this VM. The web server runs an online banking website, the online banking website has two users, alice, and bob. The following is their username and password.
-
-|  Username |  Password  |   Role    |
-|-----------|------------|-----------|
-|   alice   |  password  | attacker  |
-|   bob     |  50505     | victim    |
+|  Username |  Password  | Balance | Role     |
+|-----------|------------|---------|----------|
+|  alice    |  password  | 500     | attacker |
+|  bob      |  50505     | 100     | victim   |
 
 ### Steps
 
@@ -73,7 +71,7 @@ npm WARN seed No license field.
 6.3. here, we can see cookies, and there is only one cookie, whose name is *username*. let's choose this cookie.
 ![alt text](lab-cookies-modify-p2.png "select the cookie 'username'")
 
-6.4. this cookie has several attribute, such as *Name*, *Domain*, *Path*, *Last accessed on*, *Value*. at this moment, as we can see, the value is **alice**.
+6.4. this cookie has several attributes, such as *Name*, *Domain*, *Path*, *Last accessed on*, *Value*. at this moment, as we can see, the *Value* is **alice**.
 ![alt text](lab-cookies-modify-p3.png "find the cookie value")
 
 6.5. let's change the value to **bob**.
