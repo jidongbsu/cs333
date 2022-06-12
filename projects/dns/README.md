@@ -35,9 +35,11 @@ uint8_t buffer[BUF_SIZE];
 char *buf_p=(char *)buffer;
 ```
 
-When dig www.cnn.com, the dig command will sent to the DNS server a DNS query message, this entire DNS query message will be stored in *buffer*[]. This message contains the domain name in this format *3www3cnn3com0*, this entire message's length will be passed as the argument to the function *decode_domain_name*(). When the server starts, *buf_p* points to be beginning of *buffer*[]. But when *decode_domain_name*() is called, *buf_p* points to the beginning of the string "3www3cnn3com0", which is the address of number '3'; when *decode_domain_name*() returns, you must set *buf_p* to the address right after the number '0'. For example, if the DNS query message contains "3www3cnn3com0abcdefg", then when *decode_domain_name*() returns, *buf_p* should be pointing to the letter 'a'.
+When dig www.cnn.com, the dig command will send to the DNS server a DNS query message, this entire DNS query message will be stored in *buffer*[]. This message contains the domain name in this format *3www3cnn3com0*, this entire message's length will be passed as the argument to the function *decode_domain_name*(). When the server starts, *buf_p* points to be beginning of *buffer*[]. But when *decode_domain_name*() is called, *buf_p* points to the beginning of the string "3www3cnn3com0", which is the address of number '3'; when *decode_domain_name*() returns, you must set *buf_p* to the address right after the number '0'. For example, if the DNS query message contains "3www3cnn3com0abcdefg", then when *decode_domain_name*() returns, *buf_p* should be pointing to the letter 'a'.
 
 Before responding to the DNS client, the DNS server will call *encode_domain_name*(), whose argument *domain* stores the string "www.cnn.com", and *encode_domain_name*() will convert it to "3www3cnn3com0". The moment when *encode_domain_name*() is called, *buf_p* is pointing to an address where you should store the converted domain, i.e., "3www3cnn3com0"; when *encode_domain_name() returns, you must set *buf_p* to the address right after the trailing '0'. For example, if the DNS response message contains "3www3cnn3com0abcdefg", then when this function returns, buf_p must point to 'a'.
+
+In the two functions you are going to implement, you should not manipulate *buffer*[], but rather, you should work on *buf_p*, so as to access, and/or change *buffer*[].
 
 ## Testing 
 
