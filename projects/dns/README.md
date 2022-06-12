@@ -61,13 +61,15 @@ www.cnn.com.		3600	IN	A	188.126.71.216
 
 ## Submission
 
-Due: 23:59pm, June 20th, 2022. Late submission will not be accepted/graded.
+Due: 23:59pm, June 20th, 2022. Late submission will not be accepted/graded. Please submit this assignment on canvas, in the format of a pdf report, the report should include:
 
-## Project Layout
+1. your implementation of the two functions.
+2. your testing results: just paste screenshots, similar to what you provide in the lab reports.
+3. one or two paragraph(s) of reflection describing what you learned or what problems you experience and/or how you solve the problem(s).
 
-All files necessary for compilation and testing need to be submitted, this includes source code files, and Makefile. The structure of the submission folder should be the same as what was given to you.
 
 ## Grading Rubric
 Grade: /15
 
-You get the above testing result when running the above dig command: 15pts.
+You get the above testing result (showed by your screenshot) when running the above dig command: 12pts.
+Reflection: 3pts
