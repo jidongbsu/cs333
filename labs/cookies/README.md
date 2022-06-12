@@ -85,6 +85,10 @@ npm WARN seed No license field.
 
 this shows that the attack is successful: alice doesn't know bob's password, but she now still can see bob's bank account balance.
 
+### Lesson we learn
+
+The lesson we learn from this lab is when designing cookies, we should avoid using the username as a cookie, or at least, it should not be stored in a plaintext format; as cookies can be changed from the client side, and the client could be a malicious actor.
+
 ### References:
 
 CS253 Web Security – course created and taught by Feross Aboukhadijeh at Stanford University.
