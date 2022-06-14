@@ -44,6 +44,7 @@ npm WARN seed No license field.
 [04/27/22]seed@VM:~$ cd web/
 [04/27/22]seed@VM:~/web$ wget http://cs.boisestate.edu/~jxiao/cs333/info/cookies/index.html.orig
 [04/27/22]seed@VM:~/web$ wget http://cs.boisestate.edu/~jxiao/cs333/info/cookies/server-insecure.js
+[04/27/22]seed@VM:~/web$ wget http://cs.boisestate.edu/~jxiao/cs333/info/cookies/server-secure.js
 ```
 
 3. start the web server:
@@ -83,13 +84,17 @@ this screenshot shows we login as alice in the normal mode window, and login as 
 
 7. refresh the web page, and we should see bob's account balance, which is $100.
 
-![alt text](lab-cookies-bob-balance.png "bob's balance")
+![alt text](lab-sessions-bob-balance.png "bob's balance")
 
 this shows that the attack is successful: alice doesn't know bob's password, but she now still can see bob's bank account balance.
 
 ### Randomize session id
 
 8. press ctrl-c to stop the web server - which we started in step 3. and run the secure version of the server, which produces randomized session id(s).
+
+```console
+[04/27/22]seed@VM:~/web$ node server-secure.js
+```
 
 9. repeat step 6 and 7 and see if the attack still works, it shouldn't.
 
