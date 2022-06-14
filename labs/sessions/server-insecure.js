@@ -12,6 +12,7 @@ app.listen(4000)
 
 const USERS = { alice: 'password', bob: '50505' }
 const BALANCES = { alice: 500, bob: 100 }
+// let nextSessionId = 1
 nextSessionId = 1
 const SESSIONS = {} // sessionId -> username
 
