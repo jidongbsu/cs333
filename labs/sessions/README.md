@@ -104,7 +104,7 @@ this shows that the attack is successful: alice doesn't know bob's password, but
 
 ### Lesson we learn
 
-The lesson we learn from this lab is when implementing session id(s), we should avoid using predictable numbers, rather they should be randomized and not predictable;
+The lesson we learn from this lab is when implementing session id(s), we should avoid using predictable numbers, rather they should be randomized and not predictable.
 
 ### References
 
