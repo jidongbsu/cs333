@@ -98,7 +98,9 @@ this shows that the attack is successful: alice doesn't know bob's password, but
 
 9. refresh the two opening tabs (one for alice, one for bob): we will be asked to login again. login as alice and bob.
 
-10. repeat 6 and 7 and see if the attack still works, it shouldn't.
+10. repeat 6 and 7 and see if the attack still works, it shouldn't, because, as we can see from this screenshot, the session id is not randomized and we, as alice, have no idea what would be bob's session id.
+
+![alt text](lab-sessions-id-randomized.png "session id is now randomized")
 
 ### Lesson we learn
 
