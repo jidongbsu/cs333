@@ -52,28 +52,34 @@ npm WARN seed No license field.
 [04/27/22]seed@VM:~/web$ node server-insecure.js
 ```
 
-4. open two browser tabs in **private windows** mode, and in each of them, access the web server: type localhost:4000 (replace localhost with your VM's IP address). In one tab, login as alice, in the other tab, login as bob. 
+4. open two browser tabs: one in normal mode, the other in **private windows** mode. and in both of them, access the web server: type localhost:4000 (replace localhost with your VM's IP address). In one tab, login as alice, in the other tab, login as bob. 
+
+this screenshot shows how we can open a private window:
+![alt text](lab-sessions-private-window.png "open a private window")
+
+this screenshot shows we login as alice in the normal mode window, and login as bob in the private window mode:
+![alt text](lab-sessions-two-accounts-active.png "login as alice and login as bob")
 
 5. after login to the online banking site, alice can see her balance is $500. But can alice see bob's balance? let's try it without knowing bob's password, we can achieve this via modifying the cookies.
 
 #### Attacking Steps
 
-6. we, as alice, try to modify the cookie "session". we change its value from *alice* to *bob*. the following screenshots show how we change it.
+6. we, as alice, try to modify the cookie "sessionId". we change its value from *alice*'s session id to *bob*'s session id. the following screenshots show how we change it.
 
 6.1. first, we right click in the firefox window, and select **Inspect Element**.
-![alt text](lab-cookies-modify-p0.png "right click")
+![alt text](lab-sessions-cookie-modify-p0.png "right click")
 
 6.2. next, we select **Storage**.
-![alt text](lab-cookies-modify-p1.png "select storage")
+![alt text](lab-sessions-cookie-modify-p1.png "select storage")
 
-6.3. here, we can see cookies, and there is only one cookie, whose name is *sessionid*. let's choose this cookie.
-![alt text](lab-cookies-modify-p2.png "select the cookie 'username'")
+6.3. here, we can see cookies, and there is only one cookie, whose name is *sessionId*. let's choose this cookie.
+![alt text](lab-sessions-cookie-modify-p2.png "select the cookie 'sessionId'")
 
-6.4. this cookie has several attributes, such as *Name*, *Domain*, *Path*, *Last accessed on*, *Value*. at this moment, as we can see, the *Value* is **alice**.
-![alt text](lab-cookies-modify-p3.png "find the cookie value")
+6.4. this cookie has several attributes, such as *Name*, *Domain*, *Path*, *Last accessed on*, *Value*. at this moment, as we can see, the *Value* is **1**.
+![alt text](lab-sessions-cookie-modify-p3.png "find the cookie value")
 
-6.5. let's change the value to bob's session id.
-![alt text](lab-cookies-modify-p4.png "change the value to bob")
+6.5. now that alice's session id is 1, can we take a guess and see if bob's session id is 2? let's change the value to 2 and hope that would be bob's session id.
+![alt text](lab-sessions-cookie-modify-p4.png "change the value to bob")
 
 7. refresh the web page, and we should see bob's account balance, which is $100.
 
@@ -81,9 +87,15 @@ npm WARN seed No license field.
 
 this shows that the attack is successful: alice doesn't know bob's password, but she now still can see bob's bank account balance.
 
+### Randomize session id
+
+8. press ctrl-c to stop the web server - which we started in step 3. and run the secure version of the server, which produces randomized session id(s).
+
+9. repeat step 6 and 7 and see if the attack still works, it shouldn't.
+
 ### Lesson we learn
 
-The lesson we learn from this lab is when designing cookies, we should avoid using the username as a cookie, or at least, it should not be stored in a plaintext format; as cookies can be changed from the client side, and the client could be a malicious actor.
+The lesson we learn from this lab is when implementing session id(s), we should avoid using predictable numbers, rather they should be randomized and not predictable;
 
 ### References
 
